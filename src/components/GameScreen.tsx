@@ -3,7 +3,6 @@ import { Word } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
-import { FeedbackOverlay } from './FeedbackOverlay';
 import styles from './GameScreen.module.css';
 
 interface GameScreenProps {
@@ -13,13 +12,14 @@ interface GameScreenProps {
   revealedLetters: boolean[];
   attempts: number;
   correctWords: number;
-  feedbackType: 'success' | 'error' | 'none';
-  feedbackMessage?: string;
   showWordText?: boolean;
   onKeyPress?: (key: string) => void;
   onComplete?: () => void;
   highlightKey?: string;
   keyboardDisabled?: boolean;
+  wrongKey?: string | null;
+  correctKey?: string | null;
+  correctTileIndex?: number | null;
 }
 
 export const GameScreen = ({
@@ -29,12 +29,13 @@ export const GameScreen = ({
   revealedLetters,
   attempts,
   correctWords,
-  feedbackType,
-  feedbackMessage,
   showWordText = false,
   onKeyPress,
   highlightKey,
   keyboardDisabled = false,
+  wrongKey = null,
+  correctKey = null,
+  correctTileIndex = null,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -94,17 +95,18 @@ export const GameScreen = ({
           word={currentWord.text}
           currentIndex={currentLetterIndex}
           revealedLetters={revealedLetters}
+          correctTileIndex={correctTileIndex}
         />
         {onKeyPress && (
           <OnScreenKeyboard
             onKeyPress={onKeyPress}
             highlightKey={highlightKey}
             disabled={keyboardDisabled}
+            wrongKey={wrongKey}
+            correctKey={correctKey}
           />
         )}
       </main>
-
-      <FeedbackOverlay type={feedbackType} message={feedbackMessage} />
     </div>
   );
 };

@@ -143,6 +143,51 @@
   }
 }
 
+/* Wrong key feedback - gentle shake and red flash */
+.key.wrong {
+  animation: keyWrongShake 150ms ease-in-out, keyWrongFlash 400ms ease-in-out;
+}
+
+@keyframes keyWrongShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes keyWrongFlash {
+  0% {
+    background-color: var(--color-background);
+  }
+  30% {
+    background-color: #f8d7da;
+  }
+  100% {
+    background-color: var(--color-background);
+  }
+}
+
+/* Correct key highlight - pulse when showing user the correct key after wrong press */
+.key.correctHint {
+  animation: keyCorrectPulse 300ms ease-in-out;
+  background-color: #fff3cd;
+  border-color: #ffc107;
+}
+
+@keyframes keyCorrectPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .key {
@@ -151,6 +196,16 @@
 
   .key.highlighted {
     animation: none;
+  }
+
+  .key.wrong {
+    animation: none;
+    background-color: #f8d7da;
+  }
+
+  .key.correctHint {
+    animation: none;
+    background-color: #fff3cd;
   }
 
   .key:hover:not(:disabled) {

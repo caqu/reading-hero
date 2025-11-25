@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { HomeScreen } from './components/HomeScreen';
 import { GameScreen } from './components/GameScreen';
 import { useGameState } from './hooks/useGameState';
+import { useFeedback } from './hooks/useFeedback';
 import { words } from './data/words';
 import './App.css';
 
@@ -9,11 +10,12 @@ type Screen = 'home' | 'game';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('game'); // Start directly in game
-  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | 'none'>('none');
-  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
 
   // Initialize game state with useGameState hook
   const game = useGameState(words);
+
+  // Initialize feedback system
+  const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
 
   // Calculate revealed letters based on current progress
   const revealedLetters = useMemo(() => {
@@ -44,36 +46,32 @@ function App() {
     const isCorrect = game.handleKeyPress(key);
 
     if (isCorrect) {
+      // Trigger correct letter animation
+      triggerCorrectLetter(currentLetterIndexBefore);
+
       // Check if word was just completed
       const isWordComplete = currentLetterIndexBefore === currentWord.text.length - 1;
 
       if (isWordComplete) {
-        // Word completed - show success feedback
+        // Word completed - show confetti and advance after delay
         setCorrectWords(prev => prev + 1);
-        setFeedbackType('success');
-        setFeedbackMessage('Great job!');
 
-        // Clear feedback and advance to next word after delay
+        // Fire confetti
+        triggerWordComplete();
+
+        // Advance to next word after delay (confetti + pause)
         setTimeout(() => {
-          setFeedbackType('none');
-          setFeedbackMessage('');
-          game.nextWord(); // Advance to next word
-        }, 2000); // 2 second delay to show success and let player see completed word
+          game.nextWord();
+        }, 1000); // 1 second total (confetti duration + small pause)
       }
-      // Note: For correct letters (not word completion), we don't show any feedback
-      // The letter tile will reveal itself, which is sufficient visual feedback
     } else {
-      // Incorrect key press - show error feedback
-      setFeedbackType('error');
-      setFeedbackMessage('Try again!');
-
-      // Clear feedback after animation
-      setTimeout(() => {
-        setFeedbackType('none');
-        setFeedbackMessage('');
-      }, 800);
+      // Incorrect key press - trigger wrong key feedback
+      const correctLetter = currentWord.text[currentLetterIndexBefore];
+      if (correctLetter) {
+        triggerWrongKey(key, correctLetter);
+      }
     }
-  }, [game]);
+  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete]);
 
   // Physical keyboard event handler
   useEffect(() => {
@@ -107,8 +105,6 @@ function App() {
     // Reset game state
     game.resetGame();
     setCorrectWords(0);
-    setFeedbackType('none');
-    setFeedbackMessage('');
     setCurrentScreen('game');
   };
 
@@ -137,13 +133,14 @@ function App() {
           revealedLetters={revealedLetters}
           attempts={game.totalAttempts}
           correctWords={correctWords}
-          feedbackType={feedbackType}
-          feedbackMessage={feedbackMessage}
           showWordText={false}
           onComplete={handleGameComplete}
           onKeyPress={handleKeyPress}
-          highlightKey={game.currentLetter || undefined}
+          highlightKey={game.currentLetter ?? undefined}
           keyboardDisabled={game.isComplete}
+          wrongKey={feedbackState.wrongKey}
+          correctKey={feedbackState.correctKey}
+          correctTileIndex={feedbackState.correctTileIndex}
         />
       )}
     </div>

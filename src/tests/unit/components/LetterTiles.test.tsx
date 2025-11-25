@@ -2,6 +2,13 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LetterTiles } from '../../../components/LetterTiles';
 
+// Helper function to safely access tile elements
+const getTile = (tiles: NodeListOf<Element>, index: number): Element => {
+  const tile = tiles[index];
+  if (!tile) throw new Error(`Tile at index ${index} not found`);
+  return tile;
+};
+
 describe('LetterTiles', () => {
   describe('Rendering', () => {
     it('should render tiles for each letter in the word', () => {
@@ -77,9 +84,9 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).toMatch(/revealed/);
-      expect(tiles[1].className).toMatch(/revealed/);
-      expect(tiles[2].className).not.toMatch(/revealed/);
+      expect(getTile(tiles, 0).className).toMatch(/revealed/);
+      expect(getTile(tiles, 1).className).toMatch(/revealed/);
+      expect(getTile(tiles, 2).className).not.toMatch(/revealed/);
     });
 
     it('should show all letters when all are revealed', () => {
@@ -102,7 +109,7 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[1].className).toMatch(/current/);
+      expect(getTile(tiles, 1).className).toMatch(/current/);
     });
 
     it('should have aria-current="true" on current tile', () => {
@@ -113,9 +120,9 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0]).toHaveAttribute('aria-current', 'true');
-      expect(tiles[1]).toHaveAttribute('aria-current', 'false');
-      expect(tiles[2]).toHaveAttribute('aria-current', 'false');
+      expect(getTile(tiles, 0)).toHaveAttribute('aria-current', 'true');
+      expect(getTile(tiles, 1)).toHaveAttribute('aria-current', 'false');
+      expect(getTile(tiles, 2)).toHaveAttribute('aria-current', 'false');
     });
 
     it('should move highlight as currentIndex changes', () => {
@@ -125,16 +132,16 @@ describe('LetterTiles', () => {
       );
 
       let tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).toMatch(/current/);
-      expect(tiles[1].className).not.toMatch(/current/);
+      expect(getTile(tiles, 0).className).toMatch(/current/);
+      expect(getTile(tiles, 1).className).not.toMatch(/current/);
 
       rerender(
         <LetterTiles word={word} currentIndex={1} revealedLetters={[true, false, false]} />
       );
 
       tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).not.toMatch(/current/);
-      expect(tiles[1].className).toMatch(/current/);
+      expect(getTile(tiles, 0).className).not.toMatch(/current/);
+      expect(getTile(tiles, 1).className).toMatch(/current/);
     });
 
     it('should highlight last tile when on last letter', () => {
@@ -145,7 +152,7 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[2].className).toMatch(/current/);
+      expect(getTile(tiles, 2).className).toMatch(/current/);
     });
   });
 
@@ -158,9 +165,9 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).toMatch(/past/);
-      expect(tiles[1].className).toMatch(/past/);
-      expect(tiles[2].className).not.toMatch(/past/);
+      expect(getTile(tiles, 0).className).toMatch(/past/);
+      expect(getTile(tiles, 1).className).toMatch(/past/);
+      expect(getTile(tiles, 2).className).not.toMatch(/past/);
     });
 
     it('should not apply past class to current or future tiles', () => {
@@ -171,9 +178,9 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).toMatch(/past/);
-      expect(tiles[1].className).not.toMatch(/past/); // current
-      expect(tiles[2].className).not.toMatch(/past/); // future
+      expect(getTile(tiles, 0).className).toMatch(/past/);
+      expect(getTile(tiles, 1).className).not.toMatch(/past/); // current
+      expect(getTile(tiles, 2).className).not.toMatch(/past/); // future
     });
   });
 
@@ -186,9 +193,9 @@ describe('LetterTiles', () => {
       );
 
       const tiles = container.querySelectorAll('[class*="tile"]');
-      expect(tiles[0].className).toMatch(/revealed/);
-      expect(tiles[0].className).toMatch(/past/);
-      expect(tiles[0].className).not.toMatch(/current/);
+      expect(getTile(tiles, 0).className).toMatch(/revealed/);
+      expect(getTile(tiles, 0).className).toMatch(/past/);
+      expect(getTile(tiles, 0).className).not.toMatch(/current/);
     });
 
     it('should show all visual states for a partially completed word', () => {
@@ -201,22 +208,22 @@ describe('LetterTiles', () => {
       const tiles = container.querySelectorAll('[class*="tile"]');
 
       // Past tiles (completed)
-      expect(tiles[0].className).toMatch(/revealed/);
-      expect(tiles[0].className).toMatch(/past/);
-      expect(tiles[1].className).toMatch(/revealed/);
-      expect(tiles[1].className).toMatch(/past/);
-      expect(tiles[2].className).toMatch(/revealed/);
-      expect(tiles[2].className).toMatch(/past/);
+      expect(getTile(tiles, 0).className).toMatch(/revealed/);
+      expect(getTile(tiles, 0).className).toMatch(/past/);
+      expect(getTile(tiles, 1).className).toMatch(/revealed/);
+      expect(getTile(tiles, 1).className).toMatch(/past/);
+      expect(getTile(tiles, 2).className).toMatch(/revealed/);
+      expect(getTile(tiles, 2).className).toMatch(/past/);
 
       // Current tile
-      expect(tiles[3].className).toMatch(/current/);
-      expect(tiles[3].className).not.toMatch(/past/);
-      expect(tiles[3].className).not.toMatch(/revealed/);
+      expect(getTile(tiles, 3).className).toMatch(/current/);
+      expect(getTile(tiles, 3).className).not.toMatch(/past/);
+      expect(getTile(tiles, 3).className).not.toMatch(/revealed/);
 
       // Future tiles
-      expect(tiles[4].className).not.toMatch(/current/);
-      expect(tiles[4].className).not.toMatch(/past/);
-      expect(tiles[4].className).not.toMatch(/revealed/);
+      expect(getTile(tiles, 4).className).not.toMatch(/current/);
+      expect(getTile(tiles, 4).className).not.toMatch(/past/);
+      expect(getTile(tiles, 4).className).not.toMatch(/revealed/);
     });
   });
 
@@ -230,7 +237,7 @@ describe('LetterTiles', () => {
 
       const tiles = container.querySelectorAll('[class*="tile"]');
       expect(tiles).toHaveLength(1);
-      expect(tiles[0].className).toMatch(/current/);
+      expect(getTile(tiles, 0).className).toMatch(/current/);
     });
 
     it('should handle empty revealed array', () => {

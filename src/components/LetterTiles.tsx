@@ -4,9 +4,15 @@ interface LetterTilesProps {
   word: string;
   currentIndex: number;
   revealedLetters: boolean[];
+  correctTileIndex?: number | null;
 }
 
-export const LetterTiles = ({ word, currentIndex, revealedLetters }: LetterTilesProps) => {
+export const LetterTiles = ({
+  word,
+  currentIndex,
+  revealedLetters,
+  correctTileIndex = null
+}: LetterTilesProps) => {
   const letters = word.split('');
 
   return (
@@ -15,6 +21,7 @@ export const LetterTiles = ({ word, currentIndex, revealedLetters }: LetterTiles
         const isRevealed = revealedLetters[index];
         const isCurrent = index === currentIndex;
         const isPast = index < currentIndex;
+        const isCorrectAnimating = index === correctTileIndex;
 
         return (
           <div
@@ -24,6 +31,7 @@ export const LetterTiles = ({ word, currentIndex, revealedLetters }: LetterTiles
               ${isRevealed ? styles.revealed : ''}
               ${isCurrent ? styles.current : ''}
               ${isPast ? styles.past : ''}
+              ${isCorrectAnimating ? styles.correctAnimate : ''}
             `}
             aria-label={isRevealed ? `Letter ${letter}` : 'Empty tile'}
             aria-current={isCurrent ? 'true' : 'false'}

@@ -8,6 +8,10 @@ interface OnScreenKeyboardProps {
   highlightKey?: string;
   /** Whether the keyboard should be disabled */
   disabled?: boolean;
+  /** Key that was pressed incorrectly (for shake animation) */
+  wrongKey?: string | null;
+  /** Correct key to hint at (for pulse animation) */
+  correctKey?: string | null;
 }
 
 /**
@@ -34,6 +38,8 @@ export const OnScreenKeyboard = memo(({
   onKeyPress,
   highlightKey,
   disabled = false,
+  wrongKey = null,
+  correctKey = null,
 }: OnScreenKeyboardProps) => {
   const handleKeyClick = (key: string) => {
     if (!disabled) {
@@ -60,13 +66,18 @@ export const OnScreenKeyboard = memo(({
           {row.map((key) => {
             const normalizedKey = key.toLowerCase();
             const normalizedHighlight = highlightKey?.toLowerCase();
+            const normalizedWrong = wrongKey?.toLowerCase();
+            const normalizedCorrect = correctKey?.toLowerCase();
+
             const isHighlighted = normalizedKey === normalizedHighlight;
+            const isWrong = normalizedKey === normalizedWrong;
+            const isCorrectHint = normalizedKey === normalizedCorrect;
 
             return (
               <button
                 key={key}
                 type="button"
-                className={`${styles.key} ${isHighlighted ? styles.highlighted : ''}`}
+                className={`${styles.key} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}

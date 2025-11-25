@@ -31,6 +31,34 @@
   color: white;
 }
 
+.tile.past {
+  /* Past tiles are already revealed, so this just marks them for potential future styling */
+}
+
+/* Correct letter animation - gentle scale-up bounce */
+.tile.correctAnimate {
+  animation: tileCorrectBounce 200ms ease-out;
+}
+
+@keyframes tileCorrectBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tile.correctAnimate {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   .tile {
     width: 60px;
