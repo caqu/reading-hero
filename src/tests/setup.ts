@@ -8,4 +8,4 @@ afterEach(() => {
 });
 
 // Make expect globally available (optional)
-globalThis.expect = expect;
+(globalThis as any).expect = expect;

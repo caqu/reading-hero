@@ -5,7 +5,13 @@
       "Bash(npm create:*)",
       "Bash(npm install)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nInitial project setup - T1 complete\n\n- Initialize React 18 + TypeScript 5 + Vite 5 project\n- Configure strict TypeScript mode\n- Set up Vitest + React Testing Library\n- Configure ESLint with React rules\n- Create project folder structure\n- Add CSS custom properties for theming\n- Add placeholder App component\n- Document project in README\n\n🤖 Generated with Claude Code\nhttps://claude.com/claude-code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial project setup - T1 complete\n\n- Initialize React 18 + TypeScript 5 + Vite 5 project\n- Configure strict TypeScript mode\n- Set up Vitest + React Testing Library\n- Configure ESLint with React rules\n- Create project folder structure\n- Add CSS custom properties for theming\n- Add placeholder App component\n- Document project in README\n\n🤖 Generated with Claude Code\nhttps://claude.com/claude-code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(npm run build:*)",
+      "Bash(node -e:*)",
+      "Bash(npm run dev:*)",
+      "Bash(powershell -Command \"Set-Content -Path ''C:\\Users\\carlos.quesada\\imaginelearning\\reading-hero\\src\\tests\\unit\\useGameState.test.ts'' -Value ''// Test placeholder'' -Encoding UTF8\")",
+      "Bash(npm test:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
