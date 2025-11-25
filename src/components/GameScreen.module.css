@@ -7,7 +7,7 @@
 .floatingInstruction {
   position: fixed;
   top: 20px;
-  left: 50%;
+  left: calc(50% + 60px); /* Center on main content area (accounting for 120px sidebar) */
   transform: translateX(-50%);
   font-size: 1.125rem;
   color: var(--color-text-secondary);
@@ -93,5 +93,9 @@
 
   .statValue {
     font-size: 1.5rem;
+  }
+
+  .floatingInstruction {
+    left: calc(50% + 40px); /* Center on main content area (accounting for 80px sidebar on mobile) */
   }
 }
