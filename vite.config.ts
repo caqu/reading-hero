@@ -5,6 +5,7 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -13,12 +14,36 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ['react', 'react-dom'],
-        },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        dead_code: true,
+      },
+      format: {
+        comments: false,
       },
     },
+    chunkSizeWarningLimit: 500, // Warn if chunk size > 500kb
+    rollupOptions: {
+      external: ['**/*.test.ts', '**/*.test.tsx'],
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'react';
+          }
+        },
+        // Add cache-busting hash to filenames
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]',
+      },
+    },
+  },
+  preview: {
+    port: 8080,
   },
 });

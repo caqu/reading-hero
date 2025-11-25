@@ -115,6 +115,26 @@ npm run build
 npm run preview
 ```
 
+### 5. Deployment Options
+
+Multiple deployment methods are supported:
+
+1. **Netlify**
+   - Connected to GitHub repo
+   - Automatic builds on push
+   - Configuration in `netlify.toml`
+
+2. **GitHub Pages**
+   - Uses GitHub Actions workflow
+   - Automatic deployment from `main` branch
+   - Configuration in `.github/workflows/deploy.yml`
+
+3. **AWS S3 + CloudFront**
+   - Requires manual S3 sync
+   - CloudFront distribution for global CDN
+
+Detailed deployment instructions are available in `DEPLOYMENT.md`.
+
 ---
 
 ## 🧩 Game Flow
