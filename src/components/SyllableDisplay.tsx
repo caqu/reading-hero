@@ -72,7 +72,6 @@ function syllabify(word: string): string[] {
  * Shows multiple orthographic representations:
  * - Hyphenated syllables: "mon-key"
  * - Dot-separated syllables: "mon·key"
- * - Letter spacing: "m o n k e y"
  *
  * These variants help learners develop orthographic awareness
  * and understand that words are composed of segments.
@@ -81,7 +80,6 @@ export const SyllableDisplay = ({ word }: SyllableDisplayProps) => {
   const syllables = syllabify(word);
   const hyphenated = syllables.join('-');
   const dotted = syllables.join('·');
-  const spaced = word.split('').join(' ');
 
   return (
     <div className={styles.container} role="list" aria-label="Syllable variants">
@@ -98,13 +96,6 @@ export const SyllableDisplay = ({ word }: SyllableDisplayProps) => {
             {dotted}
           </div>
           <div className={styles.syllableLabel}>segments</div>
-        </div>
-
-        <div className={styles.syllableCard} role="listitem" aria-label={`Spaced: ${spaced}`}>
-          <div className={`${styles.syllableText} ${styles.spacedText}`}>
-            {spaced}
-          </div>
-          <div className={styles.syllableLabel}>letters</div>
         </div>
       </div>
     </div>

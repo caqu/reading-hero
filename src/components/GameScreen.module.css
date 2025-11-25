@@ -58,11 +58,12 @@
 }
 
 .levelSlider {
-  width: 100%;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
+  width: 6px;
+  height: 120px;
+  margin-top: 12px;
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  writing-mode: bt-lr; /* For Firefox */
   border-radius: 3px;
   background: #e0e0e0;
   outline: none;
