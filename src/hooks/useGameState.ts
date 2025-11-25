@@ -86,7 +86,11 @@ export function useGameState(initialWords: Word[]): UseGameState {
       }
 
       const expectedLetter = word.text[currentState.currentLetterIndex];
-      if (!expectedLetter) {
+
+      // If we're beyond the word length, the word is complete
+      // Ignore further input (return true to avoid showing error)
+      if (!expectedLetter || currentState.currentLetterIndex >= word.text.length) {
+        isCorrectResult = true; // Don't show error for keys pressed after word completion
         return currentState;
       }
 
