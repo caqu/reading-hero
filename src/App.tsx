@@ -48,6 +48,7 @@ function App() {
       const wasLastLetterOfWord = currentWord && currentLetterIndexBefore === currentWord.text.length - 1;
 
       if (wasLastLetterOfWord) {
+        // Word completed - show success feedback
         setCorrectWords(prev => prev + 1);
         setFeedbackType('success');
         setFeedbackMessage('Great job!');
@@ -58,8 +59,10 @@ function App() {
           setFeedbackMessage('');
         }, 1500);
       }
+      // Note: For correct letters (not word completion), we don't show any feedback
+      // The letter tile will reveal itself, which is sufficient visual feedback
     } else {
-      // Incorrect key press
+      // Incorrect key press - show error feedback
       setFeedbackType('error');
       setFeedbackMessage('Try again!');
 
