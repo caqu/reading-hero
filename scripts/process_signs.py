@@ -43,16 +43,16 @@ def print_header(msg: str):
     print(f"{Colors.HEADER}{Colors.BOLD}{'=' * 80}{Colors.ENDC}\n")
 
 def print_success(msg: str):
-    print(f"{Colors.OKGREEN}✓ {msg}{Colors.ENDC}")
+    print(f"{Colors.OKGREEN}[OK] {msg}{Colors.ENDC}")
 
 def print_error(msg: str):
-    print(f"{Colors.FAIL}✗ {msg}{Colors.ENDC}")
+    print(f"{Colors.FAIL}[ERROR] {msg}{Colors.ENDC}")
 
 def print_info(msg: str):
-    print(f"{Colors.OKCYAN}→ {msg}{Colors.ENDC}")
+    print(f"{Colors.OKCYAN}[INFO] {msg}{Colors.ENDC}")
 
 def print_warning(msg: str):
-    print(f"{Colors.WARNING}⚠ {msg}{Colors.ENDC}")
+    print(f"{Colors.WARNING}[WARN] {msg}{Colors.ENDC}")
 
 def check_ffmpeg() -> bool:
     """Check if FFmpeg is installed and accessible."""
