@@ -11,6 +11,7 @@ interface GameScreenProps {
   currentLetterIndex: number;
   revealedLetters: boolean[];
   attempts: number;
+  correctAttempts: number;
   correctWords: number;
   showWordText?: boolean;
   onKeyPress?: (key: string) => void;
@@ -28,6 +29,7 @@ export const GameScreen = ({
   currentLetterIndex,
   revealedLetters,
   attempts,
+  correctAttempts,
   correctWords,
   showWordText = false,
   onKeyPress,
@@ -52,7 +54,8 @@ export const GameScreen = ({
     return null;
   }
 
-  const accuracy = attempts > 0 ? Math.round((correctWords * 100) / attempts) : 0;
+  // Calculate accuracy as percentage of correct key presses out of total attempts
+  const accuracy = attempts > 0 ? Math.round((correctAttempts * 100) / attempts) : 0;
 
   return (
     <div className={styles.container}>

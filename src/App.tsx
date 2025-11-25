@@ -139,6 +139,7 @@ function App() {
           currentLetterIndex={game.currentLetterIndex}
           revealedLetters={revealedLetters}
           attempts={game.totalAttempts}
+          correctAttempts={game.correctAttempts}
           correctWords={correctWords}
           showWordText={false}
           onComplete={handleGameComplete}
