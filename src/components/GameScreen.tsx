@@ -3,7 +3,7 @@ import { Word } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
-import { LevelFeatures } from '../engine/LevelingEngine';
+import { LevelFeatures, Level } from '../engine/LevelingEngine';
 import styles from './GameScreen.module.css';
 
 interface GameScreenProps {
@@ -26,6 +26,8 @@ interface GameScreenProps {
   levelFeatures?: LevelFeatures;
   /** Current level (1-5) for display */
   currentLevel?: number;
+  /** Callback to manually change level */
+  onLevelChange?: (level: Level) => void;
 }
 
 export const GameScreen = ({
@@ -45,6 +47,7 @@ export const GameScreen = ({
   correctTileIndex = null,
   levelFeatures,
   currentLevel = 1,
+  onLevelChange,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -89,6 +92,17 @@ export const GameScreen = ({
           <div className={styles.stat}>
             <div className={styles.statValue}>{currentLevel}</div>
             <div className={styles.statLabel}>level</div>
+            {onLevelChange && (
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value={currentLevel}
+                onChange={(e) => onLevelChange(parseInt(e.target.value) as Level)}
+                className={styles.levelSlider}
+                aria-label="Set level"
+              />
+            )}
           </div>
         </div>
       </aside>

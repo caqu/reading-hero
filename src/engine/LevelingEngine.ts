@@ -381,6 +381,8 @@ export interface LevelingEngineAPI {
   getMetrics: () => PerformanceMetrics;
   /** Reset all progress (for testing/debugging) */
   resetProgress: () => void;
+  /** Manually set level (for testing/debugging) */
+  setLevel: (level: Level) => void;
 }
 
 /**
@@ -494,6 +496,21 @@ export function useLevelingEngine(): LevelingEngineAPI {
     saveState(initialState);
   }, []);
 
+  /**
+   * Manually set level (for testing/debugging)
+   */
+  const setLevel = useCallback((newLevel: Level) => {
+    setState(prevState => {
+      const newState = {
+        ...prevState,
+        currentLevel: newLevel,
+        levelStartWordCount: prevState.wordHistory.length,
+      };
+      saveState(newState);
+      return newState;
+    });
+  }, []);
+
   return {
     level: state.currentLevel,
     features,
@@ -503,5 +520,6 @@ export function useLevelingEngine(): LevelingEngineAPI {
     getActiveFeatures,
     getMetrics,
     resetProgress,
+    setLevel,
   };
 }

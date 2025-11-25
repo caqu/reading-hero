@@ -181,6 +181,7 @@ function App() {
           correctTileIndex={feedbackState.correctTileIndex}
           levelFeatures={leveling.features}
           currentLevel={leveling.level}
+          onLevelChange={leveling.setLevel}
         />
       )}
     </div>
