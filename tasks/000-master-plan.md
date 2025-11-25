@@ -1,6 +1,6 @@
 # Master Plan: Motor-Plan Literacy Game (MVP)
 
-**Working title:** `MotorKeys` (changeable)
+**Working title:** `ASL Reading Hero` (changeable)
 **Goal:** Build a browser-based MVP that helps children (especially deaf/HoH and low-phonological learners) connect **written words** to **meaning** via **visuals (pictures/signs)** and **motor plans (typing patterns)** — *without relying on sound*.
 
 This document is written for a **master coding agent** that can create subtasks and recruit sub-agents.
@@ -253,7 +253,7 @@ Create a detailed, actionable breakdown of all coding work required to produce t
 
 * Initialize React + TypeScript project (using Vite or CRA).
 * Configure linting + basic formatting (optional but preferred).
-* Verify local dev server runs with a “Hello, MotorKeys” placeholder.
+* Verify local dev server runs with a “Hello, ASL Reading Hero” placeholder.
 
 ### T2 – Data Model & Word List
 

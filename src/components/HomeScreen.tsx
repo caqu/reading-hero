@@ -8,7 +8,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Welcome to MotorKeys!</h1>
+        <h1 className={styles.title}>Welcome to ASL Reading Hero!</h1>
         <p className={styles.subtitle}>
           Practice typing and learn new words
         </p>

@@ -38,7 +38,7 @@ I’m giving you *both*:
 ```
 ┌─────────────────────────────────────────────┐
 │                                             │
-│                  MotorKeys                  │
+│                  ASL Reading Hero                  │
 │          (Motor Memory Typing Game)         │
 │                                             │
 │                                             │

@@ -1,4 +1,4 @@
-# MotorKeys Deployment Guide
+# ASL Reading Hero Deployment Guide
 
 ## Prerequisites
 
@@ -12,8 +12,8 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-org/motorkeys.git
-   cd motorkeys
+   git clone https://github.com/your-org/ASL Reading Hero.git
+   cd ASL Reading Hero
    ```
 
 2. Install dependencies:

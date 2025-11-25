@@ -1,18 +1,18 @@
-# QA Testing Checklist - MotorKeys MVP
+# QA Testing Checklist - ASL Reading Hero MVP
 
 **Version:** 1.0
 **Date:** 2025-11-25
 **Tester:** _____________
 
 ## Overview
-This checklist ensures comprehensive quality assurance testing for the MotorKeys application. Test on multiple browsers and devices where applicable.
+This checklist ensures comprehensive quality assurance testing for the ASL Reading Hero application. Test on multiple browsers and devices where applicable.
 
 ---
 
 ## 1. Visual Design & Layout Tests
 
 ### Home Screen
-- [ ] Title "Welcome to MotorKeys!" is clearly visible and centered
+- [ ] Title "Welcome to ASL Reading Hero!" is clearly visible and centered
 - [ ] Subtitle text is readable and properly formatted
 - [ ] "Start Game" button is prominently displayed
 - [ ] Button has clear hover state

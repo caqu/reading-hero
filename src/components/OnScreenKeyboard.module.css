@@ -75,6 +75,16 @@
   border-color: var(--color-text-secondary);
 }
 
+/* Right-hand touch typing keys - green border for visual distinction */
+.key.rightHand {
+  border-color: #28a745;
+  border-width: 3px;
+}
+
+.key.rightHand:hover:not(:disabled) {
+  border-color: #218838;
+}
+
 /* Highlighted key for guidance */
 .key.highlighted {
   background-color: var(--color-warning);

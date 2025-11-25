@@ -1,4 +1,4 @@
-# Task 0: Execution Plan for MotorKeys MVP
+# Task 0: Execution Plan for ASL Reading Hero MVP
 
 **Generated:** 2025-11-25
 **Status:** APPROVED
@@ -116,7 +116,7 @@ T5 (Input) ────→ T6 (Feedback) ──────→ T7 (Styling)
 - `npm run dev` launches dev server on localhost
 - TypeScript compiles without errors
 - ESLint configured with React rules
-- Basic "Hello MotorKeys" renders
+- Basic "Hello ASL Reading Hero" renders
 
 **Artifacts:**
 - `package.json` with all dependencies

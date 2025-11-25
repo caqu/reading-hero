@@ -1,9 +1,9 @@
-# MotorKeys (MVP)
+# ASL Reading Hero (MVP)
 
 **Motor-based literacy app for deaf/HoH and low-phonological learners**
 **Hackathon Prototype – Week 1**
 
-MotorKeys is a browser-based learning tool that helps children connect **printed words** to **meaning** using **visuals (pictures/signs)** and **motor memory (typing)** instead of relying on sound or phonics.
+ASL Reading Hero is a browser-based learning tool that helps children connect **printed words** to **meaning** using **visuals (pictures/signs)** and **motor memory (typing)** instead of relying on sound or phonics.
 The MVP focuses on a single game mode: **Guided Typing**.
 
 ---
@@ -16,7 +16,7 @@ Traditional early-literacy apps assume a sound-based decoding pathway:
 
 For deaf/HoH kids—or anyone with weak phonological mapping—this breaks down.
 
-MotorKeys replaces phonology with **motor plans**:
+ASL Reading Hero replaces phonology with **motor plans**:
 
 > letters → typing pattern → meaning
 
@@ -59,7 +59,7 @@ This prototype delivers a minimal but functional version of that idea.
 ## 📁 Project Structure (MVP)
 
 ```
-motorkeys/
+ASL Reading Hero/
  ├── src/
  │   ├── App.tsx
  │   ├── main.tsx

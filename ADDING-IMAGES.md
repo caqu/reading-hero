@@ -1,4 +1,4 @@
-# Adding Real Images to MotorKeys
+# Adding Real Images to ASL Reading Hero
 
 This guide explains how to add your own images for the word list.
 

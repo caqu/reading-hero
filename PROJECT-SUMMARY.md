@@ -1,4 +1,4 @@
-# MotorKeys MVP - Project Summary
+# ASL Reading Hero MVP - Project Summary
 
 **Status:** ✅ **COMPLETE - Ready for Deployment**
 
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-MotorKeys is a browser-based literacy game MVP that helps children (especially deaf/HoH and low-phonological learners) connect written words to meaning through visuals and motor plans (typing patterns) instead of relying on sound.
+ASL Reading Hero is a browser-based literacy game MVP that helps children (especially deaf/HoH and low-phonological learners) connect written words to meaning through visuals and motor plans (typing patterns) instead of relying on sound.
 
 **The MVP is fully functional, tested, and ready for production deployment.**
 

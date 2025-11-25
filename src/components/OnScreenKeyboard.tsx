@@ -16,13 +16,19 @@ interface OnScreenKeyboardProps {
 
 /**
  * QWERTY layout keyboard rows
- * Last row includes a spacebar key (represented as ' ')
+ * Fourth row contains spacebar
  */
 const KEYBOARD_LAYOUT = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' '],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+  [' '], // Spacebar on its own row
 ];
+
+/**
+ * Right-hand touch typing keys (for visual distinction)
+ */
+const RIGHT_HAND_KEYS = new Set(['Y', 'U', 'I', 'O', 'P', 'H', 'J', 'K', 'L', 'N', 'M']);
 
 /**
  * OnScreenKeyboard component
@@ -74,12 +80,13 @@ export const OnScreenKeyboard = memo(({
             const isHighlighted = normalizedKey === normalizedHighlight;
             const isWrong = normalizedKey === normalizedWrong;
             const isCorrectHint = normalizedKey === normalizedCorrect;
+            const isRightHand = RIGHT_HAND_KEYS.has(key);
 
             return (
               <button
                 key={`${key}-${keyIndex}`}
                 type="button"
-                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
+                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}
