@@ -8,78 +8,78 @@ export const WORD_LIST: Word[] = [
   {
     id: 'cat',
     text: 'cat',
-    imageUrl: 'https://via.placeholder.com/300?text=Cat',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Cat',
+    imageUrl: '/images/cat.png', // ✅ Real image
+    signImageUrl: '/images/cat.png',
     difficulty: 'easy'
   },
   {
     id: 'dog',
     text: 'dog',
-    imageUrl: 'https://via.placeholder.com/300?text=Dog',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Dog',
+    imageUrl: '/images/dog.png', // ✅ Real image
+    signImageUrl: '/images/dog.png',
     difficulty: 'easy'
   },
   {
     id: 'sun',
     text: 'sun',
-    imageUrl: 'https://via.placeholder.com/300?text=Sun',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Sun',
+    imageUrl: '/images/sun.png', // ✅ Real image
+    signImageUrl: '/images/sun.png',
     difficulty: 'easy'
   },
   {
     id: 'bed',
     text: 'bed',
-    imageUrl: 'https://via.placeholder.com/300?text=Bed',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Bed',
+    imageUrl: '/images/bed.png', // ✅ Real image
+    signImageUrl: '/images/bed.png',
     difficulty: 'easy'
   },
   {
     id: 'mom',
     text: 'mom',
-    imageUrl: 'https://via.placeholder.com/300?text=Mom',
+    imageUrl: 'https://via.placeholder.com/300?text=Mom', // ⏳ Placeholder - awaiting real image
     signImageUrl: 'https://via.placeholder.com/300?text=Sign+Mom',
     difficulty: 'easy'
   },
   {
     id: 'dad',
     text: 'dad',
-    imageUrl: 'https://via.placeholder.com/300?text=Dad',
+    imageUrl: 'https://via.placeholder.com/300?text=Dad', // ⏳ Placeholder - awaiting real image
     signImageUrl: 'https://via.placeholder.com/300?text=Sign+Dad',
     difficulty: 'easy'
   },
   {
     id: 'hat',
     text: 'hat',
-    imageUrl: 'https://via.placeholder.com/300?text=Hat',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Hat',
+    imageUrl: '/images/hat.png', // ✅ Real image
+    signImageUrl: '/images/hat.png',
     difficulty: 'easy'
   },
   {
     id: 'cup',
     text: 'cup',
-    imageUrl: 'https://via.placeholder.com/300?text=Cup',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Cup',
+    imageUrl: '/images/cup.png', // ✅ Real image
+    signImageUrl: '/images/cup.png',
     difficulty: 'easy'
   },
   {
     id: 'bus',
     text: 'bus',
-    imageUrl: 'https://via.placeholder.com/300?text=Bus',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Bus',
+    imageUrl: '/images/bus.png', // ✅ Real image
+    signImageUrl: '/images/bus.png',
     difficulty: 'easy'
   },
   {
     id: 'map',
     text: 'map',
-    imageUrl: 'https://via.placeholder.com/300?text=Map',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Map',
+    imageUrl: '/images/map.png', // ✅ Real image
+    signImageUrl: '/images/map.png',
     difficulty: 'easy'
   },
   {
     id: 'toy',
     text: 'toy',
-    imageUrl: 'https://via.placeholder.com/300?text=Toy',
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Toy',
+    imageUrl: '/images/toy.png', // ✅ Real image
+    signImageUrl: '/images/toy.png',
     difficulty: 'easy'
   }
 ];
