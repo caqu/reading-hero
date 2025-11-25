@@ -27,7 +27,9 @@
       "Bash(del \"src\\components\\FeedbackOverlay.module.css\")",
       "Bash(npx vite build)",
       "Bash(npm run test)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+      "Bash(python scripts/process_signs.py:*)",
+      "Bash(chcp 6500)"
     ],
     "deny": [],
     "ask": []
