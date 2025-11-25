@@ -16,11 +16,12 @@ interface OnScreenKeyboardProps {
 
 /**
  * QWERTY layout keyboard rows
+ * Last row includes a spacebar key (represented as ' ')
  */
 const KEYBOARD_LAYOUT = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' '],
 ];
 
 /**
@@ -63,8 +64,9 @@ export const OnScreenKeyboard = memo(({
     >
       {KEYBOARD_LAYOUT.map((row, rowIndex) => (
         <div key={rowIndex} className={styles.keyboardRow}>
-          {row.map((key) => {
-            const normalizedKey = key.toLowerCase();
+          {row.map((key, keyIndex) => {
+            const isSpacebar = key === ' ';
+            const normalizedKey = isSpacebar ? ' ' : key.toLowerCase();
             const normalizedHighlight = highlightKey?.toLowerCase();
             const normalizedWrong = wrongKey?.toLowerCase();
             const normalizedCorrect = correctKey?.toLowerCase();
@@ -75,16 +77,16 @@ export const OnScreenKeyboard = memo(({
 
             return (
               <button
-                key={key}
+                key={`${key}-${keyIndex}`}
                 type="button"
-                className={`${styles.key} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
+                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}
-                aria-label={`Letter ${key}`}
+                aria-label={isSpacebar ? 'Space' : `Letter ${key}`}
                 aria-pressed={isHighlighted}
               >
-                {key}
+                {isSpacebar ? 'SPACE' : key}
               </button>
             );
           })}

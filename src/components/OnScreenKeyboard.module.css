@@ -116,6 +116,10 @@
     padding: var(--spacing-sm);
     font-size: var(--font-size-large);
   }
+
+  .key.spacebar {
+    min-width: calc(50px * 5 + var(--spacing-xs) * 4);
+  }
 }
 
 /* Responsive design for mobile phones */
@@ -130,6 +134,18 @@
     padding: var(--spacing-xs);
     font-size: var(--font-size-base);
   }
+
+  .key.spacebar {
+    min-width: calc(40px * 5 + var(--spacing-xs) * 4);
+    font-size: var(--font-size-small);
+  }
+}
+
+/* Spacebar key - wider than regular keys */
+.key.spacebar {
+  /* Make spacebar approximately 5x wider than regular keys */
+  min-width: calc(60px * 5 + var(--spacing-sm) * 4);
+  flex-grow: 1;
 }
 
 /* High contrast mode support */

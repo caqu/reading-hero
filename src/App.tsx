@@ -33,8 +33,8 @@ function App() {
 
   // Handle key press from both on-screen and physical keyboard
   const handleKeyPress = useCallback((key: string) => {
-    // Only handle single letter keys
-    if (key.length !== 1 || !/[a-zA-Z]/.test(key)) {
+    // Only handle single letter keys and space
+    if (key.length !== 1 || !/[a-zA-Z ]/.test(key)) {
       return;
     }
 
@@ -87,9 +87,9 @@ function App() {
         return; // Allow browser shortcuts like Ctrl+R, Ctrl+S, etc.
       }
 
-      // Only handle single letter keys (A-Z, case insensitive)
-      if (event.key.length === 1 && /[a-zA-Z]/.test(event.key)) {
-        event.preventDefault(); // Prevent default only for game letters
+      // Only handle single letter keys (A-Z, case insensitive) and space
+      if (event.key.length === 1 && /[a-zA-Z ]/.test(event.key)) {
+        event.preventDefault(); // Prevent default only for game letters and space
         handleKeyPress(event.key);
       }
     };
