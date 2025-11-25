@@ -35,6 +35,13 @@
   /* Past tiles are already revealed, so this just marks them for potential future styling */
 }
 
+/* Blank tile style for Level 4-5 - completely empty appearance */
+.tile.blank {
+  background: #f5f5f5;
+  border-color: #ddd;
+  border-style: dashed;
+}
+
 /* Correct letter animation - gentle scale-up bounce */
 .tile.correctAnimate {
   animation: tileCorrectBounce 200ms ease-out;

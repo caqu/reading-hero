@@ -1,0 +1,94 @@
+.container {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.variantsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.variantCard {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 80px;
+  text-align: center;
+}
+
+.variantCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.variantText {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: 0.02em;
+}
+
+/* Variant-specific styles */
+
+.lowercase {
+  text-transform: lowercase;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.titlecase {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+.monospace {
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  letter-spacing: 0.1em;
+  background: #f5f5f5;
+}
+
+.serif {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+  .variantText {
+    font-size: 1.25rem;
+  }
+
+  .variantCard {
+    padding: 0.6rem 1rem;
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .variantText {
+    font-size: 1.1rem;
+  }
+
+  .variantCard {
+    padding: 0.5rem 0.8rem;
+    min-width: 60px;
+  }
+
+  .variantsGrid {
+    gap: 0.5rem;
+  }
+}

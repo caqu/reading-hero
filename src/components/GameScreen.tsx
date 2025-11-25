@@ -3,6 +3,7 @@ import { Word } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
+import { LevelFeatures } from '../engine/LevelingEngine';
 import styles from './GameScreen.module.css';
 
 interface GameScreenProps {
@@ -21,6 +22,10 @@ interface GameScreenProps {
   wrongKey?: string | null;
   correctKey?: string | null;
   correctTileIndex?: number | null;
+  /** Level features that control gameplay behavior */
+  levelFeatures?: LevelFeatures;
+  /** Current level (1-5) for display */
+  currentLevel?: number;
 }
 
 export const GameScreen = ({
@@ -38,6 +43,8 @@ export const GameScreen = ({
   wrongKey = null,
   correctKey = null,
   correctTileIndex = null,
+  levelFeatures,
+  currentLevel = 1,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -79,6 +86,10 @@ export const GameScreen = ({
             <div className={styles.statValue}>{accuracy}%</div>
             <div className={styles.statLabel}>accuracy</div>
           </div>
+          <div className={styles.stat}>
+            <div className={styles.statValue}>Level {currentLevel}</div>
+            <div className={styles.statLabel}>difficulty</div>
+          </div>
         </div>
       </aside>
 
@@ -86,12 +97,16 @@ export const GameScreen = ({
         <WordCard
           word={currentWord}
           showWord={showWordText}
+          showVariants={levelFeatures?.showWordVariants}
+          showSyllables={levelFeatures?.showSyllables}
+          hideEmojiAfterDelay={levelFeatures?.hideEmojiAfterDelay}
         />
         <LetterTiles
           word={currentWord.text}
           currentIndex={currentLetterIndex}
           revealedLetters={revealedLetters}
           correctTileIndex={correctTileIndex}
+          useBlankTiles={levelFeatures?.allowBlankTiles}
         />
         {onKeyPress && (
           <OnScreenKeyboard
@@ -100,6 +115,7 @@ export const GameScreen = ({
             disabled={keyboardDisabled}
             wrongKey={wrongKey}
             correctKey={correctKey}
+            showHighlights={levelFeatures?.showKeyHighlights}
           />
         )}
       </main>

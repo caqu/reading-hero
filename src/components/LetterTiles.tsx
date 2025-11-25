@@ -5,13 +5,16 @@ interface LetterTilesProps {
   currentIndex: number;
   revealedLetters: boolean[];
   correctTileIndex?: number | null;
+  /** Whether to show tiles as blank until revealed (Level 4-5) */
+  useBlankTiles?: boolean;
 }
 
 export const LetterTiles = ({
   word,
   currentIndex,
   revealedLetters,
-  correctTileIndex = null
+  correctTileIndex = null,
+  useBlankTiles = false,
 }: LetterTilesProps) => {
   const letters = word.split('');
 
@@ -23,6 +26,10 @@ export const LetterTiles = ({
         const isPast = index < currentIndex;
         const isCorrectAnimating = index === correctTileIndex;
 
+        // In blank tile mode, tiles appear empty until revealed
+        const showLetter = isRevealed;
+        const showBlank = useBlankTiles && !isRevealed;
+
         return (
           <div
             key={index}
@@ -32,11 +39,12 @@ export const LetterTiles = ({
               ${isCurrent ? styles.current : ''}
               ${isPast ? styles.past : ''}
               ${isCorrectAnimating ? styles.correctAnimate : ''}
+              ${showBlank ? styles.blank : ''}
             `}
-            aria-label={isRevealed ? `Letter ${letter}` : 'Empty tile'}
+            aria-label={showLetter ? `Letter ${letter}` : 'Empty tile'}
             aria-current={isCurrent ? 'true' : 'false'}
           >
-            {isRevealed ? letter : ''}
+            {showLetter ? letter : ''}
           </div>
         );
       })}

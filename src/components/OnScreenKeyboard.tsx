@@ -12,6 +12,8 @@ interface OnScreenKeyboardProps {
   wrongKey?: string | null;
   /** Correct key to hint at (for pulse animation) */
   correctKey?: string | null;
+  /** Whether to show key highlights (Level 1-3 only) */
+  showHighlights?: boolean;
 }
 
 /**
@@ -47,6 +49,7 @@ export const OnScreenKeyboard = memo(({
   disabled = false,
   wrongKey = null,
   correctKey = null,
+  showHighlights = true,
 }: OnScreenKeyboardProps) => {
   const handleKeyClick = (key: string) => {
     if (!disabled) {
@@ -77,9 +80,10 @@ export const OnScreenKeyboard = memo(({
             const normalizedWrong = wrongKey?.toLowerCase();
             const normalizedCorrect = correctKey?.toLowerCase();
 
-            const isHighlighted = normalizedKey === normalizedHighlight;
+            // Only show highlights if showHighlights is true (Level 1-3)
+            const isHighlighted = showHighlights && normalizedKey === normalizedHighlight;
             const isWrong = normalizedKey === normalizedWrong;
-            const isCorrectHint = normalizedKey === normalizedCorrect;
+            const isCorrectHint = showHighlights && normalizedKey === normalizedCorrect;
             const isRightHand = RIGHT_HAND_KEYS.has(key);
 
             return (

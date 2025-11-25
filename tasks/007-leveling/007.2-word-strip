@@ -1,0 +1,107 @@
+# ✅ **TASK: tie_leveling_to_word_strip.md**
+
+**Task ID:** `T_TIE_LEVELING_TO_WORD_STRIP`
+**Goal:** Connect the Leveling Engine to the Word Strip so that the variants (font, case, syllabification) shown above the tiles match the learner’s current level.
+
+---
+
+## 📝 Task Summary
+
+The app has a “Word Strip” element that shows different printed forms of the current word (e.g. “monkey face”, “MONKEY FACE”, “mon·key·face”, etc.). This must now dynamically adjust based on the learner’s **currentLevel** from the Leveling Engine.
+
+Different levels should reveal increasingly variable and complex printed forms.
+
+---
+
+## 🎯 Requirements
+
+### **A. Modify WordCard to accept new Level-Based Config**
+
+Add a prop or hook:
+
+```ts
+const { level, activeFeatures } = useLevelingEngine();
+```
+
+### **B. Word Strip Behavior by Level**
+
+#### **Level 1 — Concept Level**
+
+* Show **only the main word**, in default sans-serif.
+* No font variants.
+* No case variants.
+* No syllables.
+
+#### **Level 2 — Print Variability**
+
+Show:
+
+* lowercase
+* UPPERCASE
+* Title Case
+* serif
+* monospace
+
+Do **NOT** show syllables yet.
+
+#### **Level 3 — Orthographic Complexity**
+
+Show everything from Level 2 +:
+
+* hyphenated syllables: `mon-key face`
+* dotted syllables: `mon·key·face`
+* spaced variant: `m o n k e y`
+
+#### **Level 4 — Motor Independence**
+
+Show:
+
+* all level 3 variants
+* but **smaller** and **less prominent**
+* keep primary focus on spelling tiles
+
+#### **Level 5 — Generalization**
+
+Show:
+
+* word variants **only briefly** (e.g., 1–2 seconds)
+* then fade them to 50% opacity or hide entirely
+* allow a toggle for teacher mode to keep them visible
+
+### **C. Implement a WordStrip Component**
+
+File:
+
+```
+src/components/WordStrip.tsx
+```
+
+It must:
+
+* accept props: `word`, `level`, and `activeFeatures`
+* render variants based on level rules
+* be styled cleanly, centered under the emoji/video
+
+### **D. Update Styling**
+
+* Word strip should not interfere with typing tiles.
+* Use pill-style labels or low-contrast rounded rectangles.
+* Ensure it remains responsive.
+
+---
+
+## 🧪 Acceptance Criteria
+
+* Word strip correctly updates as learner level changes.
+* All variants appear only in the intended levels.
+* Level 5 properly fades or hides variants.
+* Word strip integrates smoothly within WordCard.
+
+---
+
+# 📦 Deliverables
+
+* Updated WordCard
+* New WordStrip.tsx
+* Styled pill/label variants
+* Integration with Leveling Engine

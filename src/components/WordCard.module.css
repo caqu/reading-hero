@@ -26,6 +26,36 @@
   text-align: center;
 }
 
+/* Level 5: Flashing emoji before hiding */
+.emojiFlashing {
+  animation: emojiFlash 2s ease-in-out;
+}
+
+@keyframes emojiFlash {
+  0%, 50% {
+    opacity: 1;
+  }
+  60%, 80% {
+    opacity: 0.3;
+  }
+  70%, 90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Level 5: Hidden emoji placeholder */
+.emojiHidden {
+  font-size: 160px;
+  line-height: 1;
+  color: #ccc;
+  user-select: none;
+  text-align: center;
+  font-weight: 200;
+}
+
 .fallbackText {
   font-size: 2rem;
   font-weight: 600;
