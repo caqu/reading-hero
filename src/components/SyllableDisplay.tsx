@@ -14,17 +14,56 @@ export interface SyllableDisplayProps {
 }
 
 /**
- * Simple syllabification algorithm
- * Note: This is a basic implementation. For production, consider using
- * a more sophisticated library like 'syllable' or 'hyphenate' from npm.
+ * Dictionary of common word syllabifications for accuracy
+ */
+const SYLLABLE_DICTIONARY: Record<string, string[]> = {
+  'tractor': ['trac', 'tor'],
+  'doctor': ['doc', 'tor'],
+  'monster': ['mon', 'ster'],
+  'winter': ['win', 'ter'],
+  'sister': ['sis', 'ter'],
+  'brother': ['broth', 'er'],
+  'mother': ['moth', 'er'],
+  'father': ['fa', 'ther'],
+  'teacher': ['teach', 'er'],
+  'number': ['num', 'ber'],
+  'letter': ['let', 'ter'],
+  'better': ['bet', 'ter'],
+  'happy': ['hap', 'py'],
+  'monkey': ['mon', 'key'],
+  'turkey': ['tur', 'key'],
+  'chicken': ['chick', 'en'],
+  'kitten': ['kit', 'ten'],
+  'puppy': ['pup', 'py'],
+  'bunny': ['bun', 'ny'],
+  'tiger': ['ti', 'ger'],
+  'dragon': ['drag', 'on'],
+  'balloon': ['bal', 'loon'],
+  'yellow': ['yel', 'low'],
+  'purple': ['pur', 'ple'],
+  'orange': ['or', 'ange'],
+  'pumpkin': ['pump', 'kin'],
+  'melon': ['mel', 'on'],
+  'lemon': ['lem', 'on'],
+};
+
+/**
+ * Improved syllabification algorithm
+ * Uses dictionary for common words, falls back to pattern matching
  *
- * Basic rules applied:
- * - Split before consonant clusters between vowels (e.g., "mon-key")
- * - Keep consonant blends together (e.g., "str-ong")
- * - Treat single consonants between vowels as starting new syllable
+ * Pattern rules:
+ * - VCCV: Split between consonants (e.g., "win-ter")
+ * - VCV: Split before single consonant (e.g., "ro-bot")
+ * - VV: Split between vowels (e.g., "di-et")
  */
 function syllabify(word: string): string[] {
   const lower = word.toLowerCase();
+
+  // Check dictionary first
+  if (SYLLABLE_DICTIONARY[lower]) {
+    return SYLLABLE_DICTIONARY[lower];
+  }
+
   const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'y']);
 
   // Handle very short words
@@ -32,31 +71,40 @@ function syllabify(word: string): string[] {
     return [word];
   }
 
-  // Simple pattern-based syllabification
   const syllables: string[] = [];
   let currentSyllable = '';
-  let prevWasVowel = false;
 
   for (let i = 0; i < lower.length; i++) {
     const char = lower[i] || '';
     const isVowel = vowels.has(char);
-    const nextChar = lower[i + 1];
-    const nextIsVowel = nextChar ? vowels.has(nextChar) : false;
+    currentSyllable += word[i] || '';
 
-    currentSyllable += word[i] || ''; // Use original case, fallback to empty string
+    // Look ahead to determine split point
+    const next1 = lower[i + 1];
+    const next2 = lower[i + 2];
 
-    // Split before consonant between vowels (V-CV pattern)
-    if (prevWasVowel && !isVowel && nextIsVowel && currentSyllable.length > 1) {
+    if (!next1) continue; // End of word
+
+    const next1IsVowel = vowels.has(next1);
+    const next2IsVowel = next2 ? vowels.has(next2) : false;
+
+    // VCCV pattern: vowel-consonant-consonant-vowel (split between consonants)
+    if (isVowel && !next1IsVowel && next2 && !next2IsVowel) {
+      currentSyllable += word[i + 1] || '';
+      syllables.push(currentSyllable);
+      currentSyllable = '';
+      i++; // Skip the consonant we just added
+    }
+    // VCV pattern: vowel-consonant-vowel (split before consonant)
+    else if (isVowel && !next1IsVowel && next2IsVowel && currentSyllable.length > 1) {
       syllables.push(currentSyllable);
       currentSyllable = '';
     }
-    // Split between two vowels (V-V pattern)
-    else if (prevWasVowel && isVowel && currentSyllable.length > 1) {
-      syllables.push(currentSyllable.slice(0, -1));
-      currentSyllable = word[i] || ''; // Fallback to empty string
+    // VV pattern: two vowels together (split between them)
+    else if (isVowel && next1IsVowel && currentSyllable.length > 1) {
+      syllables.push(currentSyllable);
+      currentSyllable = '';
     }
-
-    prevWasVowel = isVowel;
   }
 
   if (currentSyllable) {
