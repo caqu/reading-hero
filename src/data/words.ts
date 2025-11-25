@@ -36,8 +36,8 @@ export const WORD_LIST: Word[] = [
   {
     id: 'mom',
     text: 'mom',
-    imageUrl: 'https://via.placeholder.com/300?text=Mom', // ⏳ Placeholder - awaiting real image
-    signImageUrl: 'https://via.placeholder.com/300?text=Sign+Mom',
+    imageUrl: '/images/mom.png', // ✅ Real image
+    signImageUrl: '/images/mom.png',
     difficulty: 'easy'
   },
   {
