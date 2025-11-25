@@ -29,7 +29,8 @@
       "Bash(npm run test)",
       "Bash(npm run test:*)",
       "Bash(python scripts/process_signs.py:*)",
-      "Bash(chcp 6500)"
+      "Bash(chcp 6500)",
+      "Bash(if not exist \"src\\pages\" mkdir \"src\\pages\")"
     ],
     "deny": [],
     "ask": []
