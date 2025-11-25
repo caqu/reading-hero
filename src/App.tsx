@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
+import { StatsPage } from './pages/StatsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
@@ -8,7 +9,7 @@ import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import './App.css';
 
-type Screen = 'finish' | 'game';
+type Screen = 'finish' | 'game' | 'stats';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -191,6 +192,14 @@ function App() {
     setCurrentScreen('finish');
   };
 
+  const handleViewStats = () => {
+    setCurrentScreen('stats');
+  };
+
+  const handleBackToGame = () => {
+    setCurrentScreen('game');
+  };
+
   // Check if game is complete
   useEffect(() => {
     if (game.isComplete && currentScreen === 'game') {
@@ -229,7 +238,11 @@ function App() {
           levelFeatures={leveling.features}
           currentLevel={leveling.level}
           onLevelChange={leveling.setLevel}
+          onViewStats={handleViewStats}
         />
+      )}
+      {currentScreen === 'stats' && (
+        <StatsPage onBack={handleBackToGame} />
       )}
     </div>
   );

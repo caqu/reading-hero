@@ -28,6 +28,8 @@ interface GameScreenProps {
   currentLevel?: number;
   /** Callback to manually change level */
   onLevelChange?: (level: Level) => void;
+  /** Callback to navigate to stats page */
+  onViewStats?: () => void;
 }
 
 export const GameScreen = ({
@@ -48,6 +50,7 @@ export const GameScreen = ({
   levelFeatures,
   currentLevel = 1,
   onLevelChange,
+  onViewStats,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -104,6 +107,15 @@ export const GameScreen = ({
               />
             )}
           </div>
+          {onViewStats && (
+            <button
+              className={styles.statsButton}
+              onClick={onViewStats}
+              aria-label="View detailed statistics"
+            >
+              View Stats
+            </button>
+          )}
         </div>
       </aside>
 
