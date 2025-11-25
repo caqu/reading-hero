@@ -112,7 +112,7 @@ FIRST_10 = [
 
 * The next words should be selected from the emoji list.
 * They should appear **in random order**, without repeats until the full emoji list is exhausted.
-* After one full pass, reshuffle and continue infinitely.
+* After one full pass, display the finish screen, on "restart" button pressed then reshuffle and restart.
 
 Agent should build a **shuffle bag** system:
 
