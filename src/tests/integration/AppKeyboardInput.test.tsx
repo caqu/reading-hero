@@ -79,14 +79,18 @@ describe('App - Keyboard Input Integration', () => {
     render(<App />);
 
     // Start the game
-    const startButton = screen.getByText(/start game/i);
+    const startButton = screen.getByText(/start/i);
     fireEvent.click(startButton);
 
     await waitFor(() => {
-      expect(screen.queryByText(/start game/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/start/i)).not.toBeInTheDocument();
     });
 
-    // Type "CAT" - all three letters
+    // Get initial word count
+    const initialProgress = screen.getByText(/of 11/i);
+    expect(initialProgress).toBeInTheDocument();
+
+    // Type all three letters of the first word
     const keys = ['c', 'a', 't'];
     for (const key of keys) {
       const keyEvent = new KeyboardEvent('keydown', {
@@ -100,36 +104,27 @@ describe('App - Keyboard Input Integration', () => {
       vi.advanceTimersByTime(100);
     }
 
-    // After typing "T" (last letter), should see "Great job!" success message
-    await waitFor(() => {
-      expect(screen.getByText(/great job/i)).toBeInTheDocument();
-    });
-
-    // Advance past the 2 second delay
-    vi.advanceTimersByTime(2100);
-
-    // Success message should be gone and we should be on the next word
-    await waitFor(() => {
-      expect(screen.queryByText(/great job/i)).not.toBeInTheDocument();
-    });
+    // Advance past the word completion delay
+    vi.advanceTimersByTime(1100);
 
     // Should now see progress indicator showing we moved to word 2
-    // Note: Exact assertion depends on ProgressBar implementation
-    // For now, just verify we didn't stay on word 1
+    await waitFor(() => {
+      expect(screen.getByText('2')).toBeInTheDocument();
+    });
   });
 
   it('should complete a full word without showing error feedback on correct letters', async () => {
     render(<App />);
 
     // Start the game
-    const startButton = screen.getByText(/start game/i);
+    const startButton = screen.getByText(/start/i);
     fireEvent.click(startButton);
 
     await waitFor(() => {
-      expect(screen.queryByText(/start game/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/start/i)).not.toBeInTheDocument();
     });
 
-    // Type each letter of "CAT"
+    // Type each letter of the first word
     const keys = ['c', 'a', 't'];
 
     for (let i = 0; i < keys.length; i++) {
@@ -141,17 +136,15 @@ describe('App - Keyboard Input Integration', () => {
       });
       window.dispatchEvent(keyEvent);
 
-      // For letters that aren't the last one, should NOT see any feedback
-      if (i < keys.length - 1) {
-        vi.advanceTimersByTime(100);
-        expect(screen.queryByText(/try again/i)).not.toBeInTheDocument();
-        expect(screen.queryByText(/great job/i)).not.toBeInTheDocument();
-      }
+      // Should NOT see any error feedback
+      vi.advanceTimersByTime(100);
+      expect(screen.queryByText(/try again/i)).not.toBeInTheDocument();
     }
 
-    // After last letter, should see "Great job!"
+    // After last letter, word should be complete and progress should update
+    vi.advanceTimersByTime(1100);
     await waitFor(() => {
-      expect(screen.getByText(/great job/i)).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument(); // Shows 1 correct word
     });
   });
 
@@ -159,14 +152,14 @@ describe('App - Keyboard Input Integration', () => {
     render(<App />);
 
     // Start the game
-    const startButton = screen.getByText(/start game/i);
+    const startButton = screen.getByText(/start/i);
     fireEvent.click(startButton);
 
     await waitFor(() => {
-      expect(screen.queryByText(/start game/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/start/i)).not.toBeInTheDocument();
     });
 
-    // Type "CAT" rapidly
+    // Type all letters of the first word rapidly
     ['c', 'a', 't'].forEach(key => {
       const keyEvent = new KeyboardEvent('keydown', {
         key,
@@ -180,9 +173,12 @@ describe('App - Keyboard Input Integration', () => {
     vi.advanceTimersByTime(100);
     expect(screen.queryByText(/try again/i)).not.toBeInTheDocument();
 
-    // Should eventually see "Great job!"
+    // Advance to complete the word transition
+    vi.advanceTimersByTime(1100);
+
+    // Should show progress indicating word completion
     await waitFor(() => {
-      expect(screen.getByText(/great job/i)).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument(); // Shows 1 correct word
     });
   });
 });

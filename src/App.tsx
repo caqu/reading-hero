@@ -1,15 +1,16 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { HomeScreen } from './components/HomeScreen';
+import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { words } from './data/words';
 import './App.css';
 
-type Screen = 'home' | 'game';
+type Screen = 'finish' | 'game';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('game'); // Start directly in game
+  const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Track if this is the first load
 
   // Initialize game state with useGameState hook
   const game = useGameState(words);
@@ -101,15 +102,16 @@ function App() {
     };
   }, [currentScreen, handleKeyPress]);
 
-  const handleStartGame = () => {
-    // Reset game state
+  const handleStartOrRestart = () => {
+    // Reset game state and shuffle words
     game.resetGame();
     setCorrectWords(0);
+    setIsInitialLoad(false); // No longer the initial load
     setCurrentScreen('game');
   };
 
   const handleGameComplete = () => {
-    setCurrentScreen('home');
+    setCurrentScreen('finish');
   };
 
   // Check if game is complete
@@ -124,7 +126,12 @@ function App() {
 
   return (
     <div className="app">
-      {currentScreen === 'home' && <HomeScreen onStart={handleStartGame} />}
+      {currentScreen === 'finish' && (
+        <FinishScreen
+          onRestart={handleStartOrRestart}
+          isInitial={isInitialLoad}
+        />
+      )}
       {currentScreen === 'game' && (
         <GameScreen
           words={game.words}

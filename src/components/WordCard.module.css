@@ -19,6 +19,21 @@
   object-fit: contain;
 }
 
+.emoji {
+  font-size: 160px;
+  line-height: 1;
+  user-select: none;
+  text-align: center;
+}
+
+.fallbackText {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: lowercase;
+  text-align: center;
+}
+
 .wordText {
   font-size: 1.5rem;
   font-weight: 600;
@@ -30,6 +45,14 @@
   .imageContainer {
     width: 250px;
     height: 250px;
+  }
+
+  .emoji {
+    font-size: 128px;
+  }
+
+  .fallbackText {
+    font-size: 1.5rem;
   }
 
   .wordText {

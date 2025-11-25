@@ -47,15 +47,9 @@ export const GameScreen = ({
     return () => clearTimeout(timer);
   }, []);
 
+  // If no current word, don't render anything (game is complete)
   if (!currentWord) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.completionMessage}>
-          <h2>Great job!</h2>
-          <p>You've completed all the words!</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const accuracy = attempts > 0 ? Math.round((correctWords * 100) / attempts) : 0;
@@ -87,8 +81,7 @@ export const GameScreen = ({
 
       <main className={styles.main}>
         <WordCard
-          imageUrl={currentWord.imageUrl}
-          word={currentWord.text}
+          word={currentWord}
           showWord={showWordText}
         />
         <LetterTiles

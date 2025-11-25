@@ -14,9 +14,9 @@ export interface Word {
   /** The actual word text to be typed */
   text: string;
   /** URL to the image representing the word */
-  imageUrl: string;
+  imageUrl?: string;
   /** URL to the sign language image for the word */
-  signImageUrl: string;
+  signImageUrl?: string;
   /** URL to the sign language video (MP4 format) */
   signVideoUrl?: string;
   /** URL to the sign language video (WebM format) */
@@ -24,7 +24,11 @@ export interface Word {
   /** URL to the sign language video thumbnail */
   signThumbnailUrl?: string;
   /** Difficulty level of the word */
-  difficulty: Difficulty;
+  difficulty?: Difficulty;
+  /** Emoji character for emoji-based words */
+  emoji?: string;
+  /** CLDR short name description for the emoji */
+  emojiDescription?: string;
 }
 
 /**

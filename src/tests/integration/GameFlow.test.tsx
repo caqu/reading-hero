@@ -4,11 +4,11 @@ import App from '../../App';
 
 describe('GameFlow Integration Tests', () => {
   describe('Navigation Flow', () => {
-    it('should start on home screen and navigate to game screen', () => {
+    it('should start on finish screen and navigate to game screen', () => {
       render(<App />);
 
-      // Should show home screen initially
-      expect(screen.getByText('Welcome to MotorKeys!')).toBeInTheDocument();
+      // Should show finish screen initially with logo and Start button
+      expect(screen.getByAltText('ASL Reading Hero Logo')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Start the game' })).toBeInTheDocument();
 
       // Click start button
@@ -16,7 +16,7 @@ describe('GameFlow Integration Tests', () => {
       fireEvent.click(startButton);
 
       // Should navigate to game screen
-      expect(screen.queryByText('Welcome to MotorKeys!')).not.toBeInTheDocument();
+      expect(screen.queryByAltText('ASL Reading Hero Logo')).not.toBeInTheDocument();
       expect(screen.getByText('Type the letters to spell the word')).toBeInTheDocument();
     });
 
@@ -41,7 +41,7 @@ describe('GameFlow Integration Tests', () => {
       const startButton = screen.getByRole('button', { name: 'Start the game' });
       fireEvent.click(startButton);
 
-      // Should show letter tiles for the first word (assuming "cat" is first)
+      // Should show letter tiles for the first word
       const letterTiles = screen.getByRole('group', { name: 'Letter tiles' });
       expect(letterTiles).toBeInTheDocument();
     });

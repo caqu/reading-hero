@@ -11,6 +11,20 @@ interface GameStateInternal {
 }
 
 /**
+ * Shuffles an array using the Fisher-Yates algorithm
+ */
+export function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = shuffled[i]!;
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp;
+  }
+  return shuffled;
+}
+
+/**
  * Custom React hook for managing the game state and logic.
  *
  * This hook handles:
@@ -18,7 +32,7 @@ interface GameStateInternal {
  * - Current word and letter tracking
  * - Input validation (case-insensitive)
  * - Word progression
- * - Game reset
+ * - Game reset with word shuffling
  * - Attempt tracking and statistics
  *
  * @param initialWords - Array of words to use in the game
@@ -37,7 +51,7 @@ interface GameStateInternal {
  */
 export function useGameState(initialWords: Word[]): UseGameState {
   // Core state - use a single state object to avoid closure issues
-  const [words] = useState<Word[]>(initialWords);
+  const [words, setWords] = useState<Word[]>(shuffleArray(initialWords));
   const [state, setState] = useState<GameStateInternal>({
     currentWordIndex: 0,
     currentLetterIndex: 0,
@@ -139,15 +153,17 @@ export function useGameState(initialWords: Word[]): UseGameState {
   /**
    * Resets the game to its initial state.
    * Clears all progress and statistics.
+   * Shuffles the word list for a new game sequence.
    */
   const resetGame = useCallback(() => {
+    setWords(shuffleArray(initialWords));
     setState({
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctAttempts: 0,
       incorrectAttempts: 0,
     });
-  }, []);
+  }, [initialWords]);
 
   return {
     // State

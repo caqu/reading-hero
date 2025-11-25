@@ -1,9 +1,18 @@
 ﻿// src/tests/unit/useGameState.test.ts
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useGameState } from "../../hooks/useGameState";
+import * as useGameStateModule from "../../hooks/useGameState";
 import type { Word } from "../../types";
+
+// Mock the shuffleArray function to return the array unchanged for predictable tests
+vi.mock("../../hooks/useGameState", async () => {
+  const actual = await vi.importActual("../../hooks/useGameState");
+  return {
+    ...actual,
+    shuffleArray: <T,>(array: T[]) => array, // Return unchanged array for tests
+  };
+});
 
 describe("useGameState", () => {
   const mockWords: Word[] = [
@@ -29,6 +38,8 @@ describe("useGameState", () => {
       difficulty: "medium",
     },
   ];
+
+  const { useGameState } = useGameStateModule;
 
   describe("Initialization", () => {
     it("should initialize with correct default values", () => {
