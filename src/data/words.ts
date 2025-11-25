@@ -65,8 +65,8 @@ const OTHER_CURATED_WORDS: Word[] = [
   {
     id: 'car',
     text: 'car',
-    imageUrl: '/images/car.png',
-    signImageUrl: '/images/car.png',
+    emoji: '🚗',
+    emojiDescription: 'car',
     difficulty: 'easy'
   },
   {
