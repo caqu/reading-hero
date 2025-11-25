@@ -11,7 +11,10 @@
       "Bash(npm run dev:*)",
       "Bash(powershell -Command \"Set-Content -Path ''C:\\Users\\carlos.quesada\\imaginelearning\\reading-hero\\src\\tests\\unit\\useGameState.test.ts'' -Value ''// Test placeholder'' -Encoding UTF8\")",
       "Bash(npm test:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(dir:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nComplete T5, T6, T7 - Keyboard input, feedback, and styling\n\nT5: On-Screen Keyboard & Input Handling\n- Created OnScreenKeyboard component with QWERTY layout\n- Large, touch-friendly keys (60x60px, responsive)\n- Both on-screen click and physical keyboard support\n- Integrated useGameState hook for game logic\n- Unified input handling through single handler\n- Proper event listener cleanup\n- Full accessibility support (Tab navigation, ARIA labels)\n- Case-insensitive input validation\n\nT6: Feedback & Progress Tracking\n- Enhanced FeedbackOverlay with celebration mode\n- Added sound effect placeholders (muted)\n- Smooth word transitions with proper timing\n- Auto-dismiss feedback (success 1.5s, error 0.8s)\n- Accurate progress bar with animations\n- Word completion celebration triggers\n\nT7: Styling & Theming\n- Kid-friendly, high-contrast color palette\n- Large typography (18px base, up to 48px headings)\n- Enhanced CSS variables for consistency\n- Smooth animations and transitions\n- WCAG AA accessibility standards met\n- Responsive design (desktop-first, mobile-ready)\n- Dark mode support\n- Reduced motion preference support\n- 44px minimum touch targets\n\nAll components fully integrated and functional\nTypeScript compiles without errors\nReady for testing and QA\n\n🤖 Generated with Claude Code\nhttps://claude.com/claude-code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

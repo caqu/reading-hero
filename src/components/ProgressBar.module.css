@@ -3,6 +3,11 @@
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.container:hover {
+  transform: scale(1.01);
 }
 
 .statsContainer {
@@ -18,12 +23,19 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-xs);
+  transition: transform var(--transition-fast);
+}
+
+.stat:hover {
+  transform: scale(1.05);
 }
 
 .statLabel {
   font-size: var(--font-size-base);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .statValue {
@@ -43,7 +55,7 @@
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-success) 0%, var(--color-success-light) 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
   border-radius: var(--radius-full);
   transition: width var(--transition-slow);
   box-shadow: var(--shadow-sm);
@@ -59,5 +71,15 @@
   .stat {
     flex-direction: row;
     gap: var(--spacing-sm);
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .statLabel {
+    font-size: var(--font-size-small);
+  }
+
+  .statValue {
+    font-size: var(--font-size-base);
   }
 }

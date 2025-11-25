@@ -1,0 +1,86 @@
+import { memo } from 'react';
+import styles from './OnScreenKeyboard.module.css';
+
+interface OnScreenKeyboardProps {
+  /** Callback when a key is pressed */
+  onKeyPress: (key: string) => void;
+  /** Optional key to highlight for guidance */
+  highlightKey?: string;
+  /** Whether the keyboard should be disabled */
+  disabled?: boolean;
+}
+
+/**
+ * QWERTY layout keyboard rows
+ */
+const KEYBOARD_LAYOUT = [
+  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+];
+
+/**
+ * OnScreenKeyboard component
+ *
+ * Displays a QWERTY layout keyboard with clickable buttons.
+ * Supports:
+ * - Touch-friendly large buttons
+ * - Visual feedback on click
+ * - Optional key highlighting for guidance
+ * - Keyboard accessibility (tab navigation)
+ * - Disabled state
+ */
+export const OnScreenKeyboard = memo(({
+  onKeyPress,
+  highlightKey,
+  disabled = false,
+}: OnScreenKeyboardProps) => {
+  const handleKeyClick = (key: string) => {
+    if (!disabled) {
+      onKeyPress(key);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, key: string) => {
+    // Allow Enter or Space to trigger the button
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleKeyClick(key);
+    }
+  };
+
+  return (
+    <div
+      className={styles.keyboard}
+      role="group"
+      aria-label="On-screen keyboard"
+    >
+      {KEYBOARD_LAYOUT.map((row, rowIndex) => (
+        <div key={rowIndex} className={styles.keyboardRow}>
+          {row.map((key) => {
+            const normalizedKey = key.toLowerCase();
+            const normalizedHighlight = highlightKey?.toLowerCase();
+            const isHighlighted = normalizedKey === normalizedHighlight;
+
+            return (
+              <button
+                key={key}
+                type="button"
+                className={`${styles.key} ${isHighlighted ? styles.highlighted : ''}`}
+                onClick={() => handleKeyClick(key)}
+                onKeyDown={(e) => handleKeyDown(e, key)}
+                disabled={disabled}
+                aria-label={`Letter ${key}`}
+                aria-pressed={isHighlighted}
+              >
+                {key}
+              </button>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+});
+
+OnScreenKeyboard.displayName = 'OnScreenKeyboard';

@@ -1,35 +1,41 @@
 /* CSS Custom Properties for Theming */
 :root {
-  /* Colors - Kid-friendly palette */
-  --color-primary: #4A90E2;
-  --color-primary-light: #7AB8FF;
-  --color-primary-dark: #2E5C8A;
+  /* Colors - Kid-friendly, high-contrast palette */
+  --color-primary: #1E88E5;       /* Vibrant blue - good contrast */
+  --color-primary-light: #64B5F6; /* Lighter blue */
+  --color-primary-dark: #0D47A1;  /* Deep blue */
 
-  --color-success: #4CAF50;
-  --color-success-light: #81C784;
+  --color-secondary: #FFC107;     /* Bright amber - kid-friendly */
+  --color-secondary-light: #FFD54F; /* Soft yellow */
+  --color-secondary-dark: #FF6F00; /* Deep orange accent */
 
-  --color-error: #F44336;
-  --color-error-light: #E57373;
+  --color-success: #4CAF50;       /* Green - clear and bright */
+  --color-success-light: #81C784; /* Softer green */
 
-  --color-warning: #FFC107;
+  --color-error: #F44336;         /* Bright red - attention-grabbing */
+  --color-error-light: #E57373;   /* Softer red */
 
-  --color-background: #FFFFFF;
-  --color-background-secondary: #F5F5F5;
+  --color-warning: #FF9800;       /* Orange - clear warning color */
 
-  --color-text: #212121;
-  --color-text-secondary: #757575;
+  --color-background: #FFFFFF;    /* Clean white background */
+  --color-background-secondary: #F5F5F5; /* Light grey for secondary areas */
 
-  /* Typography */
-  --font-size-base: 18px;
-  --font-size-large: 24px;
-  --font-size-xlarge: 32px;
-  --font-size-xxlarge: 48px;
+  --color-text: #212121;          /* Near-black for maximum readability */
+  --color-text-secondary: #424242; /* Slightly lighter for secondary text */
 
+  /* Typography - Large, readable sizes */
+  --font-size-base: 18px;         /* Recommended minimum for readability */
+  --font-size-small: 14px;        /* For less important text */
+  --font-size-large: 24px;        /* Headings and important text */
+  --font-size-xlarge: 32px;       /* Major headings */
+  --font-size-xxlarge: 48px;      /* Largest text elements */
+
+  --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
 
-  /* Spacing */
+  /* Spacing - Consistent and generous */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -37,21 +43,21 @@
   --spacing-xl: 2rem;
   --spacing-xxl: 3rem;
 
-  /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* Border radius - Soft, kid-friendly roundness */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+  /* Shadows - Subtle depth */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
 
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 400ms ease;
+  /* Transitions - Smooth but not distracting */
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 250ms ease-out;
+  --transition-slow: 400ms ease-out;
 
   /* Z-index layers */
   --z-base: 1;
@@ -60,11 +66,19 @@
   --z-tooltip: 2000;
 }
 
+/* Dark mode - Accessible alternate palette */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: #1E1E1E;
-    --color-background-secondary: #2D2D2D;
+    --color-background: #121212;
+    --color-background-secondary: #1E1E1E;
     --color-text: #E0E0E0;
     --color-text-secondary: #B0B0B0;
+
+    /* Adjusted dark mode colors for contrast */
+    --color-primary: #2196F3;
+    --color-secondary: #FFC107;
+    --color-success: #4CAF50;
+    --color-error: #F44336;
+    --color-warning: #FF9800;
   }
 }

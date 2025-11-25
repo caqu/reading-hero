@@ -10,6 +10,12 @@
   max-width: 400px;
   width: 100%;
   margin: 0 auto;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .imageContainer {
@@ -21,6 +27,11 @@
   background: var(--color-background-secondary);
   border-radius: var(--radius-md);
   overflow: hidden;
+  transition: background var(--transition-fast);
+}
+
+.imageContainer:hover {
+  background: var(--color-primary-light);
 }
 
 .image {
@@ -28,13 +39,22 @@
   height: 100%;
   object-fit: contain;
   padding: var(--spacing-md);
+  transition: transform var(--transition-fast);
+}
+
+.image:hover {
+  transform: scale(1.05);
 }
 
 .wordText {
   font-size: var(--font-size-xlarge);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
+  color: var(--color-primary-dark);
   text-transform: lowercase;
   letter-spacing: 0.1em;
-  opacity: 0.5;
+  transition: color var(--transition-fast);
+}
+
+.container:hover .wordText {
+  color: var(--color-secondary);
 }

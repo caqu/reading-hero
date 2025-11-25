@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { HomeScreen } from './components/HomeScreen';
 import { GameScreen } from './components/GameScreen';
+import { OnScreenKeyboard } from './components/OnScreenKeyboard';
+import { useGameState } from './hooks/useGameState';
 import { words } from './data/words';
 import './App.css';
 
@@ -8,48 +10,136 @@ type Screen = 'home' | 'game';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-  const [revealedLetters, setRevealedLetters] = useState<boolean[]>(
-    new Array(words[0]?.text.length || 0).fill(false)
-  );
-  const [attempts, setAttempts] = useState(0);
-  const [correctWords, setCorrectWords] = useState(0);
   const [feedbackType, setFeedbackType] = useState<'success' | 'error' | 'none'>('none');
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
 
+  // Initialize game state with useGameState hook
+  const game = useGameState(words);
+
+  // Calculate revealed letters based on current progress
+  const revealedLetters = useMemo(() => {
+    if (!game.currentWord) return [];
+    const letters = new Array(game.currentWord.text.length).fill(false);
+    for (let i = 0; i < game.currentLetterIndex; i++) {
+      letters[i] = true;
+    }
+    return letters;
+  }, [game.currentWord, game.currentLetterIndex]);
+
+  // Track completed words for progress display
+  const [correctWords, setCorrectWords] = useState(0);
+
+  // Handle key press from both on-screen and physical keyboard
+  const handleKeyPress = useCallback((key: string) => {
+    // Only handle single letter keys
+    if (key.length !== 1 || !/[a-zA-Z]/.test(key)) {
+      return;
+    }
+
+    // Store current state before processing
+    const currentWord = game.currentWord;
+    const currentLetterIndexBefore = game.currentLetterIndex;
+
+    const isCorrect = game.handleKeyPress(key);
+
+    if (isCorrect) {
+      // Check if word was completed by seeing if we moved to the next word
+      // or if we just completed the last letter of the current word
+      const wasLastLetterOfWord = currentWord && currentLetterIndexBefore === currentWord.text.length - 1;
+
+      if (wasLastLetterOfWord) {
+        setCorrectWords(prev => prev + 1);
+        setFeedbackType('success');
+        setFeedbackMessage('Great job!');
+
+        // Clear feedback after animation
+        setTimeout(() => {
+          setFeedbackType('none');
+          setFeedbackMessage('');
+        }, 1500);
+      }
+    } else {
+      // Incorrect key press
+      setFeedbackType('error');
+      setFeedbackMessage('Try again!');
+
+      // Clear feedback after animation
+      setTimeout(() => {
+        setFeedbackType('none');
+        setFeedbackMessage('');
+      }, 800);
+    }
+  }, [game]);
+
+  // Physical keyboard event handler
+  useEffect(() => {
+    // Only attach listener when game screen is active
+    if (currentScreen !== 'game') {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Prevent default behavior for letter keys to avoid page scrolling
+      if (event.key.length === 1 && /[a-zA-Z]/.test(event.key)) {
+        event.preventDefault();
+        handleKeyPress(event.key);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup listener on unmount or screen change
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentScreen, handleKeyPress]);
+
   const handleStartGame = () => {
     // Reset game state
-    setCurrentScreen('game');
-    setCurrentWordIndex(0);
-    setCurrentLetterIndex(0);
-    setRevealedLetters(new Array(words[0]?.text.length || 0).fill(false));
-    setAttempts(0);
+    game.resetGame();
     setCorrectWords(0);
     setFeedbackType('none');
     setFeedbackMessage('');
+    setCurrentScreen('game');
   };
 
   const handleGameComplete = () => {
     setCurrentScreen('home');
   };
 
+  // Check if game is complete
+  useEffect(() => {
+    if (game.isComplete && currentScreen === 'game') {
+      // Game completed - could show a completion screen or return to home
+      setTimeout(() => {
+        handleGameComplete();
+      }, 2000);
+    }
+  }, [game.isComplete, currentScreen]);
+
   return (
     <div className="app">
       {currentScreen === 'home' && <HomeScreen onStart={handleStartGame} />}
       {currentScreen === 'game' && (
-        <GameScreen
-          words={words}
-          currentWordIndex={currentWordIndex}
-          currentLetterIndex={currentLetterIndex}
-          revealedLetters={revealedLetters}
-          attempts={attempts}
-          correctWords={correctWords}
-          feedbackType={feedbackType}
-          feedbackMessage={feedbackMessage}
-          showWordText={false}
-          onComplete={handleGameComplete}
-        />
+        <>
+          <GameScreen
+            words={game.words}
+            currentWordIndex={game.currentWordIndex}
+            currentLetterIndex={game.currentLetterIndex}
+            revealedLetters={revealedLetters}
+            attempts={game.totalAttempts}
+            correctWords={correctWords}
+            feedbackType={feedbackType}
+            feedbackMessage={feedbackMessage}
+            showWordText={false}
+            onComplete={handleGameComplete}
+          />
+          <OnScreenKeyboard
+            onKeyPress={handleKeyPress}
+            highlightKey={game.currentLetter || undefined}
+            disabled={game.isComplete}
+          />
+        </>
       )}
     </div>
   );

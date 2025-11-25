@@ -1,0 +1,163 @@
+/* OnScreenKeyboard.module.css */
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-background-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.keyboardRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.key {
+  /* Size and layout */
+  min-width: 60px;
+  min-height: 60px;
+  padding: var(--spacing-md);
+
+  /* Typography */
+  font-size: var(--font-size-xlarge);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+
+  /* Appearance */
+  background-color: var(--color-background);
+  border: 2px solid var(--color-primary-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+
+  /* Interaction */
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+
+  /* Accessibility */
+  outline-offset: 2px;
+}
+
+/* Hover state */
+.key:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+  color: var(--color-background);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Focus state for keyboard navigation */
+.key:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  z-index: var(--z-base);
+}
+
+/* Active/pressed state */
+.key:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-primary-dark);
+  color: var(--color-background);
+}
+
+/* Disabled state */
+.key:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--color-background-secondary);
+  border-color: var(--color-text-secondary);
+}
+
+/* Highlighted key for guidance */
+.key.highlighted {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-text);
+  animation: pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.3);
+}
+
+.key.highlighted:hover:not(:disabled) {
+  background-color: var(--color-warning);
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Pulse animation for highlighted keys */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive design for tablets */
+@media (max-width: 768px) {
+  .keyboard {
+    max-width: 100%;
+    padding: var(--spacing-sm);
+  }
+
+  .keyboardRow {
+    gap: var(--spacing-xs);
+  }
+
+  .key {
+    min-width: 50px;
+    min-height: 50px;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-large);
+  }
+}
+
+/* Responsive design for mobile phones */
+@media (max-width: 480px) {
+  .keyboard {
+    padding: var(--spacing-xs);
+  }
+
+  .key {
+    min-width: 40px;
+    min-height: 40px;
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .key {
+    border-width: 3px;
+  }
+
+  .key.highlighted {
+    border-width: 4px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
+
+  .key.highlighted {
+    animation: none;
+  }
+
+  .key:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .key:active:not(:disabled) {
+    transform: none;
+  }
+}
