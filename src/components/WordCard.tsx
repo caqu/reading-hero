@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Word } from '../types';
 import { WordVariants } from './WordVariants';
 import { SyllableDisplay } from './SyllableDisplay';
+import { SignVideo } from './SignVideo';
 import styles from './WordCard.module.css';
 
 interface WordCardProps {
@@ -22,7 +23,8 @@ export const WordCard = ({
   showSyllables = false,
   hideEmojiAfterDelay = false,
 }: WordCardProps) => {
-  // Determine what to display: emoji, image, or fallback
+  // Determine what to display: video, emoji, image, or fallback
+  const hasVideo = word.signVideoUrl && word.signVideoUrl.length > 0;
   const hasEmoji = word.emoji && word.emoji.length > 0;
   const hasImage = word.imageUrl && word.imageUrl.length > 0;
 
@@ -49,7 +51,16 @@ export const WordCard = ({
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>
-        {hasEmoji && !emojiHidden ? (
+        {hasVideo ? (
+          // Display ASL sign language video (highest priority for cat/dog)
+          <SignVideo
+            mp4Src={word.signVideoUrl}
+            webmSrc={word.signVideoWebmUrl}
+            thumbnailSrc={word.signThumbnailUrl}
+            alt={`ASL sign for ${word.text}`}
+            className={styles.video}
+          />
+        ) : hasEmoji && !emojiHidden ? (
           // Display emoji as the main visual
           <div
             className={`${styles.emoji} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''}`}
@@ -70,7 +81,7 @@ export const WordCard = ({
             className={styles.image}
           />
         ) : (
-          // Fallback: show word text if no emoji or image
+          // Fallback: show word text if no video, emoji, or image
           <div className={styles.fallbackText}>
             {word.text}
           </div>

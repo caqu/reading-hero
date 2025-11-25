@@ -4,7 +4,11 @@ import { ShuffleBag } from '../utils/ShuffleBag';
 
 /**
  * The first 10 curated words that ALWAYS appear first in the game.
- * These are high-quality words with real images and sign language videos.
+ * Order:
+ * 1. cat, dog - WITH sign language videos
+ * 2. sun, bed, mom, dad, car, ball, tree, fish - with custom images
+ * 3. Then 220+ emoji words in random order
+ *
  * These words will ALWAYS be shown in this exact order at the start of each game.
  */
 export const FIRST_10_WORDS: Word[] = [
@@ -90,9 +94,10 @@ export const FIRST_10_WORDS: Word[] = [
  * Creates a new shuffled word list combining the first 10 curated words
  * with a randomized emoji word list.
  *
- * Structure:
- * 1. First 10 words (always in order): cat, dog, sun, bed, mom, dad, car, ball, tree, fish
- * 2. Remaining words: shuffled emoji words (200+ entries)
+ * Game Flow:
+ * 1. Words 1-2: cat, dog (WITH videos)
+ * 2. Words 3-10: sun, bed, mom, dad, car, ball, tree, fish (custom images)
+ * 3. Words 11+: 220+ emoji words in random order
  *
  * This function is called once at initialization to create the full word list.
  */

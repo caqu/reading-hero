@@ -1,0 +1,12 @@
+{
+  "cat": {
+    "mp4": "/signs/processed/cat.mp4",
+    "webm": "/signs/processed/cat.webm",
+    "thumbnail": "/signs/thumbnails/cat.png"
+  },
+  "dog": {
+    "mp4": "/signs/processed/dog.mp4",
+    "webm": "/signs/processed/dog.webm",
+    "thumbnail": "/signs/thumbnails/dog.png"
+  }
+}

@@ -87,8 +87,8 @@ export const GameScreen = ({
             <div className={styles.statLabel}>accuracy</div>
           </div>
           <div className={styles.stat}>
-            <div className={styles.statValue}>Level {currentLevel}</div>
-            <div className={styles.statLabel}>difficulty</div>
+            <div className={styles.statValue}>{currentLevel}</div>
+            <div className={styles.statLabel}>level</div>
           </div>
         </div>
       </aside>
