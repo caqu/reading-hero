@@ -97,25 +97,12 @@ export function useGameState(initialWords: Word[]): UseGameState {
       isCorrectResult = isCorrect;
 
       if (isCorrect) {
-        // Check if word is complete
-        const isWordComplete = currentState.currentLetterIndex === word.text.length - 1;
-
-        if (isWordComplete) {
-          // Move to next word
-          return {
-            ...currentState,
-            currentWordIndex: currentState.currentWordIndex + 1,
-            currentLetterIndex: 0,
-            correctAttempts: currentState.correctAttempts + 1,
-          };
-        } else {
-          // Move to next letter
-          return {
-            ...currentState,
-            currentLetterIndex: currentState.currentLetterIndex + 1,
-            correctAttempts: currentState.correctAttempts + 1,
-          };
-        }
+        // Move to next letter (don't auto-advance to next word - let parent handle that)
+        return {
+          ...currentState,
+          currentLetterIndex: currentState.currentLetterIndex + 1,
+          correctAttempts: currentState.correctAttempts + 1,
+        };
       } else {
         // Incorrect attempt
         return {

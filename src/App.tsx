@@ -40,24 +40,26 @@ function App() {
     const currentWord = game.currentWord;
     const currentLetterIndexBefore = game.currentLetterIndex;
 
+    if (!currentWord) return;
+
     const isCorrect = game.handleKeyPress(key);
 
     if (isCorrect) {
-      // Check if word was completed by seeing if we moved to the next word
-      // or if we just completed the last letter of the current word
-      const wasLastLetterOfWord = currentWord && currentLetterIndexBefore === currentWord.text.length - 1;
+      // Check if word was just completed
+      const isWordComplete = currentLetterIndexBefore === currentWord.text.length - 1;
 
-      if (wasLastLetterOfWord) {
+      if (isWordComplete) {
         // Word completed - show success feedback
         setCorrectWords(prev => prev + 1);
         setFeedbackType('success');
         setFeedbackMessage('Great job!');
 
-        // Clear feedback after animation
+        // Clear feedback and advance to next word after delay
         setTimeout(() => {
           setFeedbackType('none');
           setFeedbackMessage('');
-        }, 1500);
+          game.nextWord(); // Advance to next word
+        }, 2000); // 2 second delay to show success and let player see completed word
       }
       // Note: For correct letters (not word completion), we don't show any feedback
       // The letter tile will reveal itself, which is sufficient visual feedback
@@ -82,9 +84,14 @@ function App() {
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Prevent default behavior for letter keys to avoid page scrolling
+      // Ignore if any modifier keys are pressed (Ctrl, Alt, Meta/Cmd, Shift)
+      if (event.ctrlKey || event.altKey || event.metaKey) {
+        return; // Allow browser shortcuts like Ctrl+R, Ctrl+S, etc.
+      }
+
+      // Only handle single letter keys (A-Z, case insensitive)
       if (event.key.length === 1 && /[a-zA-Z]/.test(event.key)) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent default only for game letters
         handleKeyPress(event.key);
       }
     };
