@@ -3,15 +3,11 @@ import { EMOJI_WORDS } from './emojiWords';
 import { ShuffleBag } from '../utils/ShuffleBag';
 
 /**
- * The first 10 curated words that ALWAYS appear first in the game.
- * Order:
- * 1. cat, dog - WITH sign language videos
- * 2. sun, bed, mom, dad, car, ball, tree, fish - with custom images
- * 3. Then 220+ emoji words in random order
- *
- * These words will ALWAYS be shown in this exact order at the start of each game.
+ * Hardcoded first 2 words that ALWAYS appear in this exact order.
+ * 1. cat - WITH sign language video
+ * 2. dad - with custom image
  */
-export const FIRST_10_WORDS: Word[] = [
+const FIRST_2_WORDS: Word[] = [
   {
     id: 'cat',
     text: 'cat',
@@ -22,6 +18,19 @@ export const FIRST_10_WORDS: Word[] = [
     signThumbnailUrl: '/signs/thumbnails/cat.png',
     difficulty: 'easy'
   },
+  {
+    id: 'dad',
+    text: 'dad',
+    imageUrl: '/images/dad.png',
+    signImageUrl: '/images/dad.png',
+    difficulty: 'easy'
+  }
+];
+
+/**
+ * Other curated words with custom images (to be randomized after first 2)
+ */
+const OTHER_CURATED_WORDS: Word[] = [
   {
     id: 'dog',
     text: 'dog',
@@ -51,13 +60,6 @@ export const FIRST_10_WORDS: Word[] = [
     text: 'mom',
     imageUrl: '/images/mom.png',
     signImageUrl: '/images/mom.png',
-    difficulty: 'easy'
-  },
-  {
-    id: 'dad',
-    text: 'dad',
-    imageUrl: '/images/dad.png',
-    signImageUrl: '/images/dad.png',
     difficulty: 'easy'
   },
   {
@@ -91,34 +93,41 @@ export const FIRST_10_WORDS: Word[] = [
 ];
 
 /**
- * Creates a new shuffled word list combining the first 10 curated words
- * with a randomized emoji word list.
+ * Creates a new shuffled word list with hardcoded first 2 words,
+ * then randomized curated and emoji words.
  *
  * Game Flow:
- * 1. Words 1-2: cat, dog (WITH videos)
- * 2. Words 3-10: sun, bed, mom, dad, car, ball, tree, fish (custom images)
- * 3. Words 11+: 220+ emoji words in random order
+ * 1. Words 1-2: cat, dad (HARDCODED - cat has video)
+ * 2. Words 3+: Other curated words + emoji words in random order
  *
  * This function is called once at initialization to create the full word list.
  */
 function createWordList(): Word[] {
-  const shuffleBag = new ShuffleBag(EMOJI_WORDS);
-  const shuffledEmojiWords: Word[] = [];
-
-  // Extract all emoji words in random order
-  for (let i = 0; i < EMOJI_WORDS.length; i++) {
-    shuffledEmojiWords.push(shuffleBag.next());
+  // Shuffle the other curated words
+  const curatedShuffleBag = new ShuffleBag(OTHER_CURATED_WORDS);
+  const shuffledCuratedWords: Word[] = [];
+  for (let i = 0; i < OTHER_CURATED_WORDS.length; i++) {
+    shuffledCuratedWords.push(curatedShuffleBag.next());
   }
 
-  return [...FIRST_10_WORDS, ...shuffledEmojiWords];
+  // Shuffle the emoji words
+  const emojiShuffleBag = new ShuffleBag(EMOJI_WORDS);
+  const shuffledEmojiWords: Word[] = [];
+  for (let i = 0; i < EMOJI_WORDS.length; i++) {
+    shuffledEmojiWords.push(emojiShuffleBag.next());
+  }
+
+  // Return: hardcoded first 2, then shuffled curated, then shuffled emoji
+  return [...FIRST_2_WORDS, ...shuffledCuratedWords, ...shuffledEmojiWords];
 }
 
 /**
  * Complete word list for the game.
- * - First 10 words: Curated words with real images (always shown first)
- * - Remaining words: 200+ emoji-based words in shuffled order
+ * - First 2 words: cat, dad (hardcoded order, cat has video)
+ * - Next 8 words: Other curated words in random order
+ * - Remaining words: 220+ emoji-based words in random order
  *
- * Total: 210+ words for extensive gameplay.
+ * Total: 230+ words for extensive gameplay.
  */
 export const WORD_LIST: Word[] = createWordList();
 
