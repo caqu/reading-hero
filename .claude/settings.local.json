@@ -25,7 +25,9 @@
       "Bash(choco:*)",
       "Bash(del \"src\\components\\FeedbackOverlay.tsx\")",
       "Bash(del \"src\\components\\FeedbackOverlay.module.css\")",
-      "Bash(npx vite build)"
+      "Bash(npx vite build)",
+      "Bash(npm run test)",
+      "Bash(npm run test:*)"
     ],
     "deny": [],
     "ask": []
