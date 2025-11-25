@@ -47,15 +47,17 @@ function transformWord(word: string, transform: VariantTransform): string {
 function getVariantClassName(transform: VariantTransform): string {
   switch (transform) {
     case 'lowercase':
-      return styles.lowercase;
+      return styles.lowercase || '';
     case 'uppercase':
-      return styles.uppercase;
+      return styles.uppercase || '';
     case 'titlecase':
-      return styles.titlecase;
+      return styles.titlecase || '';
     case 'monospace':
-      return styles.monospace;
+      return styles.monospace || '';
     case 'serif':
-      return styles.serif;
+      return styles.serif || '';
+    default:
+      return '';
   }
 }
 
@@ -74,6 +76,8 @@ function getVariantLabel(transform: VariantTransform): string {
       return 'monospace';
     case 'serif':
       return 'serif';
+    default:
+      return '';
   }
 }
 

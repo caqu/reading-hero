@@ -3,6 +3,7 @@ import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
+import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import './App.css';
 
@@ -17,6 +18,21 @@ function App() {
 
   // Initialize feedback system
   const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
+
+  // Initialize leveling engine
+  const leveling = useLevelingEngine();
+
+  // Track word start time for performance metrics
+  const [wordStartTime, setWordStartTime] = useState<number>(Date.now());
+  const [wordWrongKeyPresses, setWordWrongKeyPresses] = useState<number>(0);
+  const [wordFirstTryCorrect, setWordFirstTryCorrect] = useState<boolean>(true);
+
+  // Reset word tracking when word changes
+  useEffect(() => {
+    setWordStartTime(Date.now());
+    setWordWrongKeyPresses(0);
+    setWordFirstTryCorrect(true);
+  }, [game.currentWordIndex]);
 
   // Calculate revealed letters based on current progress
   const revealedLetters = useMemo(() => {
@@ -54,6 +70,18 @@ function App() {
       const isWordComplete = currentLetterIndexBefore === currentWord.text.length - 1;
 
       if (isWordComplete) {
+        // Word completed - record result in leveling engine
+        const timeToComplete = Date.now() - wordStartTime;
+        const result: WordResult = {
+          wordId: currentWord.id,
+          correct: true,
+          wrongKeyPresses: wordWrongKeyPresses,
+          firstTryCorrect: wordFirstTryCorrect,
+          timeToComplete,
+          wordLength: currentWord.text.length,
+        };
+        leveling.recordResult(result);
+
         // Word completed - show confetti and advance after delay
         setCorrectWords(prev => prev + 1);
 
@@ -66,13 +94,15 @@ function App() {
         }, 1000); // 1 second total (confetti duration + small pause)
       }
     } else {
-      // Incorrect key press - trigger wrong key feedback
+      // Incorrect key press - track and trigger wrong key feedback
+      setWordWrongKeyPresses(prev => prev + 1);
+      setWordFirstTryCorrect(false);
       const correctLetter = currentWord.text[currentLetterIndexBefore];
       if (correctLetter) {
         triggerWrongKey(key, correctLetter);
       }
     }
-  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete]);
+  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect]);
 
   // Physical keyboard event handler
   useEffect(() => {
@@ -149,6 +179,8 @@ function App() {
           wrongKey={feedbackState.wrongKey}
           correctKey={feedbackState.correctKey}
           correctTileIndex={feedbackState.correctTileIndex}
+          levelFeatures={leveling.features}
+          currentLevel={leveling.level}
         />
       )}
     </div>

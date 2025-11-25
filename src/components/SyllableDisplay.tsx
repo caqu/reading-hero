@@ -38,12 +38,12 @@ function syllabify(word: string): string[] {
   let prevWasVowel = false;
 
   for (let i = 0; i < lower.length; i++) {
-    const char = lower[i];
+    const char = lower[i] || '';
     const isVowel = vowels.has(char);
     const nextChar = lower[i + 1];
     const nextIsVowel = nextChar ? vowels.has(nextChar) : false;
 
-    currentSyllable += word[i]; // Use original case
+    currentSyllable += word[i] || ''; // Use original case, fallback to empty string
 
     // Split before consonant between vowels (V-CV pattern)
     if (prevWasVowel && !isVowel && nextIsVowel && currentSyllable.length > 1) {
@@ -53,7 +53,7 @@ function syllabify(word: string): string[] {
     // Split between two vowels (V-V pattern)
     else if (prevWasVowel && isVowel && currentSyllable.length > 1) {
       syllables.push(currentSyllable.slice(0, -1));
-      currentSyllable = word[i];
+      currentSyllable = word[i] || ''; // Fallback to empty string
     }
 
     prevWasVowel = isVowel;

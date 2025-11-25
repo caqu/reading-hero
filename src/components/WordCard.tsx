@@ -41,6 +41,9 @@ export const WordCard = ({
 
       return () => clearTimeout(timer);
     }
+
+    // Return empty cleanup function if not hiding emoji
+    return () => {};
   }, [word.id, hideEmojiAfterDelay, hasEmoji]);
 
   return (
