@@ -1,7 +1,7 @@
+import { useState, useEffect } from 'react';
 import { Word } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
-import { ProgressBar } from './ProgressBar';
 import { FeedbackOverlay } from './FeedbackOverlay';
 import styles from './GameScreen.module.css';
 
@@ -31,6 +31,14 @@ export const GameScreen = ({
   showWordText = false,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
+  const [showInstruction, setShowInstruction] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowInstruction(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!currentWord) {
     return (
@@ -43,39 +51,44 @@ export const GameScreen = ({
     );
   }
 
+  const accuracy = attempts > 0 ? Math.round((correctWords * 100) / attempts) : 0;
+
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <ProgressBar
-          currentWord={currentWordIndex + 1}
-          totalWords={words.length}
-          attempts={attempts}
-          correctWords={correctWords}
-        />
-      </header>
+      {showInstruction && (
+        <div className={styles.floatingInstruction}>
+          Type the letters to spell the word
+        </div>
+      )}
+
+      <aside className={styles.sidebar}>
+        <div className={styles.progressInfo}>
+          <div className={styles.stat}>
+            <div className={styles.statValue}>{currentWordIndex + 1}</div>
+            <div className={styles.statLabel}>of {words.length}</div>
+          </div>
+          <div className={styles.stat}>
+            <div className={styles.statValue}>{correctWords}</div>
+            <div className={styles.statLabel}>correct</div>
+          </div>
+          <div className={styles.stat}>
+            <div className={styles.statValue}>{accuracy}%</div>
+            <div className={styles.statLabel}>accuracy</div>
+          </div>
+        </div>
+      </aside>
 
       <main className={styles.main}>
-        <section className={styles.wordSection} aria-label="Current word">
-          <WordCard
-            imageUrl={currentWord.imageUrl}
-            word={currentWord.text}
-            showWord={showWordText}
-          />
-        </section>
-
-        <section className={styles.tilesSection} aria-label="Letter tiles">
-          <LetterTiles
-            word={currentWord.text}
-            currentIndex={currentLetterIndex}
-            revealedLetters={revealedLetters}
-          />
-        </section>
-
-        <section className={styles.instructionSection}>
-          <p className={styles.instruction}>
-            Type the letters to spell the word
-          </p>
-        </section>
+        <WordCard
+          imageUrl={currentWord.imageUrl}
+          word={currentWord.text}
+          showWord={showWordText}
+        />
+        <LetterTiles
+          word={currentWord.text}
+          currentIndex={currentLetterIndex}
+          revealedLetters={revealedLetters}
+        />
       </main>
 
       <FeedbackOverlay type={feedbackType} message={feedbackMessage} />
