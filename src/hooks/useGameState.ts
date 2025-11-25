@@ -72,52 +72,74 @@ export function useGameState(initialWords: Word[]): UseGameState {
    * @returns true if the key was correct, false otherwise
    */
   const handleKeyPress = useCallback((key: string): boolean => {
-    let isCorrectResult = false;
+    // Check game state first
+    const currentState = state;
 
-    setState(currentState => {
-      // Check if game is complete
-      if (currentState.currentWordIndex >= words.length) {
-        return currentState;
-      }
+    console.log('[useGameState] handleKeyPress called', {
+      key,
+      currentWordIndex: currentState.currentWordIndex,
+      currentLetterIndex: currentState.currentLetterIndex,
+      wordsLength: words.length
+    });
 
-      const word = words[currentState.currentWordIndex];
-      if (!word) {
-        return currentState;
-      }
+    // Check if game is complete
+    if (currentState.currentWordIndex >= words.length) {
+      console.log('[useGameState] Game is complete, ignoring input');
+      return true;
+    }
 
-      const expectedLetter = word.text[currentState.currentLetterIndex];
+    const word = words[currentState.currentWordIndex];
+    if (!word) {
+      console.log('[useGameState] No current word found');
+      return false;
+    }
 
-      // If we're beyond the word length, the word is complete
-      // Ignore further input (return true to avoid showing error)
-      if (!expectedLetter || currentState.currentLetterIndex >= word.text.length) {
-        isCorrectResult = true; // Don't show error for keys pressed after word completion
-        return currentState;
-      }
+    const expectedLetter = word.text[currentState.currentLetterIndex];
 
-      // Case-insensitive comparison
-      const normalizedKey = key.toLowerCase();
-      const normalizedExpected = expectedLetter.toLowerCase();
-      const isCorrect = normalizedKey === normalizedExpected;
-      isCorrectResult = isCorrect;
+    console.log('[useGameState] Checking letter', {
+      word: word.text,
+      expectedLetter,
+      currentLetterIndex: currentState.currentLetterIndex,
+      wordLength: word.text.length
+    });
 
+    // If we're beyond the word length, the word is complete
+    // Ignore further input (return true to avoid showing error)
+    if (!expectedLetter || currentState.currentLetterIndex >= word.text.length) {
+      console.log('[useGameState] Beyond word length, ignoring');
+      return true; // Don't show error for keys pressed after word completion
+    }
+
+    // Case-insensitive comparison
+    const normalizedKey = key.toLowerCase();
+    const normalizedExpected = expectedLetter.toLowerCase();
+    const isCorrect = normalizedKey === normalizedExpected;
+
+    console.log('[useGameState] Comparison', {
+      normalizedKey,
+      normalizedExpected,
+      isCorrect
+    });
+
+    setState(currentStateInner => {
       if (isCorrect) {
         // Move to next letter (don't auto-advance to next word - let parent handle that)
         return {
-          ...currentState,
-          currentLetterIndex: currentState.currentLetterIndex + 1,
-          correctAttempts: currentState.correctAttempts + 1,
+          ...currentStateInner,
+          currentLetterIndex: currentStateInner.currentLetterIndex + 1,
+          correctAttempts: currentStateInner.correctAttempts + 1,
         };
       } else {
         // Incorrect attempt
         return {
-          ...currentState,
-          incorrectAttempts: currentState.incorrectAttempts + 1,
+          ...currentStateInner,
+          incorrectAttempts: currentStateInner.incorrectAttempts + 1,
         };
       }
     });
 
-    return isCorrectResult;
-  }, [words]);
+    return isCorrect;
+  }, [words, state]);
 
   /**
    * Advances to the next word in the list.
