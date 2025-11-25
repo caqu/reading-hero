@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Word } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
+import { OnScreenKeyboard } from './OnScreenKeyboard';
 import { FeedbackOverlay } from './FeedbackOverlay';
 import styles from './GameScreen.module.css';
 
@@ -17,6 +18,8 @@ interface GameScreenProps {
   showWordText?: boolean;
   onKeyPress?: (key: string) => void;
   onComplete?: () => void;
+  highlightKey?: string;
+  keyboardDisabled?: boolean;
 }
 
 export const GameScreen = ({
@@ -29,6 +32,9 @@ export const GameScreen = ({
   feedbackType,
   feedbackMessage,
   showWordText = false,
+  onKeyPress,
+  highlightKey,
+  keyboardDisabled = false,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -89,6 +95,13 @@ export const GameScreen = ({
           currentIndex={currentLetterIndex}
           revealedLetters={revealedLetters}
         />
+        {onKeyPress && (
+          <OnScreenKeyboard
+            onKeyPress={onKeyPress}
+            highlightKey={highlightKey}
+            disabled={keyboardDisabled}
+          />
+        )}
       </main>
 
       <FeedbackOverlay type={feedbackType} message={feedbackMessage} />

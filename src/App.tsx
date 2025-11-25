@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { HomeScreen } from './components/HomeScreen';
 import { GameScreen } from './components/GameScreen';
-import { OnScreenKeyboard } from './components/OnScreenKeyboard';
 import { useGameState } from './hooks/useGameState';
 import { words } from './data/words';
 import './App.css';
@@ -131,25 +130,21 @@ function App() {
     <div className="app">
       {currentScreen === 'home' && <HomeScreen onStart={handleStartGame} />}
       {currentScreen === 'game' && (
-        <>
-          <GameScreen
-            words={game.words}
-            currentWordIndex={game.currentWordIndex}
-            currentLetterIndex={game.currentLetterIndex}
-            revealedLetters={revealedLetters}
-            attempts={game.totalAttempts}
-            correctWords={correctWords}
-            feedbackType={feedbackType}
-            feedbackMessage={feedbackMessage}
-            showWordText={false}
-            onComplete={handleGameComplete}
-          />
-          <OnScreenKeyboard
-            onKeyPress={handleKeyPress}
-            highlightKey={game.currentLetter || undefined}
-            disabled={game.isComplete}
-          />
-        </>
+        <GameScreen
+          words={game.words}
+          currentWordIndex={game.currentWordIndex}
+          currentLetterIndex={game.currentLetterIndex}
+          revealedLetters={revealedLetters}
+          attempts={game.totalAttempts}
+          correctWords={correctWords}
+          feedbackType={feedbackType}
+          feedbackMessage={feedbackMessage}
+          showWordText={false}
+          onComplete={handleGameComplete}
+          onKeyPress={handleKeyPress}
+          highlightKey={game.currentLetter || undefined}
+          keyboardDisabled={game.isComplete}
+        />
       )}
     </div>
   );
