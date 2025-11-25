@@ -10,6 +10,9 @@ export const WORD_LIST: Word[] = [
     text: 'cat',
     imageUrl: '/images/cat.png', // ✅ Real image
     signImageUrl: '/images/cat.png',
+    signVideoUrl: '/signs/processed/cat.mp4',
+    signVideoWebmUrl: '/signs/processed/cat.webm',
+    signThumbnailUrl: '/signs/thumbnails/cat.png',
     difficulty: 'easy'
   },
   {
@@ -17,6 +20,9 @@ export const WORD_LIST: Word[] = [
     text: 'dog',
     imageUrl: '/images/dog.png', // ✅ Real image
     signImageUrl: '/images/dog.png',
+    signVideoUrl: '/signs/processed/dog.mp4',
+    signVideoWebmUrl: '/signs/processed/dog.webm',
+    signThumbnailUrl: '/signs/thumbnails/dog.png',
     difficulty: 'easy'
   },
   {

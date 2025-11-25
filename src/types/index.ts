@@ -17,6 +17,12 @@ export interface Word {
   imageUrl: string;
   /** URL to the sign language image for the word */
   signImageUrl: string;
+  /** URL to the sign language video (MP4 format) */
+  signVideoUrl?: string;
+  /** URL to the sign language video (WebM format) */
+  signVideoWebmUrl?: string;
+  /** URL to the sign language video thumbnail */
+  signThumbnailUrl?: string;
   /** Difficulty level of the word */
   difficulty: Difficulty;
 }

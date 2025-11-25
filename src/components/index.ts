@@ -4,3 +4,4 @@ export { WordCard } from './WordCard';
 export { LetterTiles } from './LetterTiles';
 export { ProgressBar } from './ProgressBar';
 export { FeedbackOverlay } from './FeedbackOverlay';
+export { SignVideo } from './SignVideo';
