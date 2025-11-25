@@ -151,6 +151,29 @@ export function useGameState(initialWords: Word[]): UseGameState {
   }, [words.length]);
 
   /**
+   * Sets the current word by its ID.
+   * Finds the word in the list and updates the index accordingly.
+   * Resets the letter index to 0.
+   *
+   * @param wordId - The ID of the word to navigate to
+   * @returns true if word was found and set, false otherwise
+   */
+  const setWordById = useCallback((wordId: string): boolean => {
+    const wordIndex = words.findIndex(word => word.id === wordId);
+
+    if (wordIndex >= 0) {
+      setState(currentState => ({
+        ...currentState,
+        currentWordIndex: wordIndex,
+        currentLetterIndex: 0,
+      }));
+      return true;
+    }
+
+    return false;
+  }, [words]);
+
+  /**
    * Resets the game to its initial state.
    * Clears all progress and statistics.
    * Shuffles the word list for a new game sequence.
@@ -179,6 +202,7 @@ export function useGameState(initialWords: Word[]): UseGameState {
     // Actions
     handleKeyPress,
     nextWord,
+    setWordById,
     resetGame,
   };
 }

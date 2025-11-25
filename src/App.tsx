@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
+import { useWordRouting } from './hooks/useWordRouting';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import './App.css';
@@ -16,11 +17,45 @@ function App() {
   // Initialize game state with useGameState hook
   const game = useGameState(words);
 
+  // Track if we're currently in word navigation to prevent URL sync loops
+  const isNavigatingRef = useRef(false);
+
   // Initialize feedback system
   const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
 
   // Initialize leveling engine
   const leveling = useLevelingEngine();
+
+  // Handle word change from URL (browser navigation or direct URL)
+  const handleWordChangeFromURL = useCallback((wordId: string | null) => {
+    if (isNavigatingRef.current) return; // Prevent loops
+
+    if (wordId) {
+      // Try to set the word by ID
+      game.setWordById(wordId);
+    }
+    // If wordId is null, the game will stay at its current word (or first word on init)
+  }, [game]);
+
+  // Initialize word routing
+  const routing = useWordRouting(game.words, handleWordChangeFromURL);
+
+  // Initialize from URL when game screen first loads
+  useEffect(() => {
+    if (currentScreen === 'game') {
+      // Check if there's a word parameter in the URL
+      const params = new URLSearchParams(window.location.search);
+      const wordParam = params.get('word');
+
+      if (wordParam) {
+        // URL has a word parameter - use routing to initialize
+        routing.initializeFromURL();
+      } else if (game.currentWord) {
+        // No URL parameter - sync URL to current word
+        routing.syncURLToWordId(game.currentWord.id, true);
+      }
+    }
+  }, [currentScreen]); // Only run when screen changes
 
   // Track word start time for performance metrics
   const [wordStartTime, setWordStartTime] = useState<number>(Date.now());
@@ -33,6 +68,18 @@ function App() {
     setWordWrongKeyPresses(0);
     setWordFirstTryCorrect(true);
   }, [game.currentWordIndex]);
+
+  // Sync URL when current word changes (only in game screen)
+  useEffect(() => {
+    if (currentScreen === 'game' && game.currentWord && !isInitialLoad) {
+      isNavigatingRef.current = true;
+      routing.syncURLToWordId(game.currentWord.id, false);
+      // Reset the flag after a short delay
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 100);
+    }
+  }, [game.currentWordIndex, game.currentWord, currentScreen, isInitialLoad, routing]);
 
   // Calculate revealed letters based on current progress
   const revealedLetters = useMemo(() => {

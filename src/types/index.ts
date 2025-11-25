@@ -59,6 +59,8 @@ export interface GameActions {
   handleKeyPress: (key: string) => boolean;
   /** Move to the next word */
   nextWord: () => void;
+  /** Set the current word by its ID */
+  setWordById: (wordId: string) => boolean;
   /** Reset the game to initial state */
   resetGame: () => void;
 }
