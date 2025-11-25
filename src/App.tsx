@@ -33,7 +33,6 @@ function App() {
   const handleKeyPress = useCallback((key: string) => {
     // Only handle single letter keys
     if (key.length !== 1 || !/[a-zA-Z]/.test(key)) {
-      console.log('[handleKeyPress] Invalid key:', key);
       return;
     }
 
@@ -41,16 +40,9 @@ function App() {
     const currentWord = game.currentWord;
     const currentLetterIndexBefore = game.currentLetterIndex;
 
-    if (!currentWord) {
-      console.log('[handleKeyPress] No current word');
-      return;
-    }
-
-    console.log('[handleKeyPress] Key:', key, 'Word:', currentWord.text, 'LetterIndex:', currentLetterIndexBefore, 'Expected:', currentWord.text[currentLetterIndexBefore]);
+    if (!currentWord) return;
 
     const isCorrect = game.handleKeyPress(key);
-
-    console.log('[handleKeyPress] isCorrect:', isCorrect);
 
     if (isCorrect) {
       // Check if word was just completed
@@ -58,7 +50,6 @@ function App() {
 
       if (isWordComplete) {
         // Word completed - show success feedback
-        console.log('[handleKeyPress] Word completed!');
         setCorrectWords(prev => prev + 1);
         setFeedbackType('success');
         setFeedbackMessage('Great job!');
@@ -69,14 +60,11 @@ function App() {
           setFeedbackMessage('');
           game.nextWord(); // Advance to next word
         }, 2000); // 2 second delay to show success and let player see completed word
-      } else {
-        console.log('[handleKeyPress] Correct letter, not word complete');
       }
       // Note: For correct letters (not word completion), we don't show any feedback
       // The letter tile will reveal itself, which is sufficient visual feedback
     } else {
       // Incorrect key press - show error feedback
-      console.log('[handleKeyPress] Incorrect key!');
       setFeedbackType('error');
       setFeedbackMessage('Try again!');
 

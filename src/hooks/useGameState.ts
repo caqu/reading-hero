@@ -72,41 +72,24 @@ export function useGameState(initialWords: Word[]): UseGameState {
    * @returns true if the key was correct, false otherwise
    */
   const handleKeyPress = useCallback((key: string): boolean => {
-    // Check game state first
+    // Read current state before processing
     const currentState = state;
-
-    console.log('[useGameState] handleKeyPress called', {
-      key,
-      currentWordIndex: currentState.currentWordIndex,
-      currentLetterIndex: currentState.currentLetterIndex,
-      wordsLength: words.length
-    });
 
     // Check if game is complete
     if (currentState.currentWordIndex >= words.length) {
-      console.log('[useGameState] Game is complete, ignoring input');
       return true;
     }
 
     const word = words[currentState.currentWordIndex];
     if (!word) {
-      console.log('[useGameState] No current word found');
       return false;
     }
 
     const expectedLetter = word.text[currentState.currentLetterIndex];
 
-    console.log('[useGameState] Checking letter', {
-      word: word.text,
-      expectedLetter,
-      currentLetterIndex: currentState.currentLetterIndex,
-      wordLength: word.text.length
-    });
-
     // If we're beyond the word length, the word is complete
     // Ignore further input (return true to avoid showing error)
     if (!expectedLetter || currentState.currentLetterIndex >= word.text.length) {
-      console.log('[useGameState] Beyond word length, ignoring');
       return true; // Don't show error for keys pressed after word completion
     }
 
@@ -114,12 +97,6 @@ export function useGameState(initialWords: Word[]): UseGameState {
     const normalizedKey = key.toLowerCase();
     const normalizedExpected = expectedLetter.toLowerCase();
     const isCorrect = normalizedKey === normalizedExpected;
-
-    console.log('[useGameState] Comparison', {
-      normalizedKey,
-      normalizedExpected,
-      isCorrect
-    });
 
     setState(currentStateInner => {
       if (isCorrect) {
