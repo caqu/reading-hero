@@ -16,14 +16,18 @@ const FIRST_2_WORDS: Word[] = [
     signVideoUrl: '/signs/processed/cat.mp4',
     signVideoWebmUrl: '/signs/processed/cat.webm',
     signThumbnailUrl: '/signs/thumbnails/cat.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'cat',
+    segments: 'cat'
   },
   {
     id: 'dad',
     text: 'dad',
     imageUrl: '/images/dad.png',
     signImageUrl: '/images/dad.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'dad',
+    segments: 'dad'
   }
 ];
 
@@ -39,56 +43,72 @@ const OTHER_CURATED_WORDS: Word[] = [
     signVideoUrl: '/signs/processed/dog.mp4',
     signVideoWebmUrl: '/signs/processed/dog.webm',
     signThumbnailUrl: '/signs/thumbnails/dog.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'dog',
+    segments: 'dog'
   },
   {
     id: 'sun',
     text: 'sun',
     imageUrl: '/images/sun.png',
     signImageUrl: '/images/sun.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'sun',
+    segments: 'sun'
   },
   {
     id: 'bed',
     text: 'bed',
     imageUrl: '/images/bed.png',
     signImageUrl: '/images/bed.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'bed',
+    segments: 'bed'
   },
   {
     id: 'mom',
     text: 'mom',
     imageUrl: '/images/mom.png',
     signImageUrl: '/images/mom.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'mom',
+    segments: 'mom'
   },
   {
     id: 'car',
     text: 'car',
     emoji: '🚗',
     emojiDescription: 'car',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'car',
+    segments: 'car'
   },
   {
     id: 'ball',
     text: 'ball',
     imageUrl: '/images/ball.png',
     signImageUrl: '/images/ball.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'ball',
+    segments: 'ball'
   },
   {
     id: 'tree',
     text: 'tree',
     imageUrl: '/images/tree.png',
     signImageUrl: '/images/tree.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'tree',
+    segments: 'tree'
   },
   {
     id: 'fish',
     text: 'fish',
     imageUrl: '/images/fish.png',
     signImageUrl: '/images/fish.png',
-    difficulty: 'easy'
+    difficulty: 'easy',
+    syllables: 'fish',
+    segments: 'fish'
   }
 ];
 
