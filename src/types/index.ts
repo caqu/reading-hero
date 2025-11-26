@@ -29,6 +29,10 @@ export interface Word {
   emoji?: string;
   /** CLDR short name description for the emoji */
   emojiDescription?: string;
+  /** Syllable divisions with dashes (e.g., 'mon-key') */
+  syllables?: string;
+  /** Segment divisions with dots (e.g., 'mon·key') */
+  segments?: string;
 }
 
 /**
