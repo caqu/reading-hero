@@ -30,7 +30,14 @@
       "Bash(npm run test:*)",
       "Bash(python scripts/process_signs.py:*)",
       "Bash(chcp 6500)",
-      "Bash(if not exist \"src\\pages\" mkdir \"src\\pages\")"
+      "Bash(if not exist \"src\\pages\" mkdir \"src\\pages\")",
+      "Bash(git rev-parse:*)",
+      "Bash(timeout:*)",
+      "Bash(node update-syllables.js:*)",
+      "Bash(move:*)",
+      "Bash(node update-syllables.cjs:*)",
+      "Bash(git checkout:*)",
+      "Bash(python add-syllables.py:*)"
     ],
     "deny": [],
     "ask": []
