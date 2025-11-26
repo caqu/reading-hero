@@ -53,6 +53,20 @@
   letter-spacing: 0.03em;
 }
 
+.syllables {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+}
+
+.segments {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--color-secondary);
+}
+
 /* Responsive adjustments */
 
 @media (max-width: 768px) {

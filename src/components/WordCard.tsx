@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Word } from '../types';
 import { WordVariants } from './WordVariants';
-import { SyllableDisplay } from './SyllableDisplay';
 import { SignVideo } from './SignVideo';
 import styles from './WordCard.module.css';
 
@@ -94,11 +93,13 @@ export const WordCard = ({
         </div>
       )}
 
-      {/* Level 2+: Show word variants */}
-      {showVariants && <WordVariants word={word.text} variantCount={5} />}
-
-      {/* Level 3+: Show syllabified versions */}
-      {showSyllables && <SyllableDisplay word={word} />}
+      {/* Level 2+: Show word variants, Level 3+: Include syllables and segments */}
+      {showVariants && (
+        <WordVariants
+          word={word}
+          showSyllables={showSyllables}
+        />
+      )}
     </div>
   );
 };

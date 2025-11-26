@@ -3,15 +3,17 @@
  *
  * Displays multiple print variants of a word to build print variability recognition.
  * Used in Level 2+ to help learners recognize the same word in different fonts and cases.
+ * Level 3+ also includes syllables and segments as variants.
  */
 
+import { Word } from '../types';
 import styles from './WordVariants.module.css';
 
 export interface WordVariantsProps {
-  /** The word to display in multiple variants */
-  word: string;
-  /** Number of variants to show (3-5) */
-  variantCount?: number;
+  /** The word object to display in multiple variants */
+  word: Word;
+  /** Whether to show syllables variant (Level 3+) */
+  showSyllables?: boolean;
 }
 
 /**
@@ -22,7 +24,7 @@ type VariantTransform = 'lowercase' | 'uppercase' | 'titlecase' | 'monospace' | 
 interface Variant {
   text: string;
   className: string;
-  label: string;
+  label?: string;
 }
 
 /**
@@ -84,17 +86,15 @@ function getVariantLabel(transform: VariantTransform): string {
 /**
  * WordVariants Component
  *
- * Shows 3-5 different visual representations of the same word:
- * - lowercase
- * - UPPERCASE
- * - Title Case
- * - monospace font
- * - serif font
+ * Shows different visual representations of the same word:
+ * - lowercase, UPPERCASE, Title Case (font case variations)
+ * - monospace font, serif font (font family variations)
+ * - syllables, segments (orthographic variations - Level 3+)
  *
  * Helps learners build orthographic flexibility and recognize
  * that the same word can appear in different visual forms.
  */
-export const WordVariants = ({ word, variantCount = 5 }: WordVariantsProps) => {
+export const WordVariants = ({ word, showSyllables = false }: WordVariantsProps) => {
   const allTransforms: VariantTransform[] = [
     'lowercase',
     'uppercase',
@@ -103,14 +103,30 @@ export const WordVariants = ({ word, variantCount = 5 }: WordVariantsProps) => {
     'serif',
   ];
 
-  // Select variants based on count (always include lowercase, uppercase, titlecase first)
-  const selectedTransforms = allTransforms.slice(0, Math.min(variantCount, 5));
-
-  const variants: Variant[] = selectedTransforms.map(transform => ({
-    text: transformWord(word, transform),
+  // Build variants array starting with font/case transformations
+  const variants: Variant[] = allTransforms.map(transform => ({
+    text: transformWord(word.text, transform),
     className: getVariantClassName(transform),
     label: getVariantLabel(transform),
   }));
+
+  // Add syllables and segments as variants if requested and available
+  if (showSyllables) {
+    if (word.syllables) {
+      variants.push({
+        text: word.syllables,
+        className: styles.syllables || '',
+        label: 'syllables',
+      });
+    }
+    if (word.segments) {
+      variants.push({
+        text: word.segments,
+        className: styles.segments || '',
+        label: 'segments',
+      });
+    }
+  }
 
   return (
     <div className={styles.container} role="list" aria-label="Word variants">
