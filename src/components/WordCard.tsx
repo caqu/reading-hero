@@ -98,7 +98,7 @@ export const WordCard = ({
       {showVariants && <WordVariants word={word.text} variantCount={5} />}
 
       {/* Level 3+: Show syllabified versions */}
-      {showSyllables && <SyllableDisplay word={word.text} />}
+      {showSyllables && <SyllableDisplay word={word} />}
     </div>
   );
 };
