@@ -7,7 +7,7 @@
 .floatingInstruction {
   position: fixed;
   top: 20px;
-  left: calc(50% + 60px); /* Center on main content area (accounting for 120px sidebar) */
+  left: calc(50% + 110px); /* Center on main content area (accounting for 220px sidebar) */
   transform: translateX(-50%);
   font-size: 1.125rem;
   color: var(--color-text-secondary);
@@ -25,11 +25,12 @@
 }
 
 .sidebar {
-  width: 120px;
+  width: 220px;
   display: flex;
   flex-direction: column;
-  padding: 20px 10px;
+  padding: 20px 15px;
   border-right: 1px solid #e0e0e0;
+  gap: 1.5rem;
 }
 
 .progressInfo {

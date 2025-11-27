@@ -8,6 +8,7 @@ import { useWordRouting } from './hooks/useWordRouting';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile } from './engine/ProfileManager';
+import { Profile } from './types';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'create-profile';
@@ -235,6 +236,24 @@ function App() {
     setCurrentScreen('game');
   };
 
+  const handleProfileSwitch = (profile: Profile) => {
+    // When profile switches, reload the game state
+    if (profile.lastWordId) {
+      game.setWordById(profile.lastWordId);
+    } else {
+      // If no last word, start from beginning
+      game.resetGame();
+    }
+
+    // Reset word tracking
+    setCorrectWords(0);
+    setWordStartTime(Date.now());
+    setWordWrongKeyPresses(0);
+    setWordFirstTryCorrect(true);
+
+    console.log('Profile switched to:', profile.name);
+  };
+
   // Check if game is complete
   useEffect(() => {
     if (game.isComplete && currentScreen === 'game') {
@@ -356,6 +375,7 @@ function App() {
           currentLevel={leveling.level}
           onLevelChange={leveling.setLevel}
           onViewStats={handleViewStats}
+          onProfileSwitch={handleProfileSwitch}
         />
       )}
       {currentScreen === 'stats' && (

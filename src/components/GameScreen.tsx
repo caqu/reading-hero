@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Word } from '../types';
+import { Word, Profile } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
+import { ProfileSelector } from './ProfileSelector';
 import { LevelFeatures, Level } from '../engine/LevelingEngine';
 import styles from './GameScreen.module.css';
 
@@ -30,6 +31,8 @@ interface GameScreenProps {
   onLevelChange?: (level: Level) => void;
   /** Callback to navigate to stats page */
   onViewStats?: () => void;
+  /** Callback when profile is switched */
+  onProfileSwitch?: (profile: Profile) => void;
 }
 
 export const GameScreen = ({
@@ -51,6 +54,7 @@ export const GameScreen = ({
   currentLevel = 1,
   onLevelChange,
   onViewStats,
+  onProfileSwitch,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -79,6 +83,7 @@ export const GameScreen = ({
       )}
 
       <aside className={styles.sidebar}>
+        <ProfileSelector onProfileSwitch={onProfileSwitch} />
         <div className={styles.progressInfo}>
           <div className={styles.stat}>
             <div className={styles.statValue}>{currentWordIndex + 1}</div>
