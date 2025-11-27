@@ -7,6 +7,8 @@ interface LetterTilesProps {
   correctTileIndex?: number | null;
   /** Whether to show tiles as blank until revealed (Level 4-5) */
   useBlankTiles?: boolean;
+  /** Whether to enable tile animations */
+  enableAnimations?: boolean;
 }
 
 export const LetterTiles = ({
@@ -15,6 +17,7 @@ export const LetterTiles = ({
   revealedLetters,
   correctTileIndex = null,
   useBlankTiles = false,
+  enableAnimations = true,
 }: LetterTilesProps) => {
   const letters = word.split('');
 
@@ -38,7 +41,7 @@ export const LetterTiles = ({
               ${isRevealed ? styles.revealed : ''}
               ${isCurrent ? styles.current : ''}
               ${isPast ? styles.past : ''}
-              ${isCorrectAnimating ? styles.correctAnimate : ''}
+              ${isCorrectAnimating && enableAnimations ? styles.correctAnimate : ''}
               ${showBlank ? styles.blank : ''}
             `}
             aria-label={showLetter ? `Letter ${letter}` : 'Empty tile'}

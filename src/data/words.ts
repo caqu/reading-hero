@@ -104,8 +104,8 @@ const OTHER_CURATED_WORDS: Word[] = [
   {
     id: 'fish',
     text: 'fish',
-    imageUrl: '/images/fish.png',
-    signImageUrl: '/images/fish.png',
+    emoji: '🐟',
+    emojiDescription: 'fish',
     difficulty: 'easy',
     syllables: 'fish',
     segments: 'fish'

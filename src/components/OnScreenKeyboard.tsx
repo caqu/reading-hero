@@ -14,6 +14,10 @@ interface OnScreenKeyboardProps {
   correctKey?: string | null;
   /** Whether to show key highlights (Level 1-3 only) */
   showHighlights?: boolean;
+  /** Whether to animate wrong keys with shake effect */
+  animateWrongKeys?: boolean;
+  /** Keyboard layout to use */
+  layout?: 'qwerty' | 'simplified';
 }
 
 /**
@@ -25,6 +29,15 @@ const KEYBOARD_LAYOUT = [
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
   [' '], // Spacebar on its own row
+];
+
+/**
+ * Simplified layout (letters only, alphabetical)
+ */
+const SIMPLIFIED_LAYOUT = [
+  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
+  ['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'],
+  ['S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
 ];
 
 /**
@@ -50,6 +63,8 @@ export const OnScreenKeyboard = memo(({
   wrongKey = null,
   correctKey = null,
   showHighlights = true,
+  animateWrongKeys = true,
+  layout = 'qwerty',
 }: OnScreenKeyboardProps) => {
   const handleKeyClick = (key: string) => {
     if (!disabled) {
@@ -65,13 +80,16 @@ export const OnScreenKeyboard = memo(({
     }
   };
 
+  // Choose layout based on settings
+  const keyboardLayout = layout === 'simplified' ? SIMPLIFIED_LAYOUT : KEYBOARD_LAYOUT;
+
   return (
     <div
       className={styles.keyboard}
       role="group"
       aria-label="On-screen keyboard"
     >
-      {KEYBOARD_LAYOUT.map((row, rowIndex) => (
+      {keyboardLayout.map((row, rowIndex) => (
         <div key={rowIndex} className={styles.keyboardRow}>
           {row.map((key, keyIndex) => {
             const isSpacebar = key === ' ';
@@ -82,7 +100,7 @@ export const OnScreenKeyboard = memo(({
 
             // Only show highlights if showHighlights is true (Level 1-3)
             const isHighlighted = showHighlights && normalizedKey === normalizedHighlight;
-            const isWrong = normalizedKey === normalizedWrong;
+            const isWrong = animateWrongKeys && normalizedKey === normalizedWrong;
             const isCorrectHint = showHighlights && normalizedKey === normalizedCorrect;
             const isRightHand = RIGHT_HAND_KEYS.has(key);
 

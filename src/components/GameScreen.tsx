@@ -5,6 +5,7 @@ import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
 import { ProfileSelector } from './ProfileSelector';
 import { LevelFeatures, Level } from '../engine/LevelingEngine';
+import { useSettings } from '../hooks/useSettings';
 import styles from './GameScreen.module.css';
 
 interface GameScreenProps {
@@ -31,6 +32,8 @@ interface GameScreenProps {
   onLevelChange?: (level: Level) => void;
   /** Callback to navigate to stats page */
   onViewStats?: () => void;
+  /** Callback to navigate to settings page */
+  onViewSettings?: () => void;
   /** Callback when profile is switched */
   onProfileSwitch?: (profile: Profile) => void;
   /** Callback to navigate to add profile screen */
@@ -56,11 +59,13 @@ export const GameScreen = ({
   currentLevel = 1,
   onLevelChange,
   onViewStats,
+  onViewSettings,
   onProfileSwitch,
   onAddProfile,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
+  const { settings } = useSettings();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -124,6 +129,15 @@ export const GameScreen = ({
               View Stats
             </button>
           )}
+          {onViewSettings && (
+            <button
+              className={styles.statsButton}
+              onClick={onViewSettings}
+              aria-label="Open settings"
+            >
+              Settings
+            </button>
+          )}
         </div>
       </aside>
 
@@ -131,8 +145,8 @@ export const GameScreen = ({
         <WordCard
           word={currentWord}
           showWord={showWordText}
-          showVariants={levelFeatures?.showWordVariants}
-          showSyllables={levelFeatures?.showSyllables}
+          showVariants={settings.showFontVariants && (levelFeatures?.showWordVariants ?? true)}
+          showSyllables={settings.showSyllables && (levelFeatures?.showSyllables ?? true)}
           hideEmojiAfterDelay={levelFeatures?.hideEmojiAfterDelay}
         />
         <LetterTiles
@@ -141,6 +155,7 @@ export const GameScreen = ({
           revealedLetters={revealedLetters}
           correctTileIndex={correctTileIndex}
           useBlankTiles={levelFeatures?.allowBlankTiles}
+          enableAnimations={settings.enableTileAnimations}
         />
         {onKeyPress && (
           <OnScreenKeyboard
@@ -149,7 +164,9 @@ export const GameScreen = ({
             disabled={keyboardDisabled}
             wrongKey={wrongKey}
             correctKey={correctKey}
-            showHighlights={levelFeatures?.showKeyHighlights}
+            showHighlights={settings.showKeyHighlights && (levelFeatures?.showKeyHighlights ?? true)}
+            animateWrongKeys={settings.animateWrongKeys}
+            layout={settings.keyboardLayout}
           />
         )}
       </main>

@@ -2,23 +2,28 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
 import { StatsPage } from './pages/StatsPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
+import { initializeSettings } from './engine/SettingsManager';
 import { Profile, ProfileLevelingState } from './types';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'create-profile' | 'add-profile';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create-profile' | 'add-profile';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
   const [isInitialLoad, setIsInitialLoad] = useState(true); // Track if this is the first load
 
-  // Check for profiles on initial load
+  // Initialize settings and check for profiles on initial load
   useEffect(() => {
+    // Initialize settings (theme, etc.)
+    initializeSettings();
+
     if (!hasProfiles()) {
       // No profiles exist - show profile creation screen
       setCurrentScreen('create-profile');
@@ -299,6 +304,10 @@ function App() {
     setCurrentScreen('stats');
   };
 
+  const handleViewSettings = () => {
+    setCurrentScreen('settings');
+  };
+
   const handleBackToGame = () => {
     setCurrentScreen('game');
   };
@@ -459,6 +468,7 @@ function App() {
           currentLevel={leveling.level}
           onLevelChange={leveling.setLevel}
           onViewStats={handleViewStats}
+          onViewSettings={handleViewSettings}
           onProfileSwitch={handleProfileSwitch}
           onAddProfile={handleAddProfile}
         />
@@ -467,6 +477,11 @@ function App() {
         <StatsPage
           onBack={handleBackToGame}
           onProfileSwitch={handleProfileSwitch}
+        />
+      )}
+      {currentScreen === 'settings' && (
+        <SettingsPage
+          onBack={handleBackToGame}
         />
       )}
       {currentScreen === 'add-profile' && (
