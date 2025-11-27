@@ -78,3 +78,51 @@ export interface UseGameState extends GameState, GameActions {
   /** The expected letter at the current position */
   currentLetter: string | null;
 }
+
+/**
+ * Represents a user profile in the multi-profile system
+ */
+export interface Profile {
+  /** Unique identifier for the profile (UUID or timestamp) */
+  id: string;
+  /** Display name for the profile */
+  name: string;
+  /** Emoji avatar for the profile */
+  avatar: string;
+  /** Current level (from leveling engine) */
+  level: number;
+  /** ID of the last word the user was working on */
+  lastWordId: string | null;
+  /** Performance statistics */
+  stats: ProfileStats;
+  /** Timestamp when the profile was created */
+  createdAt: number;
+  /** Timestamp when the profile was last updated */
+  updatedAt: number;
+}
+
+/**
+ * Statistics tracked per profile
+ */
+export interface ProfileStats {
+  /** Total accuracy percentage */
+  accuracy: number;
+  /** Total words completed */
+  wordsCompleted: number;
+  /** Total correct attempts */
+  correctAttempts: number;
+  /** Total incorrect attempts */
+  incorrectAttempts: number;
+  /** Total keystrokes */
+  totalKeystrokes: number;
+}
+
+/**
+ * Container for all profiles and active profile ID
+ */
+export interface ProfilesData {
+  /** Array of all profiles */
+  profiles: Profile[];
+  /** ID of the currently active profile */
+  activeProfileId: string | null;
+}

@@ -7,13 +7,29 @@ import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
+import { hasProfiles, getActiveProfile, createProfile } from './engine/ProfileManager';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats';
+type Screen = 'finish' | 'game' | 'stats' | 'create-profile';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
   const [isInitialLoad, setIsInitialLoad] = useState(true); // Track if this is the first load
+
+  // Check for profiles on initial load
+  useEffect(() => {
+    if (!hasProfiles()) {
+      // No profiles exist - show profile creation screen
+      setCurrentScreen('create-profile');
+    } else {
+      // Load active profile
+      const activeProfile = getActiveProfile();
+      if (activeProfile) {
+        // Profile exists, we'll use it when needed
+        console.log('Active profile loaded:', activeProfile.name);
+      }
+    }
+  }, [])
 
   // Initialize game state with useGameState hook
   const game = useGameState(words);
@@ -181,11 +197,30 @@ function App() {
   }, [currentScreen, handleKeyPress]);
 
   const handleStartOrRestart = () => {
-    // Reset game state and shuffle words
-    game.resetGame();
+    // Check if profile exists before starting
+    if (!hasProfiles()) {
+      setCurrentScreen('create-profile');
+      return;
+    }
+
+    // Load active profile's last word if available
+    const activeProfile = getActiveProfile();
+    if (activeProfile && activeProfile.lastWordId) {
+      // Try to set the word from profile
+      game.setWordById(activeProfile.lastWordId);
+    } else {
+      // Reset game state and shuffle words
+      game.resetGame();
+    }
+
     setCorrectWords(0);
     setIsInitialLoad(false); // No longer the initial load
     setCurrentScreen('game');
+  };
+
+  const handleCreateProfile = (name: string, avatar: string) => {
+    createProfile({ name, avatar });
+    setCurrentScreen('finish');
   };
 
   const handleGameComplete = () => {
@@ -212,6 +247,88 @@ function App() {
 
   return (
     <div className="app">
+      {currentScreen === 'create-profile' && (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          padding: '20px',
+          backgroundColor: 'var(--bg-primary)',
+        }}>
+          <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Create Your Profile</h1>
+          <p style={{ marginBottom: '2rem' }}>Choose a name and avatar to get started!</p>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const name = formData.get('name') as string;
+            const avatar = formData.get('avatar') as string;
+            if (name && avatar) {
+              handleCreateProfile(name, avatar);
+            }
+          }}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem' }}>Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '1rem',
+                  width: '250px',
+                  borderRadius: '8px',
+                  border: '2px solid var(--accent)',
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label htmlFor="avatar" style={{ display: 'block', marginBottom: '0.5rem' }}>Choose an emoji:</label>
+              <select
+                id="avatar"
+                name="avatar"
+                required
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '1.5rem',
+                  width: '250px',
+                  borderRadius: '8px',
+                  border: '2px solid var(--accent)',
+                }}
+              >
+                <option value="😀">😀</option>
+                <option value="🐱">🐱</option>
+                <option value="🦕">🦕</option>
+                <option value="🚀">🚀</option>
+                <option value="🌟">🌟</option>
+                <option value="🎨">🎨</option>
+                <option value="🎮">🎮</option>
+                <option value="🐶">🐶</option>
+                <option value="🐼">🐼</option>
+                <option value="🦊">🦊</option>
+                <option value="🐸">🐸</option>
+                <option value="🦋">🦋</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              style={{
+                padding: '0.75rem 2rem',
+                fontSize: '1.125rem',
+                backgroundColor: 'var(--accent)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+              }}
+            >
+              Create Profile
+            </button>
+          </form>
+        </div>
+      )}
       {currentScreen === 'finish' && (
         <FinishScreen
           onRestart={handleStartOrRestart}
