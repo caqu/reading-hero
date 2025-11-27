@@ -18,6 +18,12 @@
   gap: var(--spacing-sm);
 }
 
+.keyboardRowAlphabetical {
+  display: flex;
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+}
+
 .key {
   /* Size and layout */
   min-width: 60px;
@@ -170,6 +176,10 @@
   .key.spacebar {
     min-width: calc(50px * 5 + var(--spacing-xs) * 4);
   }
+
+  .key.spacebarAlphabetical {
+    min-width: calc(50px * 2 + var(--spacing-xs));
+  }
 }
 
 /* Responsive design for mobile phones */
@@ -192,13 +202,23 @@
     min-width: calc(40px * 5 + var(--spacing-xs) * 4);
     font-size: var(--font-size-small);
   }
+
+  .key.spacebarAlphabetical {
+    min-width: calc(40px * 2 + var(--spacing-xs));
+  }
 }
 
 /* Spacebar key - wider than regular keys */
 .key.spacebar {
-  /* Make spacebar approximately 5x wider than regular keys */
+  /* Make spacebar approximately 5x wider than regular keys (QWERTY) */
   min-width: calc(60px * 5 + var(--spacing-sm) * 4);
   flex-grow: 1;
+}
+
+/* Spacebar for alphabetical layout - spans 2 keys + 1 gap */
+.key.spacebarAlphabetical {
+  min-width: calc(60px * 2 + var(--spacing-sm));
+  flex-grow: 0;
 }
 
 /* High contrast mode support */

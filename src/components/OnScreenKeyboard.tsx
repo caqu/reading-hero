@@ -102,7 +102,7 @@ export const OnScreenKeyboard = memo(({
       aria-label="On-screen keyboard"
     >
       {keyboardLayout.map((row, rowIndex) => (
-        <div key={rowIndex} className={styles.keyboardRow}>
+        <div key={rowIndex} className={layout === 'alphabetical' ? styles.keyboardRowAlphabetical : styles.keyboardRow}>
           {row.map((key, keyIndex) => {
             const isSpacebar = key === ' ';
             const normalizedKey = isSpacebar ? ' ' : key.toLowerCase();
@@ -120,11 +120,14 @@ export const OnScreenKeyboard = memo(({
             const isVowel = layout === 'alphabetical' && !isSpacebar && VOWELS.has(key);
             const isConsonant = layout === 'alphabetical' && !isSpacebar && !VOWELS.has(key);
 
+            // Spacebar class depends on layout
+            const spacebarClass = isSpacebar ? (layout === 'alphabetical' ? styles.spacebarAlphabetical : styles.spacebar) : '';
+
             return (
               <button
                 key={`${key}-${keyIndex}`}
                 type="button"
-                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''} ${isVowel ? styles.vowel : ''} ${isConsonant ? styles.consonant : ''}`}
+                className={`${styles.key} ${spacebarClass} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''} ${isVowel ? styles.vowel : ''} ${isConsonant ? styles.consonant : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}
