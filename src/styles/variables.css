@@ -66,9 +66,24 @@
   --z-tooltip: 2000;
 }
 
-/* Dark mode - Accessible alternate palette */
+/* Dark mode - Accessible alternate palette (via explicit .dark class) */
+:root.dark {
+  --color-background: #121212;
+  --color-background-secondary: #1E1E1E;
+  --color-text: #E0E0E0;
+  --color-text-secondary: #B0B0B0;
+
+  /* Adjusted dark mode colors for contrast */
+  --color-primary: #2196F3;
+  --color-secondary: #FFC107;
+  --color-success: #4CAF50;
+  --color-error: #F44336;
+  --color-warning: #FF9800;
+}
+
+/* Dark mode via system preference (only when not explicitly set) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.dark):not(.light) {
     --color-background: #121212;
     --color-background-secondary: #1E1E1E;
     --color-text: #E0E0E0;

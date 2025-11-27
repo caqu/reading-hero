@@ -175,17 +175,15 @@ export function applyTheme(theme: ThemeMode): void {
   const root = document.documentElement;
 
   if (theme === 'system') {
-    // Check system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    // Remove explicit classes and let system preference take over
+    root.classList.remove('light', 'dark');
   } else if (theme === 'dark') {
+    root.classList.remove('light');
     root.classList.add('dark');
   } else {
+    // Light mode
     root.classList.remove('dark');
+    root.classList.add('light');
   }
 }
 
