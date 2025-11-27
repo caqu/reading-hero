@@ -17,7 +17,7 @@ interface OnScreenKeyboardProps {
   /** Whether to animate wrong keys with shake effect */
   animateWrongKeys?: boolean;
   /** Keyboard layout to use */
-  layout?: 'qwerty' | 'simplified';
+  layout?: 'qwerty' | 'alphabetical';
 }
 
 /**
@@ -32,13 +32,25 @@ const KEYBOARD_LAYOUT = [
 ];
 
 /**
- * Simplified layout (letters only, alphabetical)
+ * Alphabetical layout with vowels and consonants
+ * Row 1: A B C D
+ * Row 2: E F G H + Space
+ * Row 3: I J K L M N
+ * Row 4: O P Q R S T
+ * Row 5: U V W X Y Z
  */
-const SIMPLIFIED_LAYOUT = [
-  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
-  ['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'],
-  ['S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+const ALPHABETICAL_LAYOUT = [
+  ['A', 'B', 'C', 'D'],
+  ['E', 'F', 'G', 'H', ' '],
+  ['I', 'J', 'K', 'L', 'M', 'N'],
+  ['O', 'P', 'Q', 'R', 'S', 'T'],
+  ['U', 'V', 'W', 'X', 'Y', 'Z'],
 ];
+
+/**
+ * Vowels for color coding
+ */
+const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
 
 /**
  * Right-hand touch typing keys (for visual distinction)
@@ -81,7 +93,7 @@ export const OnScreenKeyboard = memo(({
   };
 
   // Choose layout based on settings
-  const keyboardLayout = layout === 'simplified' ? SIMPLIFIED_LAYOUT : KEYBOARD_LAYOUT;
+  const keyboardLayout = layout === 'alphabetical' ? ALPHABETICAL_LAYOUT : KEYBOARD_LAYOUT;
 
   return (
     <div
@@ -104,11 +116,15 @@ export const OnScreenKeyboard = memo(({
             const isCorrectHint = showHighlights && normalizedKey === normalizedCorrect;
             const isRightHand = RIGHT_HAND_KEYS.has(key);
 
+            // For alphabetical layout: determine if vowel or consonant
+            const isVowel = layout === 'alphabetical' && !isSpacebar && VOWELS.has(key);
+            const isConsonant = layout === 'alphabetical' && !isSpacebar && !VOWELS.has(key);
+
             return (
               <button
                 key={`${key}-${keyIndex}`}
                 type="button"
-                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''}`}
+                className={`${styles.key} ${isSpacebar ? styles.spacebar : ''} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''} ${isVowel ? styles.vowel : ''} ${isConsonant ? styles.consonant : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}

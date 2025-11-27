@@ -22,7 +22,10 @@
   /* Size and layout */
   min-width: 60px;
   min-height: 60px;
-  padding: var(--spacing-md);
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
 
   /* Typography */
   font-size: var(--font-size-xlarge);
@@ -85,6 +88,40 @@
   border-color: #218838;
 }
 
+/* Vowel keys - blue outline (works in light and dark theme) */
+.key.vowel {
+  border-color: #2196F3;
+  border-width: 3px;
+}
+
+.key.vowel:hover:not(:disabled) {
+  background-color: #64B5F6;
+  color: var(--color-background);
+  border-color: #1976D2;
+}
+
+.key.vowel:active:not(:disabled) {
+  background-color: #1976D2;
+  color: var(--color-background);
+}
+
+/* Consonant keys - green outline (works in light and dark theme) */
+.key.consonant {
+  border-color: #4CAF50;
+  border-width: 3px;
+}
+
+.key.consonant:hover:not(:disabled) {
+  background-color: #81C784;
+  color: var(--color-background);
+  border-color: #388E3C;
+}
+
+.key.consonant:active:not(:disabled) {
+  background-color: #388E3C;
+  color: var(--color-background);
+}
+
 /* Highlighted key for guidance */
 .key.highlighted {
   background-color: var(--color-warning);
@@ -123,7 +160,10 @@
   .key {
     min-width: 50px;
     min-height: 50px;
-    padding: var(--spacing-sm);
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
     font-size: var(--font-size-large);
   }
 
@@ -141,7 +181,10 @@
   .key {
     min-width: 40px;
     min-height: 40px;
-    padding: var(--spacing-xs);
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: var(--spacing-xs);
+    padding-right: var(--spacing-xs);
     font-size: var(--font-size-base);
   }
 

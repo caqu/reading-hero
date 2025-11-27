@@ -14,7 +14,7 @@ export interface Settings {
   // Keyboard Settings
   showKeyHighlights: boolean;
   animateWrongKeys: boolean;
-  keyboardLayout: 'simplified' | 'qwerty';
+  keyboardLayout: 'alphabetical' | 'qwerty';
 
   // Variant Display Settings
   showFontVariants: boolean;

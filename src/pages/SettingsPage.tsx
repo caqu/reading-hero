@@ -85,11 +85,11 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
               <span className={styles.label}>Keyboard Layout:</span>
               <select
                 value={settings.keyboardLayout}
-                onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'simplified' | 'qwerty' })}
+                onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'alphabetical' | 'qwerty' })}
                 className={styles.select}
               >
                 <option value="qwerty">QWERTY</option>
-                <option value="simplified">Simplified (Letters Only)</option>
+                <option value="alphabetical">Alphabetical</option>
               </select>
             </label>
           </div>
