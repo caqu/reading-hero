@@ -53,6 +53,12 @@
   outline-offset: 2px;
 }
 
+/* Monospace font for alphabetical layout for perfect alignment */
+.key.monospace {
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  letter-spacing: 0;
+}
+
 /* Hover state */
 .key:hover:not(:disabled) {
   background-color: var(--color-primary-light);

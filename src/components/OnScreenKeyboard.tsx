@@ -123,11 +123,14 @@ export const OnScreenKeyboard = memo(({
             // Spacebar class depends on layout
             const spacebarClass = isSpacebar ? (layout === 'alphabetical' ? styles.spacebarAlphabetical : styles.spacebar) : '';
 
+            // Apply monospace font for alphabetical layout
+            const isMonospace = layout === 'alphabetical';
+
             return (
               <button
                 key={`${key}-${keyIndex}`}
                 type="button"
-                className={`${styles.key} ${spacebarClass} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''} ${isVowel ? styles.vowel : ''} ${isConsonant ? styles.consonant : ''}`}
+                className={`${styles.key} ${spacebarClass} ${isRightHand ? styles.rightHand : ''} ${isHighlighted ? styles.highlighted : ''} ${isWrong ? styles.wrong : ''} ${isCorrectHint ? styles.correctHint : ''} ${isVowel ? styles.vowel : ''} ${isConsonant ? styles.consonant : ''} ${isMonospace ? styles.monospace : ''}`}
                 onClick={() => handleKeyClick(key)}
                 onKeyDown={(e) => handleKeyDown(e, key)}
                 disabled={disabled}
