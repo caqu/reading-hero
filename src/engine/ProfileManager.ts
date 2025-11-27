@@ -5,7 +5,7 @@
  * Each profile maintains separate stats, level, and progress.
  */
 
-import { Profile, ProfilesData, ProfileStats } from '../types';
+import { Profile, ProfilesData, ProfileStats, ProfileLevelingState } from '../types';
 
 // ============================================================================
 // CONSTANTS
@@ -34,6 +34,18 @@ function createEmptyStats(): ProfileStats {
     correctAttempts: 0,
     incorrectAttempts: 0,
     totalKeystrokes: 0,
+  };
+}
+
+/**
+ * Create initial leveling state
+ */
+function createInitialLevelingState(): ProfileLevelingState {
+  return {
+    currentLevel: 1,
+    wordHistory: [],
+    levelStartWordCount: 0,
+    uniqueWordsCompleted: [],
   };
 }
 
@@ -105,6 +117,7 @@ export function createProfile({ name, avatar }: { name: string; avatar: string }
     level: 1,
     lastWordId: null,
     stats: createEmptyStats(),
+    levelingState: createInitialLevelingState(),
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -214,6 +227,7 @@ export function updateActiveProfile(updates: Partial<Omit<Profile, 'id' | 'creat
     level: updates.level ?? currentProfile.level,
     lastWordId: updates.lastWordId !== undefined ? updates.lastWordId : currentProfile.lastWordId,
     stats: updates.stats ?? currentProfile.stats,
+    levelingState: updates.levelingState ?? currentProfile.levelingState,
     createdAt: currentProfile.createdAt,
     updatedAt: Date.now(),
   };

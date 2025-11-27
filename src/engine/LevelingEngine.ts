@@ -383,16 +383,22 @@ export interface LevelingEngineAPI {
   resetProgress: () => void;
   /** Manually set level (for testing/debugging) */
   setLevel: (level: Level) => void;
+  /** Load state from a profile */
+  loadStateFromProfile: (profileState: LevelingState) => void;
+  /** Get current state to save to profile */
+  getStateForProfile: () => LevelingState;
 }
 
 /**
  * Hook for managing adaptive difficulty leveling
  *
+ * @param profileId - Optional profile ID to load/save state for. If not provided, uses global localStorage.
+ * @param onStateChange - Optional callback when state changes (for profile updates)
  * @returns API for recording results and accessing level state
  *
  * @example
  * ```tsx
- * const leveling = useLevelingEngine();
+ * const leveling = useLevelingEngine(profileId, handleLevelingStateChange);
  *
  * // After word completion
  * leveling.recordResult({
@@ -410,13 +416,23 @@ export interface LevelingEngineAPI {
  * }
  * ```
  */
-export function useLevelingEngine(): LevelingEngineAPI {
+export function useLevelingEngine(
+  profileId?: string | null,
+  onStateChange?: (state: LevelingState) => void
+): LevelingEngineAPI {
   const [state, setState] = useState<LevelingState>(loadState);
 
-  // Persist state changes to localStorage
+  // Persist state changes to localStorage (only if no profile)
   useEffect(() => {
-    saveState(state);
-  }, [state]);
+    if (!profileId) {
+      saveState(state);
+    }
+
+    // Notify parent of state changes (for profile updates)
+    if (onStateChange) {
+      onStateChange(state);
+    }
+  }, [state, profileId, onStateChange]);
 
   // Calculate current metrics
   const metrics = calculateMetrics(
@@ -506,10 +522,36 @@ export function useLevelingEngine(): LevelingEngineAPI {
         currentLevel: newLevel,
         levelStartWordCount: prevState.wordHistory.length,
       };
-      saveState(newState);
+      if (!profileId) {
+        saveState(newState);
+      }
       return newState;
     });
+  }, [profileId]);
+
+  /**
+   * Load state from a profile
+   */
+  const loadStateFromProfile = useCallback((profileState: LevelingState) => {
+    setState({
+      currentLevel: profileState.currentLevel,
+      wordHistory: profileState.wordHistory,
+      levelStartWordCount: profileState.levelStartWordCount,
+      uniqueWordsCompleted: new Set(profileState.uniqueWordsCompleted),
+    });
   }, []);
+
+  /**
+   * Get current state to save to profile
+   */
+  const getStateForProfile = useCallback((): LevelingState => {
+    return {
+      currentLevel: state.currentLevel,
+      wordHistory: state.wordHistory,
+      levelStartWordCount: state.levelStartWordCount,
+      uniqueWordsCompleted: state.uniqueWordsCompleted,
+    };
+  }, [state]);
 
   return {
     level: state.currentLevel,
@@ -521,5 +563,7 @@ export function useLevelingEngine(): LevelingEngineAPI {
     getMetrics,
     resetProgress,
     setLevel,
+    loadStateFromProfile,
+    getStateForProfile,
   };
 }

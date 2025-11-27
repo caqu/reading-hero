@@ -7,8 +7,8 @@ import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
-import { hasProfiles, getActiveProfile, createProfile } from './engine/ProfileManager';
-import { Profile } from './types';
+import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
+import { Profile, ProfileLevelingState } from './types';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'create-profile' | 'add-profile';
@@ -41,8 +41,40 @@ function App() {
   // Initialize feedback system
   const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
 
-  // Initialize leveling engine
-  const leveling = useLevelingEngine();
+  // Get active profile ID
+  const activeProfileId = getActiveProfileId();
+
+  // Initialize leveling engine with profile integration
+  const handleLevelingStateChange = useCallback((levelingState: any) => {
+    // Save leveling state to active profile
+    if (activeProfileId) {
+      updateActiveProfile({
+        levelingState: {
+          currentLevel: levelingState.currentLevel,
+          wordHistory: levelingState.wordHistory,
+          levelStartWordCount: levelingState.levelStartWordCount,
+          uniqueWordsCompleted: Array.from(levelingState.uniqueWordsCompleted),
+        },
+        level: levelingState.currentLevel,
+      });
+    }
+  }, [activeProfileId]);
+
+  const leveling = useLevelingEngine(activeProfileId, handleLevelingStateChange);
+
+  // Load profile's leveling state on mount or when profile changes
+  useEffect(() => {
+    const activeProfile = getActiveProfile();
+    if (activeProfile && activeProfile.levelingState) {
+      // Convert array to Set for uniqueWordsCompleted
+      leveling.loadStateFromProfile({
+        currentLevel: activeProfile.levelingState.currentLevel,
+        wordHistory: activeProfile.levelingState.wordHistory,
+        levelStartWordCount: activeProfile.levelingState.levelStartWordCount,
+        uniqueWordsCompleted: new Set(activeProfile.levelingState.uniqueWordsCompleted),
+      });
+    }
+  }, [activeProfileId]);
 
   // Handle word change from URL (browser navigation or direct URL)
   const handleWordChangeFromURL = useCallback((wordId: string | null) => {
@@ -147,6 +179,28 @@ function App() {
         };
         leveling.recordResult(result);
 
+        // Update active profile with word completion
+        const activeProfile = getActiveProfile();
+        if (activeProfile) {
+          const newStats = {
+            ...activeProfile.stats,
+            wordsCompleted: activeProfile.stats.wordsCompleted + 1,
+            correctAttempts: activeProfile.stats.correctAttempts + currentWord.text.length,
+            incorrectAttempts: activeProfile.stats.incorrectAttempts + wordWrongKeyPresses,
+            totalKeystrokes: activeProfile.stats.totalKeystrokes + currentWord.text.length + wordWrongKeyPresses,
+            accuracy: Math.round(
+              ((activeProfile.stats.correctAttempts + currentWord.text.length) /
+                (activeProfile.stats.totalKeystrokes + currentWord.text.length + wordWrongKeyPresses)) *
+                100
+            ),
+          };
+
+          updateActiveProfile({
+            stats: newStats,
+            lastWordId: currentWord.id,
+          });
+        }
+
         // Word completed - show confetti and advance after delay
         setCorrectWords(prev => prev + 1);
 
@@ -250,6 +304,17 @@ function App() {
   };
 
   const handleProfileSwitch = (profile: Profile) => {
+    // Load profile's leveling state into leveling engine
+    if (profile.levelingState) {
+      // Convert array to Set for uniqueWordsCompleted
+      leveling.loadStateFromProfile({
+        currentLevel: profile.levelingState.currentLevel,
+        wordHistory: profile.levelingState.wordHistory,
+        levelStartWordCount: profile.levelingState.levelStartWordCount,
+        uniqueWordsCompleted: new Set(profile.levelingState.uniqueWordsCompleted),
+      });
+    }
+
     // When profile switches, reload the game state
     if (profile.lastWordId) {
       game.setWordById(profile.lastWordId);

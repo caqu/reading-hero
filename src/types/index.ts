@@ -80,6 +80,37 @@ export interface UseGameState extends GameState, GameActions {
 }
 
 /**
+ * Level type for adaptive difficulty system (1-5)
+ */
+export type Level = 1 | 2 | 3 | 4 | 5;
+
+/**
+ * Word result for leveling engine
+ */
+export interface WordResult {
+  wordId: string;
+  correct: boolean;
+  wrongKeyPresses: number;
+  firstTryCorrect: boolean;
+  timeToComplete: number;
+  wordLength: number;
+}
+
+/**
+ * Leveling engine state stored per profile
+ */
+export interface ProfileLevelingState {
+  /** Current level (1-5) */
+  currentLevel: Level;
+  /** Word completion history for performance tracking */
+  wordHistory: WordResult[];
+  /** Number of words completed when current level started */
+  levelStartWordCount: number;
+  /** Set of unique word IDs completed (for Level 2 criteria) */
+  uniqueWordsCompleted: string[];
+}
+
+/**
  * Represents a user profile in the multi-profile system
  */
 export interface Profile {
@@ -95,6 +126,8 @@ export interface Profile {
   lastWordId: string | null;
   /** Performance statistics */
   stats: ProfileStats;
+  /** Leveling engine state */
+  levelingState: ProfileLevelingState;
   /** Timestamp when the profile was created */
   createdAt: number;
   /** Timestamp when the profile was last updated */
