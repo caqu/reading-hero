@@ -464,7 +464,10 @@ function App() {
         />
       )}
       {currentScreen === 'stats' && (
-        <StatsPage onBack={handleBackToGame} />
+        <StatsPage
+          onBack={handleBackToGame}
+          onProfileSwitch={handleProfileSwitch}
+        />
       )}
       {currentScreen === 'add-profile' && (
         <div style={{
