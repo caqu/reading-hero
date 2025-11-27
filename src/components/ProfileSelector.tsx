@@ -12,6 +12,8 @@ import styles from './ProfileSelector.module.css';
 interface ProfileSelectorProps {
   /** Callback when profile is switched */
   onProfileSwitch?: (profile: Profile) => void;
+  /** Callback to navigate to add profile screen */
+  onAddProfile?: () => void;
 }
 
 const EMOJI_OPTIONS = [
@@ -20,12 +22,9 @@ const EMOJI_OPTIONS = [
   '🦁', '🐯', '🐮', '🦄', '🌈', '⚡',
 ];
 
-export const ProfileSelector = ({ onProfileSwitch }: ProfileSelectorProps) => {
+export const ProfileSelector = ({ onProfileSwitch, onAddProfile }: ProfileSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
-  const [newProfileName, setNewProfileName] = useState('');
-  const [newProfileEmoji, setNewProfileEmoji] = useState('😀');
   const [profiles, setProfiles] = useState<Profile[]>(getProfiles());
   const [activeProfile, setActiveProfileState] = useState<Profile | null>(getActiveProfile());
 
@@ -36,7 +35,6 @@ export const ProfileSelector = ({ onProfileSwitch }: ProfileSelectorProps) => {
 
   const handleCloseSelector = () => {
     setIsOpen(false);
-    setShowAddForm(false);
     setShowDeleteConfirm(null);
   };
 
@@ -55,23 +53,9 @@ export const ProfileSelector = ({ onProfileSwitch }: ProfileSelectorProps) => {
   };
 
   const handleShowAddForm = () => {
-    setShowAddForm(true);
-  };
-
-  const handleCreateProfile = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newProfileName.trim()) {
-      const newProfile = createProfile({
-        name: newProfileName.trim(),
-        avatar: newProfileEmoji,
-      });
-      setProfiles(getProfiles());
-      setNewProfileName('');
-      setNewProfileEmoji('😀');
-      setShowAddForm(false);
-
-      // Auto-select the new profile
-      handleSelectProfile(newProfile.id);
+    handleCloseSelector();
+    if (onAddProfile) {
+      onAddProfile();
     }
   };
 
@@ -128,97 +112,45 @@ export const ProfileSelector = ({ onProfileSwitch }: ProfileSelectorProps) => {
               </button>
             </div>
 
-            {!showAddForm ? (
-              <>
-                {/* Profile List */}
-                <div className={styles.profileList}>
-                  {profiles.map((profile) => (
-                    <div
-                      key={profile.id}
-                      className={`${styles.profileCard} ${activeProfile?.id === profile.id ? styles.active : ''}`}
-                    >
-                      <button
-                        className={styles.profileCardButton}
-                        onClick={() => handleSelectProfile(profile.id)}
-                      >
-                        <div className={styles.profileCardAvatar}>{profile.avatar}</div>
-                        <div className={styles.profileCardName}>{profile.name}</div>
-                        {activeProfile?.id === profile.id && (
-                          <div className={styles.activeBadge}>Active</div>
-                        )}
-                      </button>
-                      {profiles.length > 1 && (
-                        <button
-                          className={styles.deleteButton}
-                          onClick={() => handleDeleteProfile(profile.id)}
-                          aria-label={`Delete ${profile.name}`}
-                          title="Delete profile"
-                        >
-                          🗑️
-                        </button>
-                      )}
-                    </div>
-                  ))}
-
-                  {/* Add Profile Button */}
+            {/* Profile List */}
+            <div className={styles.profileList}>
+              {profiles.map((profile) => (
+                <div
+                  key={profile.id}
+                  className={`${styles.profileCard} ${activeProfile?.id === profile.id ? styles.active : ''}`}
+                >
                   <button
-                    className={styles.addProfileCard}
-                    onClick={handleShowAddForm}
+                    className={styles.profileCardButton}
+                    onClick={() => handleSelectProfile(profile.id)}
                   >
-                    <div className={styles.addIcon}>+</div>
-                    <div className={styles.addLabel}>Add Profile</div>
+                    <div className={styles.profileCardAvatar}>{profile.avatar}</div>
+                    <div className={styles.profileCardName}>{profile.name}</div>
+                    {activeProfile?.id === profile.id && (
+                      <div className={styles.activeBadge}>Active</div>
+                    )}
                   </button>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Add Profile Form */}
-                <form className={styles.addProfileForm} onSubmit={handleCreateProfile}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="profileName">Name:</label>
-                    <input
-                      type="text"
-                      id="profileName"
-                      value={newProfileName}
-                      onChange={(e) => setNewProfileName(e.target.value)}
-                      required
-                      autoFocus
-                      maxLength={20}
-                      placeholder="Enter name"
-                    />
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label>Choose an emoji:</label>
-                    <div className={styles.emojiGrid}>
-                      {EMOJI_OPTIONS.map((emoji) => (
-                        <button
-                          key={emoji}
-                          type="button"
-                          className={`${styles.emojiOption} ${newProfileEmoji === emoji ? styles.selected : ''}`}
-                          onClick={() => setNewProfileEmoji(emoji)}
-                        >
-                          {emoji}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className={styles.formActions}>
-                    <button type="submit" className={styles.submitButton}>
-                      Create Profile
-                    </button>
+                  {profiles.length > 1 && (
                     <button
-                      type="button"
-                      className={styles.cancelButton}
-                      onClick={() => setShowAddForm(false)}
+                      className={styles.deleteButton}
+                      onClick={() => handleDeleteProfile(profile.id)}
+                      aria-label={`Delete ${profile.name}`}
+                      title="Delete profile"
                     >
-                      Cancel
+                      🗑️
                     </button>
-                  </div>
-                </form>
-              </>
-            )}
+                  )}
+                </div>
+              ))}
+
+              {/* Add Profile Button */}
+              <button
+                className={styles.addProfileCard}
+                onClick={handleShowAddForm}
+              >
+                <div className={styles.addIcon}>+</div>
+                <div className={styles.addLabel}>Add Profile</div>
+              </button>
+            </div>
           </div>
         </div>
       )}

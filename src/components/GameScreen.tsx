@@ -33,6 +33,8 @@ interface GameScreenProps {
   onViewStats?: () => void;
   /** Callback when profile is switched */
   onProfileSwitch?: (profile: Profile) => void;
+  /** Callback to navigate to add profile screen */
+  onAddProfile?: () => void;
 }
 
 export const GameScreen = ({
@@ -55,6 +57,7 @@ export const GameScreen = ({
   onLevelChange,
   onViewStats,
   onProfileSwitch,
+  onAddProfile,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
@@ -83,7 +86,7 @@ export const GameScreen = ({
       )}
 
       <aside className={styles.sidebar}>
-        <ProfileSelector onProfileSwitch={onProfileSwitch} />
+        <ProfileSelector onProfileSwitch={onProfileSwitch} onAddProfile={onAddProfile} />
         <div className={styles.progressInfo}>
           <div className={styles.stat}>
             <div className={styles.statValue}>{currentWordIndex + 1}</div>

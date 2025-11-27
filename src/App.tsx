@@ -11,7 +11,7 @@ import { hasProfiles, getActiveProfile, createProfile } from './engine/ProfileMa
 import { Profile } from './types';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'create-profile';
+type Screen = 'finish' | 'game' | 'stats' | 'create-profile' | 'add-profile';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -220,8 +220,21 @@ function App() {
   };
 
   const handleCreateProfile = (name: string, avatar: string) => {
-    createProfile({ name, avatar });
-    setCurrentScreen('finish');
+    const newProfile = createProfile({ name, avatar });
+
+    // If this is adding a profile (not initial creation), go back to game
+    if (currentScreen === 'add-profile') {
+      // Auto-switch to the new profile
+      handleProfileSwitch(newProfile);
+      setCurrentScreen('game');
+    } else {
+      // Initial profile creation - go to finish screen
+      setCurrentScreen('finish');
+    }
+  };
+
+  const handleAddProfile = () => {
+    setCurrentScreen('add-profile');
   };
 
   const handleGameComplete = () => {
@@ -274,10 +287,10 @@ function App() {
           justifyContent: 'center',
           minHeight: '100vh',
           padding: '20px',
-          backgroundColor: 'var(--bg-primary)',
+          backgroundColor: 'var(--color-background)',
         }}>
-          <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Create Your Profile</h1>
-          <p style={{ marginBottom: '2rem' }}>Choose a name and avatar to get started!</p>
+          <h1 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--color-text)' }}>Create Your Profile</h1>
+          <p style={{ marginBottom: '2rem', color: 'var(--color-text-secondary)' }}>Choose a name and avatar to get started!</p>
           <form onSubmit={(e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
@@ -288,23 +301,27 @@ function App() {
             }
           }}>
             <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem' }}>Name:</label>
+              <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-text)' }}>Name:</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 required
+                autoFocus
+                maxLength={20}
                 style={{
                   padding: '0.5rem',
                   fontSize: '1rem',
                   width: '250px',
                   borderRadius: '8px',
-                  border: '2px solid var(--accent)',
+                  border: '2px solid var(--color-primary)',
+                  backgroundColor: 'var(--color-background-secondary)',
+                  color: 'var(--color-text)',
                 }}
               />
             </div>
             <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="avatar" style={{ display: 'block', marginBottom: '0.5rem' }}>Choose an emoji:</label>
+              <label htmlFor="avatar" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-text)' }}>Choose an emoji:</label>
               <select
                 id="avatar"
                 name="avatar"
@@ -314,7 +331,9 @@ function App() {
                   fontSize: '1.5rem',
                   width: '250px',
                   borderRadius: '8px',
-                  border: '2px solid var(--accent)',
+                  border: '2px solid var(--color-primary)',
+                  backgroundColor: 'var(--color-background-secondary)',
+                  color: 'var(--color-text)',
                 }}
               >
                 <option value="😀">😀</option>
@@ -336,7 +355,7 @@ function App() {
               style={{
                 padding: '0.75rem 2rem',
                 fontSize: '1.125rem',
-                backgroundColor: 'var(--accent)',
+                backgroundColor: 'var(--color-primary)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '8px',
@@ -376,10 +395,116 @@ function App() {
           onLevelChange={leveling.setLevel}
           onViewStats={handleViewStats}
           onProfileSwitch={handleProfileSwitch}
+          onAddProfile={handleAddProfile}
         />
       )}
       {currentScreen === 'stats' && (
         <StatsPage onBack={handleBackToGame} />
+      )}
+      {currentScreen === 'add-profile' && (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          padding: '20px',
+          backgroundColor: 'var(--color-background)',
+        }}>
+          <h1 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--color-text)' }}>Add New Profile</h1>
+          <p style={{ marginBottom: '2rem', color: 'var(--color-text-secondary)' }}>Choose a name and avatar!</p>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const name = formData.get('name') as string;
+            const avatar = formData.get('avatar') as string;
+            if (name && avatar) {
+              handleCreateProfile(name, avatar);
+            }
+          }}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-text)' }}>Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autoFocus
+                maxLength={20}
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '1rem',
+                  width: '250px',
+                  borderRadius: '8px',
+                  border: '2px solid var(--color-primary)',
+                  backgroundColor: 'var(--color-background-secondary)',
+                  color: 'var(--color-text)',
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label htmlFor="avatar" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-text)' }}>Choose an emoji:</label>
+              <select
+                id="avatar"
+                name="avatar"
+                required
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '1.5rem',
+                  width: '250px',
+                  borderRadius: '8px',
+                  border: '2px solid var(--color-primary)',
+                  backgroundColor: 'var(--color-background-secondary)',
+                  color: 'var(--color-text)',
+                }}
+              >
+                <option value="😀">😀</option>
+                <option value="🐱">🐱</option>
+                <option value="🦕">🦕</option>
+                <option value="🚀">🚀</option>
+                <option value="🌟">🌟</option>
+                <option value="🎨">🎨</option>
+                <option value="🎮">🎮</option>
+                <option value="🐶">🐶</option>
+                <option value="🐼">🐼</option>
+                <option value="🦊">🦊</option>
+                <option value="🐸">🐸</option>
+                <option value="🦋">🦋</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button
+                type="submit"
+                style={{
+                  padding: '0.75rem 2rem',
+                  fontSize: '1.125rem',
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                }}
+              >
+                Create Profile
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrentScreen('game')}
+                style={{
+                  padding: '0.75rem 2rem',
+                  fontSize: '1.125rem',
+                  backgroundColor: 'var(--color-background-secondary)',
+                  color: 'var(--color-text)',
+                  border: '2px solid var(--color-text-secondary)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       )}
     </div>
   );
