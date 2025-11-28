@@ -30,9 +30,15 @@ export const WordCard = ({
   // State for hiding emoji after delay (Level 5 feature)
   const [emojiHidden, setEmojiHidden] = useState(false);
 
+  // State for animation trigger - use word ID as key to re-trigger animation
+  const [animationKey, setAnimationKey] = useState(word.id);
+
   useEffect(() => {
     // Reset emoji visibility when word changes
     setEmojiHidden(false);
+
+    // Trigger animation by updating key
+    setAnimationKey(word.id);
 
     if (hideEmojiAfterDelay && hasEmoji) {
       // Show emoji briefly, then hide it after 2 seconds
@@ -53,16 +59,18 @@ export const WordCard = ({
         {hasVideo ? (
           // Display ASL sign language video (highest priority for cat/dog)
           <SignVideo
+            key={animationKey}
             mp4Src={word.signVideoUrl}
             webmSrc={word.signVideoWebmUrl}
             thumbnailSrc={word.signThumbnailUrl}
             alt={`ASL sign for ${word.text}`}
-            className={styles.video}
+            className={`${styles.video} ${styles.bounceIn}`}
           />
         ) : hasEmoji && !emojiHidden ? (
           // Display emoji as the main visual
           <div
-            className={`${styles.emoji} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''}`}
+            key={animationKey}
+            className={`${styles.emoji} ${styles.bounceIn} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''}`}
             aria-label={word.emojiDescription || word.text}
           >
             {word.emoji}
@@ -75,9 +83,10 @@ export const WordCard = ({
         ) : hasImage ? (
           // Display image if no emoji
           <img
+            key={animationKey}
             src={word.imageUrl}
             alt={showWord ? word.text : 'Word image'}
-            className={styles.image}
+            className={`${styles.image} ${styles.bounceIn}`}
           />
         ) : (
           // Fallback: show word text if no video, emoji, or image
