@@ -1,0 +1,20 @@
+[
+  {
+    "word": "sam",
+    "syllables": ["sam"],
+    "segments": ["s", "a", "m"],
+    "imagePath": "/ugc/words/sam/image.png",
+    "source": "user",
+    "createdAt": "2025-01-27T10:00:00.000Z",
+    "active": true
+  },
+  {
+    "word": "test",
+    "syllables": ["test"],
+    "segments": ["t", "e", "s", "t"],
+    "imagePath": "/ugc/words/test/image.png",
+    "source": "user",
+    "createdAt": "2025-01-27T10:05:00.000Z",
+    "active": true
+  }
+]

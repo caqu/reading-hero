@@ -6,6 +6,11 @@
 export type Difficulty = "easy" | "medium" | "hard";
 
 /**
+ * Source of the word - built-in or user-generated
+ */
+export type WordSource = "builtin" | "user";
+
+/**
  * Represents a word in the game
  */
 export interface Word {
@@ -33,6 +38,8 @@ export interface Word {
   syllables?: string;
   /** Segment divisions with dots (e.g., 'mon·key') */
   segments?: string;
+  /** Source of the word - builtin or user-generated */
+  source?: WordSource;
 }
 
 /**

@@ -4,6 +4,7 @@ import { GameScreen } from './components/GameScreen';
 import { StatsPage } from './pages/StatsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { CreateYourOwnPage } from './pages/CreateYourOwnPage';
+import { ManageWordsPage } from './pages/ManageWordsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
@@ -18,7 +19,7 @@ import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -362,6 +363,10 @@ function App() {
     setCurrentScreen('create');
   };
 
+  const handleManageWords = () => {
+    setCurrentScreen('my-words');
+  };
+
   const handleBackToGame = () => {
     setCurrentScreen('game');
   };
@@ -393,6 +398,42 @@ function App() {
     setWordFirstTryCorrect(true);
 
     console.log('Profile switched to:', profile.name);
+  };
+
+  // Handle UGC word removal
+  const handleRemoveWord = async (wordId: string) => {
+    try {
+      // Extract word name from ID (format: "user:wordname")
+      const wordName = wordId.startsWith('user:') ? wordId.substring(5) : wordId;
+
+      // Call PATCH endpoint to mark word as inactive
+      const response = await fetch(`http://localhost:3001/api/ugc/word/${wordName}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ active: false }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to remove word: ${response.statusText}`);
+      }
+
+      console.log(`[UGC] Successfully removed word: ${wordName}`);
+
+      // Update local word list - remove the word
+      const updatedWords = allWords.filter(w => w.id !== wordId);
+      setAllWords(updatedWords);
+
+      // If this was the current word, advance to next word
+      if (game.currentWord?.id === wordId) {
+        game.nextWord();
+      }
+    } catch (error) {
+      console.error('[UGC] Error removing word:', error);
+      // Show error to user (you could add a toast notification here)
+      alert('Failed to remove word. Please try again.');
+    }
   };
 
   // Check if game is complete
@@ -525,8 +566,10 @@ function App() {
           onViewStats={handleViewStats}
           onViewSettings={handleViewSettings}
           onCreateYourOwn={handleCreateYourOwn}
+          onManageWords={handleManageWords}
           onProfileSwitch={handleProfileSwitch}
           onAddProfile={handleAddProfile}
+          onRemoveWord={handleRemoveWord}
         />
       )}
       {currentScreen === 'stats' && (
@@ -542,6 +585,11 @@ function App() {
       )}
       {currentScreen === 'create' && (
         <CreateYourOwnPage
+          onBack={handleBackToGame}
+        />
+      )}
+      {currentScreen === 'my-words' && (
+        <ManageWordsPage
           onBack={handleBackToGame}
         />
       )}
