@@ -13,6 +13,8 @@ interface WordCardProps {
   showSyllables?: boolean;
   /** Hide emoji after delay (Level 5) */
   hideEmojiAfterDelay?: boolean;
+  /** Whether the word is currently celebrating (for emoji bobblehead animation) */
+  isCelebrating?: boolean;
 }
 
 export const WordCard = ({
@@ -21,6 +23,7 @@ export const WordCard = ({
   showVariants = false,
   showSyllables = false,
   hideEmojiAfterDelay = false,
+  isCelebrating = false,
 }: WordCardProps) => {
   // Determine what to display: video, emoji, image, or fallback
   const hasVideo = word.signVideoUrl && word.signVideoUrl.length > 0;
@@ -70,7 +73,7 @@ export const WordCard = ({
           // Display emoji as the main visual
           <div
             key={animationKey}
-            className={`${styles.emoji} ${styles.bounceIn} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''}`}
+            className={`${styles.emoji} ${!isCelebrating ? styles.bounceIn : ''} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''} ${isCelebrating ? styles.bobblehead : ''}`}
             aria-label={word.emojiDescription || word.text}
           >
             {word.emoji}

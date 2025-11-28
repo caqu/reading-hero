@@ -131,6 +131,7 @@ function App() {
     setWordStartTime(Date.now());
     setWordWrongKeyPresses(0);
     setWordFirstTryCorrect(true);
+    setIsCelebrating(false); // Reset celebration state for new word
   }, [game.currentWordIndex]);
 
   // Sync URL when current word changes (only in game screen)
@@ -157,6 +158,9 @@ function App() {
 
   // Track completed words for progress display
   const [correctWords, setCorrectWords] = useState(0);
+
+  // Track if current word is celebrating (for emoji bobblehead animation)
+  const [isCelebrating, setIsCelebrating] = useState(false);
 
   // Handle key press from both on-screen and physical keyboard
   const handleKeyPress = useCallback((key: string) => {
@@ -223,6 +227,9 @@ function App() {
 
         // Word completed - show confetti and advance after delay
         setCorrectWords(prev => prev + 1);
+
+        // Start celebrating (for emoji bobblehead animation)
+        setIsCelebrating(true);
 
         // Fire confetti
         triggerWordComplete();
@@ -484,6 +491,7 @@ function App() {
           wrongKey={feedbackState.wrongKey}
           correctKey={feedbackState.correctKey}
           correctTileIndex={feedbackState.correctTileIndex}
+          isCelebrating={isCelebrating}
           levelFeatures={leveling.features}
           currentLevel={leveling.level}
           onLevelChange={leveling.setLevel}

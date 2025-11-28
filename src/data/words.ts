@@ -86,6 +86,8 @@ const OTHER_CURATED_WORDS: Word[] = [
   {
     id: 'ball',
     text: 'ball',
+    emoji: '⚽',
+    emojiDescription: 'soccer ball',
     imageUrl: '/images/ball.png',
     signImageUrl: '/images/ball.png',
     difficulty: 'easy',
@@ -95,6 +97,8 @@ const OTHER_CURATED_WORDS: Word[] = [
   {
     id: 'tree',
     text: 'tree',
+    emoji: '🌲',
+    emojiDescription: 'evergreen tree',
     imageUrl: '/images/tree.png',
     signImageUrl: '/images/tree.png',
     difficulty: 'easy',

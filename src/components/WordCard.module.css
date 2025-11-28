@@ -65,6 +65,26 @@
   }
 }
 
+/* Bobblehead animation for emoji celebration */
+.bobblehead {
+  animation: bobblehead 0.5s ease-in-out infinite !important;
+}
+
+@keyframes bobblehead {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
 /* Level 5: Hidden emoji placeholder */
 .emojiHidden {
   font-size: 160px;

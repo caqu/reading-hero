@@ -24,6 +24,8 @@ interface GameScreenProps {
   wrongKey?: string | null;
   correctKey?: string | null;
   correctTileIndex?: number | null;
+  /** Whether the word is currently celebrating (for emoji bobblehead animation) */
+  isCelebrating?: boolean;
   /** Level features that control gameplay behavior */
   levelFeatures?: LevelFeatures;
   /** Current level (1-5) for display */
@@ -55,6 +57,7 @@ export const GameScreen = ({
   wrongKey = null,
   correctKey = null,
   correctTileIndex = null,
+  isCelebrating = false,
   levelFeatures,
   currentLevel = 1,
   onLevelChange,
@@ -158,6 +161,7 @@ export const GameScreen = ({
           showVariants={settings.showFontVariants && (levelFeatures?.showWordVariants ?? true)}
           showSyllables={settings.showSyllables && (levelFeatures?.showSyllables ?? true)}
           hideEmojiAfterDelay={levelFeatures?.hideEmojiAfterDelay}
+          isCelebrating={isCelebrating}
         />
         <LetterTiles
           word={currentWord.text}
