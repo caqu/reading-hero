@@ -166,7 +166,8 @@ function App() {
     }
 
     // Play letter sound for letters (not space) - only on Level 1 and if setting is enabled
-    if (key !== ' ' && settings.enableLetterSounds && leveling.currentLevel === 1) {
+    const shouldPlaySound = key !== ' ' && settings.enableLetterSounds && leveling.level === 1;
+    if (shouldPlaySound) {
       playLetterSound(key);
     }
 
