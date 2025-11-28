@@ -51,7 +51,10 @@
       "Bash(test:*)",
       "Bash(npm run pregen:words:*)",
       "Bash(netstat:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(node test-ugc-api.js:*)"
     ],
     "deny": [],
     "ask": []
