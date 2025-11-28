@@ -28,3 +28,6 @@ coverage
 
 # raw video files
 /public/signs/raw/
+
+# User-generated content
+/ugc/

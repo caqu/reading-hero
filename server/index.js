@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, unlinkSync, readFileSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -15,7 +15,11 @@ const PORT = 3001;
 
 // Enable CORS for the frontend
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Increase limit for base64 images
+
+// Serve UGC files as static content
+const ugcPath = join(__dirname, '..', 'ugc');
+app.use('/ugc', express.static(ugcPath));
 
 // Letters that require SSML+IPA for proper pronunciation
 const SSML_LETTERS = new Set(['x', 's']);
@@ -292,6 +296,359 @@ app.get('/api/tts/word', async (req, res) => {
 });
 
 /**
+ * Sanitize word for filesystem usage
+ * Removes non-alphanumeric characters and converts to lowercase
+ */
+function sanitizeWord(word) {
+  return word.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Read the UGC registry
+ */
+function readRegistry() {
+  const registryPath = join(__dirname, '..', 'ugc', 'registry.json');
+
+  if (!existsSync(registryPath)) {
+    return [];
+  }
+
+  try {
+    const content = readFileSync(registryPath, 'utf8');
+    return JSON.parse(content);
+  } catch (error) {
+    console.error('[UGC] Error reading registry:', error);
+    return [];
+  }
+}
+
+/**
+ * Write the UGC registry atomically
+ */
+function writeRegistry(registry) {
+  const ugcDir = join(__dirname, '..', 'ugc');
+  const registryPath = join(ugcDir, 'registry.json');
+  const tempPath = join(ugcDir, `registry.${Date.now()}.tmp`);
+
+  // Ensure UGC directory exists
+  if (!existsSync(ugcDir)) {
+    mkdirSync(ugcDir, { recursive: true });
+  }
+
+  try {
+    // Write to temp file first
+    writeFileSync(tempPath, JSON.stringify(registry, null, 2), 'utf8');
+
+    // Rename to final location (atomic on most filesystems)
+    if (existsSync(registryPath)) {
+      unlinkSync(registryPath);
+    }
+    writeFileSync(registryPath, readFileSync(tempPath));
+    unlinkSync(tempPath);
+
+    return true;
+  } catch (error) {
+    // Clean up temp file on error
+    try {
+      if (existsSync(tempPath)) {
+        unlinkSync(tempPath);
+      }
+    } catch (cleanupError) {
+      // Ignore cleanup errors
+    }
+
+    console.error('[UGC] Error writing registry:', error);
+    throw error;
+  }
+}
+
+/**
+ * POST /api/ugc/word
+ * Save a user-generated word with its image
+ */
+app.post('/api/ugc/word', async (req, res) => {
+  try {
+    const { word, syllables, segments, imageType, imageData, createdAt } = req.body;
+
+    // Validate required fields
+    if (!word || !syllables || !segments || !imageData) {
+      return res.status(400).json({
+        error: 'Missing required fields: word, syllables, segments, imageData'
+      });
+    }
+
+    // Validate data types
+    if (typeof word !== 'string') {
+      return res.status(400).json({ error: 'word must be a string' });
+    }
+
+    if (!Array.isArray(syllables) || syllables.length === 0) {
+      return res.status(400).json({ error: 'syllables must be a non-empty array' });
+    }
+
+    if (!Array.isArray(segments) || segments.length === 0) {
+      return res.status(400).json({ error: 'segments must be a non-empty array' });
+    }
+
+    if (typeof imageData !== 'string') {
+      return res.status(400).json({ error: 'imageData must be a base64 string' });
+    }
+
+    // Sanitize word for filesystem
+    const sanitizedWord = sanitizeWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    // Create word directory
+    const wordDir = join(__dirname, '..', 'ugc', 'words', sanitizedWord);
+    if (!existsSync(wordDir)) {
+      mkdirSync(wordDir, { recursive: true });
+    }
+
+    // Save image file
+    const imagePath = join(wordDir, 'image.png');
+    const imageBuffer = Buffer.from(imageData.replace(/^data:image\/png;base64,/, ''), 'base64');
+    writeFileSync(imagePath, imageBuffer);
+
+    // Create data object
+    const wordData = {
+      word: sanitizedWord,
+      syllables,
+      segments,
+      imagePath: `/ugc/words/${sanitizedWord}/image.png`,
+      source: 'user',
+      imageType: imageType || 'unknown',
+      createdAt: createdAt || Date.now(),
+      active: true
+    };
+
+    // Save data.json
+    const dataPath = join(wordDir, 'data.json');
+    writeFileSync(dataPath, JSON.stringify(wordData, null, 2), 'utf8');
+
+    // Update registry atomically
+    const registry = readRegistry();
+
+    // Check if word already exists in registry
+    const existingIndex = registry.findIndex(item => item.word === sanitizedWord);
+
+    if (existingIndex >= 0) {
+      // Update existing entry
+      registry[existingIndex] = wordData;
+      console.log(`[UGC] Updated existing word: ${sanitizedWord}`);
+    } else {
+      // Add new entry
+      registry.push(wordData);
+      console.log(`[UGC] Added new word: ${sanitizedWord}`);
+    }
+
+    writeRegistry(registry);
+
+    return res.status(201).json({
+      success: true,
+      word: sanitizedWord,
+      data: wordData
+    });
+
+  } catch (error) {
+    console.error('[UGC] Error saving word:', error);
+    return res.status(500).json({
+      error: 'Failed to save word',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * PATCH /api/ugc/word/:word
+ * Update active status of a user-generated word
+ */
+app.patch('/api/ugc/word/:word', async (req, res) => {
+  try {
+    const { word } = req.params;
+    const { active } = req.body;
+
+    // Validate required fields
+    if (typeof active !== 'boolean') {
+      return res.status(400).json({
+        error: 'Missing or invalid required field: active (must be boolean)'
+      });
+    }
+
+    // Sanitize word for filesystem
+    const sanitizedWord = sanitizeWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    // Check if word exists
+    const wordDir = join(__dirname, '..', 'ugc', 'words', sanitizedWord);
+    const dataPath = join(wordDir, 'data.json');
+
+    if (!existsSync(dataPath)) {
+      return res.status(404).json({
+        error: 'Word not found',
+        word: sanitizedWord
+      });
+    }
+
+    // Read current data
+    const currentData = JSON.parse(readFileSync(dataPath, 'utf8'));
+
+    // Update active status
+    currentData.active = active;
+
+    // Save updated data
+    writeFileSync(dataPath, JSON.stringify(currentData, null, 2), 'utf8');
+
+    // Update registry atomically
+    const registry = readRegistry();
+    const existingIndex = registry.findIndex(item => item.word === sanitizedWord);
+
+    if (existingIndex >= 0) {
+      registry[existingIndex].active = active;
+      writeRegistry(registry);
+    }
+
+    console.log(`[UGC] Updated word ${sanitizedWord} active status to: ${active}`);
+
+    return res.json({
+      success: true,
+      word: sanitizedWord,
+      active
+    });
+
+  } catch (error) {
+    console.error('[UGC] Error updating word:', error);
+    return res.status(500).json({
+      error: 'Failed to update word',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/ugc/words
+ * Get all user-generated words
+ */
+app.get('/api/ugc/words', (req, res) => {
+  try {
+    const registry = readRegistry();
+
+    return res.json({
+      success: true,
+      count: registry.length,
+      words: registry
+    });
+  } catch (error) {
+    console.error('[UGC] Error fetching words:', error);
+    return res.status(500).json({
+      error: 'Failed to fetch words',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/ugc/word/:word
+ * Get a specific user-generated word
+ */
+app.get('/api/ugc/word/:word', (req, res) => {
+  try {
+    const { word } = req.params;
+    const sanitizedWord = sanitizeWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    const dataPath = join(__dirname, '..', 'ugc', 'words', sanitizedWord, 'data.json');
+
+    if (!existsSync(dataPath)) {
+      return res.status(404).json({
+        error: 'Word not found',
+        word: sanitizedWord
+      });
+    }
+
+    const wordData = JSON.parse(readFileSync(dataPath, 'utf8'));
+
+    return res.json({
+      success: true,
+      data: wordData
+    });
+  } catch (error) {
+    console.error('[UGC] Error fetching word:', error);
+    return res.status(500).json({
+      error: 'Failed to fetch word',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * DELETE /api/ugc/word/:word
+ * Permanently delete a user-generated word
+ */
+app.delete('/api/ugc/word/:word', async (req, res) => {
+  try {
+    const { word } = req.params;
+    const sanitizedWord = sanitizeWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    // Check if word exists
+    const wordDir = join(__dirname, '..', 'ugc', 'words', sanitizedWord);
+    const dataPath = join(wordDir, 'data.json');
+
+    if (!existsSync(dataPath)) {
+      return res.status(404).json({
+        error: 'Word not found',
+        word: sanitizedWord
+      });
+    }
+
+    // Remove from registry
+    const registry = readRegistry();
+    const filteredRegistry = registry.filter(item => item.word !== sanitizedWord);
+    writeRegistry(filteredRegistry);
+
+    // Delete word directory and all its contents
+    if (existsSync(wordDir)) {
+      rmSync(wordDir, { recursive: true, force: true });
+    }
+
+    console.log(`[UGC] Permanently deleted word: ${sanitizedWord}`);
+
+    return res.json({
+      success: true,
+      word: sanitizedWord,
+      message: 'Word permanently deleted'
+    });
+
+  } catch (error) {
+    console.error('[UGC] Error deleting word:', error);
+    return res.status(500).json({
+      error: 'Failed to delete word',
+      details: error.message
+    });
+  }
+});
+
+/**
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
@@ -308,7 +665,15 @@ app.listen(PORT, () => {
   console.log(`\n🎤 TTS API Server running on http://localhost:${PORT}`);
   console.log(`📁 Audio cache: public/audio/letters/\n`);
   console.log('Available endpoints:');
-  console.log(`  GET http://localhost:${PORT}/api/tts/letter?char=<a-z>`);
-  console.log(`  GET http://localhost:${PORT}/api/tts/word?text=<word>`);
-  console.log(`  GET http://localhost:${PORT}/api/health\n`);
+  console.log('  TTS:');
+  console.log(`    GET http://localhost:${PORT}/api/tts/letter?char=<a-z>`);
+  console.log(`    GET http://localhost:${PORT}/api/tts/word?text=<word>`);
+  console.log('  UGC:');
+  console.log(`    POST   http://localhost:${PORT}/api/ugc/word`);
+  console.log(`    PATCH  http://localhost:${PORT}/api/ugc/word/<word>`);
+  console.log(`    DELETE http://localhost:${PORT}/api/ugc/word/<word>`);
+  console.log(`    GET    http://localhost:${PORT}/api/ugc/words`);
+  console.log(`    GET    http://localhost:${PORT}/api/ugc/word/<word>`);
+  console.log('  Health:');
+  console.log(`    GET http://localhost:${PORT}/api/health\n`);
 });

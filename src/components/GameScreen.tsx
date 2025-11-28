@@ -38,6 +38,8 @@ interface GameScreenProps {
   onViewSettings?: () => void;
   /** Callback to navigate to create your own page */
   onCreateYourOwn?: () => void;
+  /** Callback to navigate to manage words page */
+  onManageWords?: () => void;
   /** Callback when profile is switched */
   onProfileSwitch?: (profile: Profile) => void;
   /** Callback to navigate to add profile screen */
@@ -68,6 +70,7 @@ export const GameScreen = ({
   onViewStats,
   onViewSettings,
   onCreateYourOwn,
+  onManageWords,
   onProfileSwitch,
   onAddProfile,
   onRemoveWord,
@@ -186,6 +189,15 @@ export const GameScreen = ({
               aria-label="Create your own word"
             >
               Create Your Own
+            </button>
+          )}
+          {onManageWords && (
+            <button
+              className={styles.statsButton}
+              onClick={onManageWords}
+              aria-label="Manage my words"
+            >
+              Manage My Words
             </button>
           )}
         </div>

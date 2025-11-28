@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.canvasContainer {
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  touch-action: none; /* Prevent scrolling while drawing on touch devices */
+}
+
+.canvas {
+  display: block;
+  cursor: crosshair;
+  max-width: 100%;
+  height: auto;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.clearButton,
+.saveButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearButton {
+  background-color: var(--color-error);
+  color: white;
+}
+
+.clearButton:hover {
+  background-color: var(--color-error-dark, #c0392b);
+  transform: translateY(-2px);
+}
+
+.clearButton:active {
+  transform: translateY(0);
+}
+
+.saveButton {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: var(--color-success-dark, #27ae60);
+  transform: translateY(-2px);
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+.hint {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .canvasContainer {
+    max-width: 100%;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .clearButton,
+  .saveButton {
+    width: 100%;
+  }
+}

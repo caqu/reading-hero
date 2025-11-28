@@ -1,0 +1,168 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.error {
+  background-color: #fee;
+  border: 2px solid var(--color-error);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--color-error);
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+  max-width: 400px;
+}
+
+.dropZone {
+  border: 2px dashed var(--color-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  background-color: var(--color-background-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 400px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropZone:hover {
+  border-color: var(--color-primary-dark, #2980b9);
+  background-color: var(--color-background-tertiary, #f0f0f0);
+  transform: scale(1.02);
+}
+
+.dropZone.dragging {
+  border-color: var(--color-success);
+  background-color: var(--color-success-light, #d5f5e3);
+  border-width: 3px;
+}
+
+.dropZoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.uploadIcon {
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropZone.dragging .uploadIcon {
+  color: var(--color-success);
+}
+
+.dropZoneText {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.dropZoneText strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.dropZoneHint {
+  font-size: 0.875rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.fileInput {
+  display: none;
+}
+
+.previewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.preview {
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.useButton,
+.clearButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.useButton {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.useButton:hover {
+  background-color: var(--color-success-dark, #27ae60);
+  transform: translateY(-2px);
+}
+
+.useButton:active {
+  transform: translateY(0);
+}
+
+.clearButton {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text);
+  border: 2px solid var(--color-text-secondary);
+}
+
+.clearButton:hover {
+  background-color: var(--color-background-tertiary, #e0e0e0);
+  transform: translateY(-2px);
+}
+
+.clearButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dropZone {
+    padding: 1.5rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .useButton,
+  .clearButton {
+    width: 100%;
+  }
+}

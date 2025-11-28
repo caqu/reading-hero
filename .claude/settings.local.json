@@ -49,7 +49,9 @@
       "Bash(node scripts/pregen-letters.js:*)",
       "Bash(curl:*)",
       "Bash(test:*)",
-      "Bash(npm run pregen:words:*)"
+      "Bash(npm run pregen:words:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
