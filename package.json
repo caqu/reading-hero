@@ -12,7 +12,8 @@
     "test:ui": "vitest --ui",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "server": "node server/index.js",
-    "pregen:letters": "node scripts/pregen-letters.js"
+    "pregen:letters": "node scripts/pregen-letters.js",
+    "pregen:words": "node scripts/pregen-words.js"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

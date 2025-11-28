@@ -7,6 +7,7 @@ import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
 import { useTTS } from './hooks/useTTS';
+import { WORD_COMPLETION_DELAY_MS } from './config/ttsConfig';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
@@ -48,7 +49,7 @@ function App() {
   const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
 
   // Initialize TTS system
-  const { playLetterSound } = useTTS();
+  const { playLetterSound, playWordSound } = useTTS();
 
   // Get active profile ID
   const activeProfileId = getActiveProfileId();
@@ -220,6 +221,11 @@ function App() {
 
         // Fire confetti
         triggerWordComplete();
+
+        // Play word sound after delay (non-blocking)
+        setTimeout(() => {
+          playWordSound(currentWord.text);
+        }, WORD_COMPLETION_DELAY_MS);
 
         // Advance to next word after delay (confetti + pause)
         setTimeout(() => {

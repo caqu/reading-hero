@@ -73,7 +73,7 @@ export function useTTS() {
       // Normalize word
       const normalizedWord = word.toLowerCase().trim();
 
-      if (!/^[a-z]+$/.test(normalizedWord)) {
+      if (!/^[a-z ]+$/.test(normalizedWord)) {
         console.warn(`[TTS] Invalid word: ${word}`);
         return;
       }
