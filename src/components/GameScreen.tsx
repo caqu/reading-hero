@@ -67,6 +67,16 @@ export const GameScreen = ({
   const [showInstruction, setShowInstruction] = useState(true);
   const { settings } = useSettings();
 
+  // Compute effective keyboard layout based on setting and level
+  const effectiveLayout = (() => {
+    if (settings.keyboardLayout === 'default') {
+      // Default progression: alphabetical on Level 1, QWERTY on Level 2+
+      return currentLevel === 1 ? 'alphabetical' : 'qwerty';
+    }
+    // Use explicit setting (always alphabetical or always qwerty)
+    return settings.keyboardLayout;
+  })();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowInstruction(false);
@@ -166,7 +176,7 @@ export const GameScreen = ({
             correctKey={correctKey}
             showHighlights={settings.showKeyHighlights && (levelFeatures?.showKeyHighlights ?? true)}
             animateWrongKeys={settings.animateWrongKeys}
-            layout={settings.keyboardLayout}
+            layout={effectiveLayout}
           />
         )}
       </main>

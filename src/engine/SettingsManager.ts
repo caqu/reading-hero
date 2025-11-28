@@ -14,7 +14,7 @@ export interface Settings {
   // Keyboard Settings
   showKeyHighlights: boolean;
   animateWrongKeys: boolean;
-  keyboardLayout: 'alphabetical' | 'qwerty';
+  keyboardLayout: 'default' | 'qwerty' | 'alphabetical';
 
   // Variant Display Settings
   showFontVariants: boolean;
@@ -50,7 +50,7 @@ const DEFAULT_SETTINGS: Settings = {
   // Keyboard Settings
   showKeyHighlights: true,
   animateWrongKeys: true,
-  keyboardLayout: 'qwerty',
+  keyboardLayout: 'default', // Level 1: alphabetical, Level 2+: qwerty
 
   // Variant Display Settings (all true by default, level-based)
   showFontVariants: true,

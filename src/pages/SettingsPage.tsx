@@ -81,17 +81,44 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
               />
               <span>Animate wrong keys (shake)</span>
             </label>
-            <label className={styles.settingItem}>
+            <div className={styles.settingItem}>
               <span className={styles.label}>Keyboard Layout:</span>
-              <select
-                value={settings.keyboardLayout}
-                onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'alphabetical' | 'qwerty' })}
-                className={styles.select}
-              >
-                <option value="qwerty">QWERTY</option>
-                <option value="alphabetical">Alphabetical</option>
-              </select>
-            </label>
+              <div className={styles.radioGroup}>
+                <label className={styles.radioLabel}>
+                  <input
+                    type="radio"
+                    name="keyboardLayout"
+                    value="default"
+                    checked={settings.keyboardLayout === 'default'}
+                    onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'default' | 'qwerty' | 'alphabetical' })}
+                    className={styles.radio}
+                  />
+                  <span>Default Progression (Level 1: Alphabetical, Level 2+: QWERTY)</span>
+                </label>
+                <label className={styles.radioLabel}>
+                  <input
+                    type="radio"
+                    name="keyboardLayout"
+                    value="alphabetical"
+                    checked={settings.keyboardLayout === 'alphabetical'}
+                    onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'default' | 'qwerty' | 'alphabetical' })}
+                    className={styles.radio}
+                  />
+                  <span>Always Alphabetical</span>
+                </label>
+                <label className={styles.radioLabel}>
+                  <input
+                    type="radio"
+                    name="keyboardLayout"
+                    value="qwerty"
+                    checked={settings.keyboardLayout === 'qwerty'}
+                    onChange={(e) => updateSettings({ keyboardLayout: e.target.value as 'default' | 'qwerty' | 'alphabetical' })}
+                    className={styles.radio}
+                  />
+                  <span>Always QWERTY</span>
+                </label>
+              </div>
+            </div>
           </div>
         </section>
 

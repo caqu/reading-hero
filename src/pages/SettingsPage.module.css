@@ -172,6 +172,37 @@
   outline-offset: 2px;
 }
 
+/* Radio Group */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1rem;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-normal);
+}
+
+.radioLabel:hover {
+  background-color: var(--color-background);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
 /* Reset Section */
 .resetSection {
   display: flex;
