@@ -284,6 +284,11 @@
   font-size: 1.125rem;
 }
 
+.errorBox p {
+  color: var(--color-error);
+  margin: 0;
+}
+
 .errorBox ul {
   margin: 0;
   padding-left: var(--spacing-lg);
@@ -292,6 +297,26 @@
 
 .errorBox li {
   margin-bottom: var(--spacing-xs);
+}
+
+/* Success Box */
+.successBox {
+  background-color: #efe;
+  border: 2px solid #27ae60;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.successBox h3 {
+  color: #27ae60;
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 1.125rem;
+}
+
+.successBox p {
+  color: #27ae60;
+  margin: 0;
 }
 
 /* Image Source Tabs */
@@ -467,10 +492,31 @@
   outline-offset: 2px;
 }
 
+.saveButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.saveButton:disabled:hover {
+  background-color: #ccc;
+  transform: none;
+}
+
 .resetButton {
   background-color: var(--color-background-secondary);
   color: var(--color-text);
   border: 2px solid var(--color-text-secondary);
+}
+
+.resetButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.resetButton:disabled:hover {
+  transform: none;
 }
 
 .resetButton:hover {

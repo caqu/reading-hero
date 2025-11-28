@@ -2,21 +2,15 @@ import { useState, useCallback } from 'react';
 import { CanvasDrawArea } from '../components/CanvasDrawArea';
 import { WebcamCapture } from '../components/WebcamCapture';
 import { FileUpload } from '../components/FileUpload';
+import { saveUserGeneratedWord } from '../utils/ugcApi';
+import type { UserGeneratedWord } from '../utils/ugcApi';
 import styles from './CreateYourOwnPage.module.css';
 
 interface CreateYourOwnPageProps {
   onBack: () => void;
 }
 
-export interface UserGeneratedWord {
-  word: string;
-  syllables: string[];
-  segments: string[];
-  description?: string;
-  category?: string;
-  imageData: string; // Base64 encoded PNG
-  imageSource: 'upload' | 'canvas' | 'webcam';
-}
+// Type is now imported from ugcApi
 
 export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
   // Form state
@@ -33,6 +27,11 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
   // Validation state
   const [showValidation, setShowValidation] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
+  // Save state
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Parse syllables from comma-separated input
   const parseSyllables = (input: string): string[] => {
@@ -91,15 +90,17 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
   };
 
   // Handle form submission
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowValidation(true);
+    setSaveError(null);
+    setSaveSuccess(false);
 
     if (!validateForm()) {
       return;
     }
 
-    // Prepare data for backend (Task 3 will handle the actual save)
+    // Prepare data for backend
     const userData: UserGeneratedWord = {
       word: word.trim(),
       syllables: parseSyllables(syllablesInput),
@@ -110,17 +111,25 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
       imageSource: imageSource!,
     };
 
-    // For now, just log the data - Task 3 will implement the actual API call
-    console.log('User-generated word data:', userData);
+    // Save to backend API
+    setIsSaving(true);
+    try {
+      const response = await saveUserGeneratedWord(userData);
+      console.log('Word saved successfully:', response);
 
-    // TODO: Task 3 will implement the save API call here
-    // await saveUserGeneratedWord(userData);
+      setSaveSuccess(true);
 
-    // Show success message (temporary)
-    alert('Word saved! (Backend integration coming in Task 3)');
-
-    // Reset form
-    handleReset();
+      // Reset form after short delay to show success message
+      setTimeout(() => {
+        handleReset();
+        setSaveSuccess(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Failed to save word:', error);
+      setSaveError(error instanceof Error ? error.message : 'Failed to save word. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Reset form
@@ -151,7 +160,7 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
           </button>
         </div>
 
-        {/* Validation Errors */}
+        {/* Status Messages */}
         {showValidation && validationErrors.length > 0 && (
           <div className={styles.errorBox}>
             <h3>Please fix these errors:</h3>
@@ -160,6 +169,20 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
                 <li key={index}>{error}</li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {saveError && (
+          <div className={styles.errorBox}>
+            <h3>Error:</h3>
+            <p>{saveError}</p>
+          </div>
+        )}
+
+        {saveSuccess && (
+          <div className={styles.successBox}>
+            <h3>Success!</h3>
+            <p>Your word has been saved successfully.</p>
           </div>
         )}
 
@@ -352,13 +375,15 @@ export function CreateYourOwnPage({ onBack }: CreateYourOwnPageProps) {
             <button
               type="submit"
               className={styles.saveButton}
+              disabled={isSaving}
             >
-              Save Word
+              {isSaving ? 'Saving...' : 'Save Word'}
             </button>
             <button
               type="button"
               onClick={handleReset}
               className={styles.resetButton}
+              disabled={isSaving}
             >
               Reset Form
             </button>
