@@ -37,7 +37,16 @@
       "Bash(move:*)",
       "Bash(node update-syllables.cjs:*)",
       "Bash(git checkout:*)",
-      "Bash(python add-syllables.py:*)"
+      "Bash(python add-syllables.py:*)",
+      "Bash(if not exist \"public\\audio\\letters\" mkdir \"public\\audio\\letters\")",
+      "Bash(if not exist \"public\\audio\\words\" mkdir \"public\\audio\\words\")",
+      "Bash(powershell -Command \"New-Item -ItemType Directory -Force -Path ''public\\audio\\letters'', ''public\\audio\\words''\")",
+      "Bash(powershell:*)",
+      "Bash(npm run server:*)",
+      "Bash(npm run pregen:letters:*)",
+      "Bash(node server/index.js:*)",
+      "Bash(taskkill:*)",
+      "Bash(node scripts/pregen-letters.js:*)"
     ],
     "deny": [],
     "ask": []
