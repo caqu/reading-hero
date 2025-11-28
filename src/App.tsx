@@ -7,6 +7,7 @@ import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
 import { useTTS } from './hooks/useTTS';
+import { useSettings } from './hooks/useSettings';
 import { WORD_COMPLETION_DELAY_MS } from './config/ttsConfig';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
@@ -50,6 +51,9 @@ function App() {
 
   // Initialize TTS system
   const { playLetterSound, playWordSound } = useTTS();
+
+  // Get settings
+  const { settings } = useSettings();
 
   // Get active profile ID
   const activeProfileId = getActiveProfileId();
@@ -161,8 +165,8 @@ function App() {
       return;
     }
 
-    // Play letter sound for letters (not space)
-    if (key !== ' ') {
+    // Play letter sound for letters (not space) - only on Level 1 and if setting is enabled
+    if (key !== ' ' && settings.enableLetterSounds && leveling.currentLevel === 1) {
       playLetterSound(key);
     }
 
@@ -230,7 +234,7 @@ function App() {
         // Advance to next word after delay (confetti + pause)
         setTimeout(() => {
           game.nextWord();
-        }, 1000); // 1 second total (confetti duration + small pause)
+        }, 2000); // 2 seconds total (confetti + word audio + pause)
       }
     } else {
       // Incorrect key press - track and trigger wrong key feedback
@@ -241,7 +245,7 @@ function App() {
         triggerWrongKey(key, correctLetter);
       }
     }
-  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect, playLetterSound]);
+  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect, playLetterSound, settings, playWordSound]);
 
   // Physical keyboard event handler
   useEffect(() => {

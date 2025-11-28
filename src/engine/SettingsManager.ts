@@ -31,6 +31,7 @@ export interface Settings {
   enableKeyboardSounds: boolean;
   enableSuccessSound: boolean;
   enableErrorSound: boolean;
+  enableLetterSounds: boolean;
 
   // Gameplay Settings
   autoAdvanceAfterSuccess: boolean;
@@ -62,10 +63,11 @@ const DEFAULT_SETTINGS: Settings = {
   enableTileAnimations: true,
   enableTryAgainAnimation: true,
 
-  // Sound Settings (all off by default)
+  // Sound Settings (all off by default except letter sounds)
   enableKeyboardSounds: false,
   enableSuccessSound: false,
   enableErrorSound: false,
+  enableLetterSounds: true,
 
   // Gameplay Settings
   autoAdvanceAfterSuccess: true,

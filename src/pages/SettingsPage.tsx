@@ -179,6 +179,15 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
             <label className={styles.settingItem}>
               <input
                 type="checkbox"
+                checked={settings.enableLetterSounds}
+                onChange={(e) => updateSettings({ enableLetterSounds: e.target.checked })}
+                className={styles.checkbox}
+              />
+              <span>Letter sounds (Level 1 only)</span>
+            </label>
+            <label className={styles.settingItem}>
+              <input
+                type="checkbox"
                 checked={settings.enableKeyboardSounds}
                 onChange={(e) => updateSettings({ enableKeyboardSounds: e.target.checked })}
                 className={styles.checkbox}
