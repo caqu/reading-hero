@@ -6,6 +6,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
+import { useTTS } from './hooks/useTTS';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { words } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
@@ -45,6 +46,9 @@ function App() {
 
   // Initialize feedback system
   const { feedbackState, triggerWrongKey, triggerCorrectLetter, triggerWordComplete } = useFeedback();
+
+  // Initialize TTS system
+  const { playLetterSound } = useTTS();
 
   // Get active profile ID
   const activeProfileId = getActiveProfileId();
@@ -156,6 +160,11 @@ function App() {
       return;
     }
 
+    // Play letter sound for letters (not space)
+    if (key !== ' ') {
+      playLetterSound(key);
+    }
+
     // Store current state before processing
     const currentWord = game.currentWord;
     const currentLetterIndexBefore = game.currentLetterIndex;
@@ -226,7 +235,7 @@ function App() {
         triggerWrongKey(key, correctLetter);
       }
     }
-  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect]);
+  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect, playLetterSound]);
 
   // Physical keyboard event handler
   useEffect(() => {
