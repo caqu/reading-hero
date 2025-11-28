@@ -46,7 +46,10 @@
       "Bash(npm run pregen:letters:*)",
       "Bash(node server/index.js:*)",
       "Bash(taskkill:*)",
-      "Bash(node scripts/pregen-letters.js:*)"
+      "Bash(node scripts/pregen-letters.js:*)",
+      "Bash(curl:*)",
+      "Bash(test:*)",
+      "Bash(npm run pregen:words:*)"
     ],
     "deny": [],
     "ask": []
