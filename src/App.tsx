@@ -3,6 +3,7 @@ import { FinishScreen } from './components/FinishScreen';
 import { GameScreen } from './components/GameScreen';
 import { StatsPage } from './pages/StatsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { CreateYourOwnPage } from './pages/CreateYourOwnPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
@@ -10,17 +11,20 @@ import { useTTS } from './hooks/useTTS';
 import { useSettings } from './hooks/useSettings';
 import { WORD_COMPLETION_DELAY_MS } from './config/ttsConfig';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
-import { words } from './data/words';
+import { WORD_LIST } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
 import { initializeSettings } from './engine/SettingsManager';
-import { Profile, ProfileLevelingState } from './types';
+import { Profile, Word } from './types';
+import { loadAllWords } from './utils/ugcWordLoader';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create-profile' | 'add-profile';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
   const [isInitialLoad, setIsInitialLoad] = useState(true); // Track if this is the first load
+  const [allWords, setAllWords] = useState<Word[]>(WORD_LIST); // Start with built-in words
+  const [isLoadingWords, setIsLoadingWords] = useState(true); // Track word loading state
 
   // Initialize settings and check for profiles on initial load
   useEffect(() => {
@@ -40,8 +44,27 @@ function App() {
     }
   }, [])
 
+  // Load words (built-in + UGC) on mount
+  useEffect(() => {
+    async function loadWords() {
+      setIsLoadingWords(true);
+      try {
+        const words = await loadAllWords(WORD_LIST);
+        setAllWords(words);
+        console.log(`Loaded ${words.length} total words (${WORD_LIST.length} built-in + ${words.length - WORD_LIST.length} UGC)`);
+      } catch (error) {
+        console.error('Error loading words:', error);
+        // Fallback to built-in words only
+        setAllWords(WORD_LIST);
+      } finally {
+        setIsLoadingWords(false);
+      }
+    }
+    loadWords();
+  }, []);
+
   // Initialize game state with useGameState hook
-  const game = useGameState(words);
+  const game = useGameState(allWords);
 
   // Track if we're currently in word navigation to prevent URL sync loops
   const isNavigatingRef = useRef(false);
@@ -335,6 +358,10 @@ function App() {
     setCurrentScreen('settings');
   };
 
+  const handleCreateYourOwn = () => {
+    setCurrentScreen('create');
+  };
+
   const handleBackToGame = () => {
     setCurrentScreen('game');
   };
@@ -497,6 +524,7 @@ function App() {
           onLevelChange={leveling.setLevel}
           onViewStats={handleViewStats}
           onViewSettings={handleViewSettings}
+          onCreateYourOwn={handleCreateYourOwn}
           onProfileSwitch={handleProfileSwitch}
           onAddProfile={handleAddProfile}
         />
@@ -509,6 +537,11 @@ function App() {
       )}
       {currentScreen === 'settings' && (
         <SettingsPage
+          onBack={handleBackToGame}
+        />
+      )}
+      {currentScreen === 'create' && (
+        <CreateYourOwnPage
           onBack={handleBackToGame}
         />
       )}

@@ -36,10 +36,14 @@ interface GameScreenProps {
   onViewStats?: () => void;
   /** Callback to navigate to settings page */
   onViewSettings?: () => void;
+  /** Callback to navigate to create your own page */
+  onCreateYourOwn?: () => void;
   /** Callback when profile is switched */
   onProfileSwitch?: (profile: Profile) => void;
   /** Callback to navigate to add profile screen */
   onAddProfile?: () => void;
+  /** Callback when a UGC word is removed */
+  onRemoveWord?: (wordId: string) => void;
 }
 
 export const GameScreen = ({
@@ -63,11 +67,14 @@ export const GameScreen = ({
   onLevelChange,
   onViewStats,
   onViewSettings,
+  onCreateYourOwn,
   onProfileSwitch,
   onAddProfile,
+  onRemoveWord,
 }: GameScreenProps) => {
   const currentWord = words[currentWordIndex];
   const [showInstruction, setShowInstruction] = useState(true);
+  const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
   const { settings } = useSettings();
 
   // Compute effective keyboard layout based on setting and level
@@ -94,6 +101,27 @@ export const GameScreen = ({
 
   // Calculate accuracy as percentage of correct key presses out of total attempts
   const accuracy = attempts > 0 ? Math.round((correctAttempts * 100) / attempts) : 0;
+
+  // Check if current word is a UGC word
+  const isUGCWord = currentWord?.source === 'user';
+
+  // Handle remove button click
+  const handleRemoveClick = () => {
+    setShowRemoveConfirmation(true);
+  };
+
+  // Handle confirmed removal
+  const handleConfirmRemove = () => {
+    if (currentWord && onRemoveWord) {
+      onRemoveWord(currentWord.id);
+    }
+    setShowRemoveConfirmation(false);
+  };
+
+  // Handle cancel removal
+  const handleCancelRemove = () => {
+    setShowRemoveConfirmation(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -151,10 +179,31 @@ export const GameScreen = ({
               Settings
             </button>
           )}
+          {onCreateYourOwn && (
+            <button
+              className={styles.statsButton}
+              onClick={onCreateYourOwn}
+              aria-label="Create your own word"
+            >
+              Create Your Own
+            </button>
+          )}
         </div>
       </aside>
 
       <main className={styles.main}>
+        {/* UGC Word Remove Button - Top Right Corner */}
+        {isUGCWord && onRemoveWord && (
+          <button
+            className={styles.removeButton}
+            onClick={handleRemoveClick}
+            aria-label="Remove this word from rotation"
+            title="Remove this word"
+          >
+            🗑️
+          </button>
+        )}
+
         <WordCard
           word={currentWord}
           showWord={showWordText}
@@ -182,6 +231,31 @@ export const GameScreen = ({
             animateWrongKeys={settings.animateWrongKeys}
             layout={effectiveLayout}
           />
+        )}
+
+        {/* Removal Confirmation Dialog */}
+        {showRemoveConfirmation && (
+          <div className={styles.confirmationOverlay}>
+            <div className={styles.confirmationDialog}>
+              <h3>Remove this word?</h3>
+              <p>This will hide "{currentWord.text}" from rotation.</p>
+              <p className={styles.confirmationNote}>The word will remain saved and can be managed later.</p>
+              <div className={styles.confirmationButtons}>
+                <button
+                  className={styles.confirmButton}
+                  onClick={handleConfirmRemove}
+                >
+                  Remove
+                </button>
+                <button
+                  className={styles.cancelButton}
+                  onClick={handleCancelRemove}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </div>
