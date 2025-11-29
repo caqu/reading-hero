@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { RECORDING_WORD_LIST, RECORDING_WORD_COUNT } from '../data/recordingWordList';
+import { EMOJI_WORDS } from '../data/emojiWords';
 import { RECORDING_DURATION_MS, COUNTDOWN_DURATION_MS, CAMERA_RESOLUTION } from '../config/mediaConfig';
 import { uploadSign, blobToBase64 } from '../utils/signRecordingApi';
 import { buildInventory, SignInventory, getTotalWordCount } from '../utils/signInventory';
@@ -7,6 +8,12 @@ import styles from './RecordSignsPage.module.css';
 
 interface RecordSignsPageProps {
   onBack: () => void;
+}
+
+// Helper function to get emoji for a word
+function getEmojiForWord(wordText: string): string {
+  const word = EMOJI_WORDS.find(w => w.text === wordText);
+  return word?.emoji || '';
 }
 
 export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
@@ -266,7 +273,9 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
         {inventory && inventory.missing.length === 0 ? (
           <div className={styles.wordText}>All words recorded!</div>
         ) : (
-          <div className={styles.wordText}>{currentWord}</div>
+          <div className={styles.wordText}>
+            {getEmojiForWord(currentWord)} {currentWord}
+          </div>
         )}
       </div>
 

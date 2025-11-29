@@ -2,11 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { SignVideo } from '../components/SignVideo';
 import { listSigns, updateSignStatus, SignMetadata } from '../utils/signRecordingApi';
 import { getApiBaseUrl } from '../config/apiConfig';
+import { EMOJI_WORDS } from '../data/emojiWords';
 
 type ViewMode = 'grid' | 'playback';
 
 interface ReviewSignsPageProps {
   onBack: () => void;
+}
+
+// Helper function to get emoji for a word
+function getEmojiForWord(wordText: string): string {
+  const word = EMOJI_WORDS.find(w => w.text === wordText);
+  return word?.emoji || '';
 }
 
 export const ReviewSignsPage: React.FC<ReviewSignsPageProps> = ({ onBack }) => {
@@ -202,7 +209,9 @@ export const ReviewSignsPage: React.FC<ReviewSignsPageProps> = ({ onBack }) => {
                     {deletingWords.has(sign.word) ? '...' : 'X'}
                   </button>
                 </div>
-                <div style={styles.wordLabel}>{sign.word}</div>
+                <div style={styles.wordLabel}>
+                  {getEmojiForWord(sign.word)} {sign.word}
+                </div>
               </div>
             ))}
           </div>
@@ -214,7 +223,9 @@ export const ReviewSignsPage: React.FC<ReviewSignsPageProps> = ({ onBack }) => {
         <div style={styles.playbackContainer}>
           <div style={styles.playbackContent}>
             {/* Word Title */}
-            <h2 style={styles.playbackWord}>{signs[currentIndex]!.word}</h2>
+            <h2 style={styles.playbackWord}>
+              {getEmojiForWord(signs[currentIndex]!.word)} {signs[currentIndex]!.word}
+            </h2>
 
             {/* Video Player */}
             <div style={styles.playbackVideoWrapper}>
