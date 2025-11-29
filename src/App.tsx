@@ -6,6 +6,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { CreateYourOwnPage } from './pages/CreateYourOwnPage';
 import { ManageWordsPage } from './pages/ManageWordsPage';
 import { RecordSignsPage } from './pages/RecordSignsPage';
+import { ReviewSignsPage } from './pages/ReviewSignsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
@@ -20,7 +21,7 @@ import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -37,6 +38,11 @@ function App() {
     const path = window.location.pathname;
     if (path === '/record-signs') {
       setCurrentScreen('record-signs');
+      setIsInitialLoad(false);
+      return;
+    }
+    if (path === '/review-signs') {
+      setCurrentScreen('review-signs');
       setIsInitialLoad(false);
       return;
     }
@@ -608,6 +614,11 @@ function App() {
       )}
       {currentScreen === 'record-signs' && (
         <RecordSignsPage
+          onBack={handleBackToGame}
+        />
+      )}
+      {currentScreen === 'review-signs' && (
+        <ReviewSignsPage
           onBack={handleBackToGame}
         />
       )}
