@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { SignVideo } from '../components/SignVideo';
 import { listSigns, updateSignStatus, SignMetadata } from '../utils/signRecordingApi';
+import { getApiBaseUrl } from '../config/apiConfig';
 
 type ViewMode = 'grid' | 'playback';
 
@@ -185,7 +186,7 @@ export const ReviewSignsPage: React.FC<ReviewSignsPageProps> = ({ onBack }) => {
               <div key={sign.word} style={styles.gridCell}>
                 <div style={styles.videoWrapper}>
                   <SignVideo
-                    mp4Src={`http://localhost:3001/asl/signs/${sign.word}/sign_loop.mp4`}
+                    mp4Src={`${getApiBaseUrl()}/asl/signs/${sign.word}/sign_loop.mp4`}
                     alt={`ASL sign for ${sign.word}`}
                     className="review-sign-video"
                   />
@@ -218,7 +219,7 @@ export const ReviewSignsPage: React.FC<ReviewSignsPageProps> = ({ onBack }) => {
             {/* Video Player */}
             <div style={styles.playbackVideoWrapper}>
               <SignVideo
-                mp4Src={`http://localhost:3001/asl/signs/${signs[currentIndex]!.word}/sign_loop.mp4`}
+                mp4Src={`${getApiBaseUrl()}/asl/signs/${signs[currentIndex]!.word}/sign_loop.mp4`}
                 alt={`ASL sign for ${signs[currentIndex]!.word}`}
                 width="100%"
                 height="100%"

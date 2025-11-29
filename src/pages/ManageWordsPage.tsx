@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { getApiBaseUrl } from '../config/apiConfig';
 import styles from './ManageWordsPage.module.css';
 
 interface UGCWord {
@@ -27,7 +28,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:3001/api/ugc/words');
+      const response = await fetch(`${getApiBaseUrl()}/api/ugc/words`);
       if (!response.ok) {
         throw new Error('Failed to fetch words');
       }
@@ -48,7 +49,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
   // Toggle active status (restore/remove)
   const handleToggleActive = async (word: UGCWord) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/ugc/word/${word.word}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/ugc/word/${word.word}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/ugc/word/${word.word}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/ugc/word/${word.word}`, {
         method: 'DELETE',
       });
 
@@ -156,7 +157,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
                     <div key={word.word} className={styles.wordCard}>
                       <div className={styles.wordImageContainer}>
                         <img
-                          src={`http://localhost:3001${word.imagePath}`}
+                          src={`${getApiBaseUrl()}${word.imagePath}`}
                           alt={word.word}
                           className={styles.wordImage}
                         />
@@ -206,7 +207,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
                     <div key={word.word} className={`${styles.wordCard} ${styles.inactiveCard}`}>
                       <div className={styles.wordImageContainer}>
                         <img
-                          src={`http://localhost:3001${word.imagePath}`}
+                          src={`${getApiBaseUrl()}${word.imagePath}`}
                           alt={word.word}
                           className={`${styles.wordImage} ${styles.inactiveImage}`}
                         />
@@ -263,7 +264,7 @@ export const ManageWordsPage = ({ onBack }: ManageWordsPageProps) => {
             </button>
             <div className={styles.modalContent}>
               <img
-                src={`http://localhost:3001${previewWord.imagePath}`}
+                src={`${getApiBaseUrl()}${previewWord.imagePath}`}
                 alt={previewWord.word}
                 className={styles.previewImage}
               />

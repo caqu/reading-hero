@@ -2,7 +2,9 @@
  * API utility for ASL Sign Recording endpoints
  */
 
-const API_BASE_URL = 'http://localhost:3001/api/signs';
+import { getApiBaseUrl } from '../config/apiConfig';
+
+const API_BASE_URL = `${getApiBaseUrl()}/api/signs`;
 
 export interface SignMetadata {
   word: string;
@@ -125,7 +127,7 @@ export function blobToBase64(blob: Blob): Promise<string> {
  */
 export async function checkServerHealth(): Promise<boolean> {
   try {
-    const response = await fetch('http://localhost:3001/api/health');
+    const response = await fetch(`${getApiBaseUrl()}/api/health`);
     return response.ok;
   } catch (error) {
     return false;

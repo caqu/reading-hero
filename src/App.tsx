@@ -13,6 +13,7 @@ import { useWordRouting } from './hooks/useWordRouting';
 import { useTTS } from './hooks/useTTS';
 import { useSettings } from './hooks/useSettings';
 import { WORD_COMPLETION_DELAY_MS } from './config/ttsConfig';
+import { getApiBaseUrl } from './config/apiConfig';
 import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { WORD_LIST } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
@@ -434,7 +435,7 @@ function App() {
       const wordName = wordId.startsWith('user:') ? wordId.substring(5) : wordId;
 
       // Call PATCH endpoint to mark word as inactive
-      const response = await fetch(`http://localhost:3001/api/ugc/word/${wordName}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/ugc/word/${wordName}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

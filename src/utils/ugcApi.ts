@@ -2,7 +2,9 @@
  * API utility for User-Generated Content (UGC) endpoints
  */
 
-const API_BASE_URL = 'http://localhost:3001/api/ugc';
+import { getApiBaseUrl } from '../config/apiConfig';
+
+const API_BASE_URL = `${getApiBaseUrl()}/api/ugc`;
 
 export interface UserGeneratedWord {
   word: string;
@@ -155,7 +157,7 @@ export async function deleteWord(word: string): Promise<DeleteWordResponse> {
  */
 export async function checkServerHealth(): Promise<boolean> {
   try {
-    const response = await fetch('http://localhost:3001/api/health');
+    const response = await fetch(`${getApiBaseUrl()}/api/health`);
     return response.ok;
   } catch (error) {
     return false;

@@ -3,6 +3,8 @@
  * Controls TTS behavior for letter and word pronunciation
  */
 
+import { getApiBaseUrl, areBackendAPIsAvailable } from './apiConfig';
+
 /**
  * Delay in milliseconds after the last letter sound before playing the full word
  */
@@ -32,12 +34,13 @@ export interface TTSConfig {
 }
 
 export const DEFAULT_TTS_CONFIG: TTSConfig = {
-  apiBaseUrl: 'http://localhost:3001/api/tts',
+  apiBaseUrl: `${getApiBaseUrl()}/api/tts`,
   speakingRate: 0,
   volume: 100,
   audioFormat: 'wav',
   cacheDirectory: '/audio/letters',
-  enabled: true,
+  // Disable TTS if backend APIs are not available (e.g., on Vercel without backend)
+  enabled: areBackendAPIsAvailable(),
   preloadLetterSounds: false,
 };
 
