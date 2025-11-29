@@ -245,6 +245,19 @@
   border-radius: var(--radius-lg);
 }
 
+/* Error Message */
+.errorMessage {
+  background-color: #fee2e2;
+  border: 2px solid #ef4444;
+  color: #991b1b;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  width: 100%;
+  font-size: 1rem;
+}
+
 /* Controls */
 .controls {
   display: flex;
