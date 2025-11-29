@@ -1,0 +1,8 @@
+{
+  "word": "test",
+  "recordedAt": "2025-11-29T04:45:22.484Z",
+  "durationMs": 2000,
+  "loopPath": "/asl/signs/test/sign_loop.mp4",
+  "rawPath": "/asl/signs/test/raw.webm",
+  "status": "pending"
+}

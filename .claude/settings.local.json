@@ -54,7 +54,9 @@
       "Bash(findstr:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
-      "Bash(node test-ugc-api.js:*)"
+      "Bash(node test-ugc-api.js:*)",
+      "Bash(node test-upload-sign.js:*)",
+      "Bash(del nul)"
     ],
     "deny": [],
     "ask": []
