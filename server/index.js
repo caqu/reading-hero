@@ -1,14 +1,23 @@
 import express from 'express';
 import cors from 'cors';
+import multer from 'multer';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { existsSync, mkdirSync, writeFileSync, unlinkSync, readFileSync, rmSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, unlinkSync, readFileSync, rmSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Configure multer for memory storage (we'll process and save manually)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 50 * 1024 * 1024 // 50MB limit for video files
+  }
+});
 
 const app = express();
 const PORT = 3001;
@@ -20,6 +29,10 @@ app.use(express.json({ limit: '10mb' })); // Increase limit for base64 images
 // Serve UGC files as static content
 const ugcPath = join(__dirname, '..', 'ugc');
 app.use('/ugc', express.static(ugcPath));
+
+// Serve ASL sign files as static content
+const aslPath = join(__dirname, '..', 'public', 'asl');
+app.use('/asl', express.static(aslPath));
 
 // Letters that require SSML+IPA for proper pronunciation
 const SSML_LETTERS = new Set(['x', 's']);
@@ -649,6 +662,302 @@ app.delete('/api/ugc/word/:word', async (req, res) => {
 });
 
 /**
+ * Sanitize word for filesystem usage (ASL signs)
+ * Removes non-alphanumeric characters and converts to lowercase
+ */
+function sanitizeSignWord(word) {
+  return word.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Process video with ffmpeg
+ * Strips audio, normalizes to 30fps, scales to 720x720, outputs as MP4
+ */
+async function processSignVideo(inputPath, outputPath) {
+  const cmd = [
+    'ffmpeg',
+    '-y', // Overwrite output file
+    '-i', inputPath,
+    '-vf', 'scale=720:720:force_original_aspect_ratio=decrease,pad=720:720:(ow-iw)/2:(oh-ih)/2',
+    '-r', '30', // 30 fps
+    '-an', // Remove audio
+    '-c:v', 'libx264',
+    '-preset', 'fast',
+    '-crf', '23',
+    '-movflags', '+faststart', // Enable fast start for web playback
+    outputPath
+  ];
+
+  try {
+    const { stdout, stderr } = await execAsync(cmd.join(' '));
+    console.log('[ASL] Video processed successfully');
+    return true;
+  } catch (error) {
+    console.error('[ASL] FFmpeg error:', error.message);
+    throw new Error(`Failed to process video: ${error.message}`);
+  }
+}
+
+/**
+ * Read the ASL signs registry
+ */
+function readSignsRegistry() {
+  const registryPath = join(__dirname, '..', 'public', 'asl', 'registry.json');
+
+  if (!existsSync(registryPath)) {
+    return [];
+  }
+
+  try {
+    const content = readFileSync(registryPath, 'utf8');
+    return JSON.parse(content);
+  } catch (error) {
+    console.error('[ASL] Error reading registry:', error);
+    return [];
+  }
+}
+
+/**
+ * Write the ASL signs registry atomically
+ */
+function writeSignsRegistry(registry) {
+  const aslDir = join(__dirname, '..', 'public', 'asl');
+  const registryPath = join(aslDir, 'registry.json');
+  const tempPath = join(aslDir, `registry.${Date.now()}.tmp`);
+
+  // Ensure ASL directory exists
+  if (!existsSync(aslDir)) {
+    mkdirSync(aslDir, { recursive: true });
+  }
+
+  try {
+    // Write to temp file first
+    writeFileSync(tempPath, JSON.stringify(registry, null, 2), 'utf8');
+
+    // Rename to final location (atomic on most filesystems)
+    if (existsSync(registryPath)) {
+      unlinkSync(registryPath);
+    }
+    writeFileSync(registryPath, readFileSync(tempPath));
+    unlinkSync(tempPath);
+
+    return true;
+  } catch (error) {
+    // Clean up temp file on error
+    try {
+      if (existsSync(tempPath)) {
+        unlinkSync(tempPath);
+      }
+    } catch (cleanupError) {
+      // Ignore cleanup errors
+    }
+
+    console.error('[ASL] Error writing registry:', error);
+    throw error;
+  }
+}
+
+/**
+ * POST /api/signs/upload
+ * Upload and process a recorded ASL sign video
+ */
+app.post('/api/signs/upload', express.json({ limit: '50mb' }), async (req, res) => {
+  try {
+    const { word, videoData, duration, timestamp } = req.body;
+
+    // Validate required fields
+    if (!word || !videoData) {
+      return res.status(400).json({
+        error: 'Missing required fields: word, videoData'
+      });
+    }
+
+    // Validate data types
+    if (typeof word !== 'string') {
+      return res.status(400).json({ error: 'word must be a string' });
+    }
+
+    if (typeof videoData !== 'string') {
+      return res.status(400).json({ error: 'videoData must be a base64 string' });
+    }
+
+    // Sanitize word for filesystem
+    const sanitizedWord = sanitizeSignWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    // Create word directory structure
+    const wordDir = join(__dirname, '..', 'public', 'asl', 'signs', sanitizedWord);
+    if (!existsSync(wordDir)) {
+      mkdirSync(wordDir, { recursive: true });
+    }
+
+    // Save raw video file
+    const rawPath = join(wordDir, 'raw.webm');
+    const videoBuffer = Buffer.from(videoData.replace(/^data:video\/webm;base64,/, ''), 'base64');
+    writeFileSync(rawPath, videoBuffer);
+
+    console.log(`[ASL] Saved raw video for word: ${sanitizedWord}`);
+
+    // Process video to create looping MP4
+    const processedPath = join(wordDir, 'sign_loop.mp4');
+    try {
+      await processSignVideo(rawPath, processedPath);
+    } catch (error) {
+      // If processing fails, clean up and return error
+      console.error(`[ASL] Processing failed for ${sanitizedWord}:`, error);
+      return res.status(500).json({
+        error: 'Failed to process video',
+        details: error.message
+      });
+    }
+
+    // Create metadata
+    const metadata = {
+      word: sanitizedWord,
+      recordedAt: timestamp || new Date().toISOString(),
+      durationMs: duration || 0,
+      loopPath: `/asl/signs/${sanitizedWord}/sign_loop.mp4`,
+      rawPath: `/asl/signs/${sanitizedWord}/raw.webm`,
+      status: 'approved'
+    };
+
+    // Save metadata file
+    const metaPath = join(wordDir, 'meta.json');
+    writeFileSync(metaPath, JSON.stringify(metadata, null, 2), 'utf8');
+
+    // Update registry atomically
+    const registry = readSignsRegistry();
+
+    // Check if word already exists in registry
+    const existingIndex = registry.findIndex(item => item.word === sanitizedWord);
+
+    if (existingIndex >= 0) {
+      // Update existing entry
+      registry[existingIndex] = metadata;
+      console.log(`[ASL] Updated existing sign: ${sanitizedWord}`);
+    } else {
+      // Add new entry
+      registry.push(metadata);
+      console.log(`[ASL] Added new sign: ${sanitizedWord}`);
+    }
+
+    writeSignsRegistry(registry);
+
+    return res.status(201).json({
+      success: true,
+      word: sanitizedWord,
+      videoUrl: metadata.loopPath,
+      metadata
+    });
+
+  } catch (error) {
+    console.error('[ASL] Error uploading sign:', error);
+    return res.status(500).json({
+      error: 'Failed to upload sign',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/signs/list
+ * Get all recorded ASL signs
+ */
+app.get('/api/signs/list', (req, res) => {
+  try {
+    const registry = readSignsRegistry();
+
+    return res.json({
+      success: true,
+      count: registry.length,
+      signs: registry
+    });
+  } catch (error) {
+    console.error('[ASL] Error fetching signs:', error);
+    return res.status(500).json({
+      error: 'Failed to fetch signs',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * PATCH /api/signs/:word
+ * Update the status of an ASL sign
+ */
+app.patch('/api/signs/:word', async (req, res) => {
+  try {
+    const { word } = req.params;
+    const { status } = req.body;
+
+    // Validate required fields
+    if (!status || !['approved', 'pending', 'deleted'].includes(status)) {
+      return res.status(400).json({
+        error: 'Invalid or missing status field. Must be one of: approved, pending, deleted'
+      });
+    }
+
+    // Sanitize word for filesystem
+    const sanitizedWord = sanitizeSignWord(word);
+
+    if (!sanitizedWord) {
+      return res.status(400).json({
+        error: 'Invalid word: must contain at least one alphanumeric character'
+      });
+    }
+
+    // Check if sign exists
+    const wordDir = join(__dirname, '..', 'public', 'asl', 'signs', sanitizedWord);
+    const metaPath = join(wordDir, 'meta.json');
+
+    if (!existsSync(metaPath)) {
+      return res.status(404).json({
+        error: 'Sign not found',
+        word: sanitizedWord
+      });
+    }
+
+    // Read current metadata
+    const currentMeta = JSON.parse(readFileSync(metaPath, 'utf8'));
+
+    // Update status
+    currentMeta.status = status;
+
+    // Save updated metadata
+    writeFileSync(metaPath, JSON.stringify(currentMeta, null, 2), 'utf8');
+
+    // Update registry atomically
+    const registry = readSignsRegistry();
+    const existingIndex = registry.findIndex(item => item.word === sanitizedWord);
+
+    if (existingIndex >= 0) {
+      registry[existingIndex].status = status;
+      writeSignsRegistry(registry);
+    }
+
+    console.log(`[ASL] Updated sign ${sanitizedWord} status to: ${status}`);
+
+    return res.json({
+      success: true,
+      word: sanitizedWord,
+      status
+    });
+
+  } catch (error) {
+    console.error('[ASL] Error updating sign:', error);
+    return res.status(500).json({
+      error: 'Failed to update sign',
+      details: error.message
+    });
+  }
+});
+
+/**
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
@@ -674,6 +983,10 @@ app.listen(PORT, () => {
   console.log(`    DELETE http://localhost:${PORT}/api/ugc/word/<word>`);
   console.log(`    GET    http://localhost:${PORT}/api/ugc/words`);
   console.log(`    GET    http://localhost:${PORT}/api/ugc/word/<word>`);
+  console.log('  ASL Signs:');
+  console.log(`    POST  http://localhost:${PORT}/api/signs/upload`);
+  console.log(`    GET   http://localhost:${PORT}/api/signs/list`);
+  console.log(`    PATCH http://localhost:${PORT}/api/signs/<word>`);
   console.log('  Health:');
   console.log(`    GET http://localhost:${PORT}/api/health\n`);
 });
