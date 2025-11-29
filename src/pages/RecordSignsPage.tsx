@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { RECORDING_WORD_LIST, RECORDING_WORD_COUNT } from '../data/recordingWordList';
 import { RECORDING_DURATION_MS, COUNTDOWN_DURATION_MS, CAMERA_RESOLUTION } from '../config/mediaConfig';
 import { uploadSign, blobToBase64 } from '../utils/signRecordingApi';
+import { buildInventory, SignInventory, getTotalWordCount } from '../utils/signInventory';
 import styles from './RecordSignsPage.module.css';
 
 interface RecordSignsPageProps {
@@ -9,8 +10,9 @@ interface RecordSignsPageProps {
 }
 
 export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
+  const [inventory, setInventory] = useState<SignInventory | null>(null);
+  const [isLoadingInventory, setIsLoadingInventory] = useState(true);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [recordedCount, setRecordedCount] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -21,7 +23,38 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
 
-  const currentWord = RECORDING_WORD_LIST[currentWordIndex];
+  // Get current word from missing list if inventory loaded, else fall back to full list
+  const wordList = inventory ? inventory.missing : RECORDING_WORD_LIST;
+  const currentWord = wordList[currentWordIndex];
+  const totalWords = getTotalWordCount();
+  const recordedCount = inventory ? inventory.recorded.length : 0;
+
+  // Load inventory on mount
+  useEffect(() => {
+    async function loadInventory() {
+      try {
+        setIsLoadingInventory(true);
+        const inv = await buildInventory();
+        setInventory(inv);
+        setIsLoadingInventory(false);
+
+        // If all words are recorded, show completion
+        if (inv.missing.length === 0) {
+          setIsPaused(true); // Pause to show completion message
+        }
+      } catch (error) {
+        console.error('Error loading inventory:', error);
+        // Fall back to full word list on error
+        setInventory({
+          missing: RECORDING_WORD_LIST,
+          recorded: []
+        });
+        setIsLoadingInventory(false);
+      }
+    }
+
+    loadInventory();
+  }, []);
 
   // Initialize camera feed
   useEffect(() => {
@@ -62,7 +95,7 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
 
   // Auto-recording logic - fully automated hands-free cycle
   useEffect(() => {
-    if (isPaused || !currentWord || isUploading) return;
+    if (isPaused || !currentWord || isUploading || isLoadingInventory) return;
 
     let countdownInterval: NodeJS.Timeout;
     let recordingTimeout: NodeJS.Timeout;
@@ -162,11 +195,26 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
           timestamp: new Date().toISOString()
         });
 
-        // Step 6: Move to next word
-        setRecordedCount(prev => prev + 1);
+        // Step 6: Refresh inventory to update progress
+        try {
+          const updatedInventory = await buildInventory();
+          setInventory(updatedInventory);
 
-        if (currentWordIndex < RECORDING_WORD_LIST.length - 1) {
-          setCurrentWordIndex(prev => prev + 1);
+          // Check if we've completed all words
+          if (updatedInventory.missing.length === 0) {
+            setIsPaused(true); // Pause to show completion
+            setIsUploading(false);
+            return;
+          }
+
+          // Move to next missing word (stay at index 0 since we just removed current word)
+          setCurrentWordIndex(0);
+        } catch (error) {
+          console.error('Error refreshing inventory:', error);
+          // On inventory refresh failure, just move to next word in current list
+          if (currentWordIndex < wordList.length - 1) {
+            setCurrentWordIndex(prev => prev + 1);
+          }
         }
 
         setIsUploading(false);
@@ -190,7 +238,7 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
         mediaRecorderRef.current.stop();
       }
     };
-  }, [currentWordIndex, isPaused, currentWord, isUploading]);
+  }, [currentWordIndex, isPaused, currentWord, isUploading, isLoadingInventory]);
 
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
@@ -198,9 +246,8 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
   };
 
   const handleNext = () => {
-    if (currentWordIndex < RECORDING_WORD_LIST.length - 1) {
+    if (currentWordIndex < wordList.length - 1) {
       setCurrentWordIndex(currentWordIndex + 1);
-      setRecordedCount(recordedCount + 1);
       setError(null); // Clear error when manually advancing
     }
   };
@@ -230,12 +277,12 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
         {/* Progress Counter */}
         <div className={styles.progressBar}>
           <div className={styles.progressText}>
-            {recordedCount} / {RECORDING_WORD_COUNT} recorded
+            {isLoadingInventory ? 'Loading inventory...' : `${recordedCount} / ${totalWords} recorded`}
           </div>
           <div className={styles.progressBarTrack}>
             <div
               className={styles.progressBarFill}
-              style={{ width: `${(recordedCount / RECORDING_WORD_COUNT) * 100}%` }}
+              style={{ width: `${(recordedCount / totalWords) * 100}%` }}
             />
           </div>
         </div>
@@ -244,10 +291,16 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
         <div className={styles.recordingArea}>
           {/* Word Prompt */}
           <div className={styles.wordPrompt}>
-            <div className={styles.wordText}>{currentWord}</div>
-            <div className={styles.wordNumber}>
-              Word {currentWordIndex + 1} of {RECORDING_WORD_COUNT}
-            </div>
+            {inventory && inventory.missing.length === 0 ? (
+              <div className={styles.wordText}>All words recorded!</div>
+            ) : (
+              <>
+                <div className={styles.wordText}>{currentWord}</div>
+                <div className={styles.wordNumber}>
+                  Word {currentWordIndex + 1} of {wordList.length} remaining
+                </div>
+              </>
+            )}
           </div>
 
           {/* Video Preview */}
@@ -278,7 +331,11 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
             {/* Status Display */}
             {!isRecording && countdown === null && (
               <div className={styles.statusOverlay}>
-                {isUploading ? (
+                {isLoadingInventory ? (
+                  <div className={styles.statusMessage}>Loading...</div>
+                ) : inventory && inventory.missing.length === 0 ? (
+                  <div className={styles.statusMessage}>All Complete!</div>
+                ) : isUploading ? (
                   <div className={styles.statusMessage}>Uploading...</div>
                 ) : isPaused ? (
                   <div className={styles.statusMessage}>PAUSED</div>
@@ -301,14 +358,14 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
             <div className={styles.navigationControls}>
               <button
                 onClick={handlePrevious}
-                disabled={currentWordIndex === 0 || isRecording || isUploading}
+                disabled={currentWordIndex === 0 || isRecording || isUploading || isLoadingInventory}
                 className={styles.navButton}
               >
                 Previous
               </button>
               <button
                 onClick={handleNext}
-                disabled={currentWordIndex === RECORDING_WORD_LIST.length - 1 || isRecording || isUploading}
+                disabled={currentWordIndex === wordList.length - 1 || isRecording || isUploading || isLoadingInventory}
                 className={styles.navButton}
               >
                 Next
@@ -318,7 +375,7 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
             <div className={styles.pauseControls}>
               <button
                 onClick={handlePauseToggle}
-                disabled={isUploading}
+                disabled={isUploading || isLoadingInventory || (inventory && inventory.missing.length === 0)}
                 className={isPaused ? styles.continueButton : styles.pauseButton}
               >
                 {isPaused ? 'Continue' : 'Pause'}
