@@ -261,128 +261,87 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        {/* Header */}
-        <div className={styles.header}>
-          <h1 className={styles.title}>ASL Sign Recording</h1>
-          <button
-            onClick={onBack}
-            className={styles.backButton}
-            aria-label="Back to game"
-          >
-            Back
-          </button>
-        </div>
+      {/* Word Prompt - Simple text at top */}
+      <div className={styles.wordPrompt}>
+        {inventory && inventory.missing.length === 0 ? (
+          <div className={styles.wordText}>All words recorded!</div>
+        ) : (
+          <div className={styles.wordText}>{currentWord}</div>
+        )}
+      </div>
 
-        {/* Progress Counter */}
-        <div className={styles.progressBar}>
-          <div className={styles.progressText}>
-            {isLoadingInventory ? 'Loading inventory...' : `${recordedCount} / ${totalWords} recorded`}
-          </div>
-          <div className={styles.progressBarTrack}>
-            <div
-              className={styles.progressBarFill}
-              style={{ width: `${(recordedCount / totalWords) * 100}%` }}
-            />
-          </div>
-        </div>
+      {/* Video Preview */}
+      <div className={styles.videoContainer}>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className={styles.video}
+        />
 
-        {/* Main Recording Area */}
-        <div className={styles.recordingArea}>
-          {/* Word Prompt */}
-          <div className={styles.wordPrompt}>
-            {inventory && inventory.missing.length === 0 ? (
-              <div className={styles.wordText}>All words recorded!</div>
+        {/* Recording Indicator */}
+        {isRecording && (
+          <div className={styles.recordingIndicator}>
+            <div className={styles.recordingDot} />
+            <span>RECORDING</span>
+          </div>
+        )}
+
+        {/* Countdown Overlay */}
+        {countdown !== null && (
+          <div className={styles.countdownOverlay}>
+            <div className={styles.countdownNumber}>{countdown}</div>
+          </div>
+        )}
+
+        {/* Status Display */}
+        {!isRecording && countdown === null && (
+          <div className={styles.statusOverlay}>
+            {isLoadingInventory ? (
+              <div className={styles.statusMessage}>Loading...</div>
+            ) : inventory && inventory.missing.length === 0 ? (
+              <div className={styles.statusMessage}>All Complete!</div>
+            ) : isUploading ? (
+              <div className={styles.statusMessage}>Uploading...</div>
+            ) : isPaused ? (
+              <div className={styles.statusMessage}>PAUSED</div>
             ) : (
-              <>
-                <div className={styles.wordText}>{currentWord}</div>
-                <div className={styles.wordNumber}>
-                  Word {currentWordIndex + 1} of {wordList.length} remaining
-                </div>
-              </>
+              <div className={styles.statusMessage}>Ready to record</div>
             )}
           </div>
+        )}
+      </div>
 
-          {/* Video Preview */}
-          <div className={styles.videoContainer}>
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className={styles.video}
-            />
-
-            {/* Recording Indicator */}
-            {isRecording && (
-              <div className={styles.recordingIndicator}>
-                <div className={styles.recordingDot} />
-                <span>RECORDING</span>
-              </div>
-            )}
-
-            {/* Countdown Overlay */}
-            {countdown !== null && (
-              <div className={styles.countdownOverlay}>
-                <div className={styles.countdownNumber}>{countdown}</div>
-              </div>
-            )}
-
-            {/* Status Display */}
-            {!isRecording && countdown === null && (
-              <div className={styles.statusOverlay}>
-                {isLoadingInventory ? (
-                  <div className={styles.statusMessage}>Loading...</div>
-                ) : inventory && inventory.missing.length === 0 ? (
-                  <div className={styles.statusMessage}>All Complete!</div>
-                ) : isUploading ? (
-                  <div className={styles.statusMessage}>Uploading...</div>
-                ) : isPaused ? (
-                  <div className={styles.statusMessage}>PAUSED</div>
-                ) : (
-                  <div className={styles.statusMessage}>Ready to record</div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Error Display */}
-          {error && (
-            <div className={styles.errorMessage}>
-              {error}
-            </div>
-          )}
-
-          {/* Controls */}
-          <div className={styles.controls}>
-            <div className={styles.navigationControls}>
-              <button
-                onClick={handlePrevious}
-                disabled={currentWordIndex === 0 || isRecording || isUploading || isLoadingInventory}
-                className={styles.navButton}
-              >
-                Previous
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={currentWordIndex === wordList.length - 1 || isRecording || isUploading || isLoadingInventory}
-                className={styles.navButton}
-              >
-                Next
-              </button>
-            </div>
-
-            <div className={styles.pauseControls}>
-              <button
-                onClick={handlePauseToggle}
-                disabled={isUploading || isLoadingInventory || (inventory && inventory.missing.length === 0)}
-                className={isPaused ? styles.continueButton : styles.pauseButton}
-              >
-                {isPaused ? 'Continue' : 'Pause'}
-              </button>
-            </div>
-          </div>
+      {/* Progress Info - Below video */}
+      <div className={styles.progressInfo}>
+        <div className={styles.progressText}>
+          {isLoadingInventory ? 'Loading...' : `${recordedCount} / ${totalWords} recorded`}
         </div>
+        {inventory && inventory.missing.length > 0 && (
+          <div className={styles.wordNumber}>
+            Word {currentWordIndex + 1} of {wordList.length} remaining
+          </div>
+        )}
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className={styles.errorMessage}>
+          {error}
+        </div>
+      )}
+
+      {/* Controls - Just pause/continue */}
+      <div className={styles.controls}>
+        <button
+          onClick={handlePauseToggle}
+          disabled={isUploading || isLoadingInventory || (inventory && inventory.missing.length === 0)}
+          className={isPaused ? styles.continueButton : styles.pauseButton}
+        >
+          {isPaused ? 'Continue' : 'Pause'}
+        </button>
+      </div>
 
         {/* Instructions */}
         <div className={styles.instructions}>
