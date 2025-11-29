@@ -14,6 +14,18 @@ export interface SignInventory {
 }
 
 /**
+ * Normalize word for comparison with backend storage
+ * Must match the backend's sanitizeSignWord function:
+ * - Converts to lowercase
+ * - Removes all non-alphanumeric characters (spaces, hyphens, etc.)
+ *
+ * Example: "Monkey face" -> "monkeyface"
+ */
+function normalizeWord(word: string): string {
+  return word.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
  * Build inventory of recorded vs missing signs
  *
  * Fetches the list of recorded signs from the backend and compares it
@@ -36,16 +48,24 @@ export async function buildInventory(): Promise<SignInventory> {
 
     // Extract words that have been recorded (approved or pending)
     // Exclude deleted signs - they count as missing
-    const recordedWords = signs
+    // Backend stores words normalized (lowercase, no spaces), so we need to normalize for comparison
+    const recordedWordsNormalized = signs
       .filter(sign => sign.status === 'approved' || sign.status === 'pending')
-      .map(sign => sign.word);
+      .map(sign => normalizeWord(sign.word));
+
+    // Create a Set for efficient lookup
+    const recordedSet = new Set(recordedWordsNormalized);
 
     // Find words that haven't been recorded yet
-    const missing = allWords.filter(word => !recordedWords.includes(word));
+    // Compare normalized versions to match backend storage
+    const missing = allWords.filter(word => !recordedSet.has(normalizeWord(word)));
+
+    // Return original word forms (not normalized) for display
+    const recorded = allWords.filter(word => recordedSet.has(normalizeWord(word)));
 
     return {
       missing,
-      recorded: recordedWords
+      recorded
     };
   } catch (error) {
     console.error('Error building sign inventory:', error);

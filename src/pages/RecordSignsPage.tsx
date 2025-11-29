@@ -343,18 +343,17 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
         </button>
       </div>
 
-        {/* Instructions */}
-        <div className={styles.instructions}>
-          <h3>Recording Instructions:</h3>
-          <ul>
-            <li>Position yourself in the center of the frame</li>
-            <li>Ensure good lighting on your face and hands</li>
-            <li>The countdown will start automatically (3, 2, 1)</li>
-            <li>Perform the sign clearly during the recording</li>
-            <li>Recording will stop automatically after 3-4 seconds</li>
-            <li>Use Pause if you need a break</li>
-          </ul>
-        </div>
+      {/* Instructions */}
+      <div className={styles.instructions}>
+        <h3>Recording Instructions:</h3>
+        <ul>
+          <li>Position yourself in the center of the frame</li>
+          <li>Ensure good lighting on your face and hands</li>
+          <li>The countdown will start automatically (3, 2, 1)</li>
+          <li>Perform the sign clearly during the recording</li>
+          <li>Recording will stop automatically after 3-4 seconds</li>
+          <li>Use Pause if you need a break</li>
+        </ul>
       </div>
     </div>
   );
