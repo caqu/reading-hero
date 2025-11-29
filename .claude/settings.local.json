@@ -56,7 +56,9 @@
       "Bash(git log:*)",
       "Bash(node test-ugc-api.js:*)",
       "Bash(node test-upload-sign.js:*)",
-      "Bash(del nul)"
+      "Bash(del nul)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
