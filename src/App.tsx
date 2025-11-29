@@ -19,6 +19,7 @@ import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getA
 import { initializeSettings } from './engine/SettingsManager';
 import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
+import { enrichWordsWithSignVideos } from './utils/enrichWordsWithSignVideos';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs';
@@ -60,14 +61,21 @@ function App() {
     }
   }, [])
 
-  // Load words (built-in + UGC) on mount
+  // Load words (built-in + UGC + ASL sign videos) on mount
   useEffect(() => {
     async function loadWords() {
       setIsLoadingWords(true);
       try {
-        const words = await loadAllWords(WORD_LIST);
-        setAllWords(words);
-        console.log(`Loaded ${words.length} total words (${WORD_LIST.length} built-in + ${words.length - WORD_LIST.length} UGC)`);
+        // Step 1: Load UGC words
+        const wordsWithUGC = await loadAllWords(WORD_LIST);
+        console.log(`Loaded ${wordsWithUGC.length} total words (${WORD_LIST.length} built-in + ${wordsWithUGC.length - WORD_LIST.length} UGC)`);
+
+        // Step 2: Enrich with ASL sign videos
+        const wordsWithSigns = await enrichWordsWithSignVideos(wordsWithUGC);
+        const signCount = wordsWithSigns.filter(w => w.signVideoUrl).length;
+        console.log(`Enriched ${signCount} words with ASL sign videos`);
+
+        setAllWords(wordsWithSigns);
       } catch (error) {
         console.error('Error loading words:', error);
         // Fallback to built-in words only
