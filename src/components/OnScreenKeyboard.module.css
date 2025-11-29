@@ -225,6 +225,20 @@
 .key.spacebarAlphabetical {
   min-width: calc(60px * 2 + var(--spacing-sm));
   flex-grow: 0;
+  /* Override vowel blue border with consonant green border */
+  border-color: #4CAF50;
+  border-width: 3px;
+}
+
+.key.spacebarAlphabetical:hover:not(:disabled) {
+  background-color: #81C784;
+  color: var(--color-background);
+  border-color: #388E3C;
+}
+
+.key.spacebarAlphabetical:active:not(:disabled) {
+  background-color: #388E3C;
+  color: var(--color-background);
 }
 
 /* High contrast mode support */
