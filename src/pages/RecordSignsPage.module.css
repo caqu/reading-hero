@@ -1,0 +1,446 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+  padding: var(--spacing-lg);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+  padding: var(--spacing-xxl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 1000px;
+  width: 100%;
+  gap: var(--spacing-xl);
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.backButton {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.backButton:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.backButton:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.backButton:focus {
+  outline: 3px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* Progress Bar */
+.progressBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.progressText {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 12px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-success) 100%);
+  transition: width 0.3s ease;
+}
+
+/* Recording Area */
+.recordingArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+/* Word Prompt */
+.wordPrompt {
+  text-align: center;
+  padding: var(--spacing-lg);
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-md);
+  border: 3px solid var(--color-primary);
+  width: 100%;
+}
+
+.wordText {
+  font-size: 4rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.wordNumber {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Video Container */
+.videoContainer {
+  position: relative;
+  width: 720px;
+  height: 720px;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border: 4px solid var(--color-primary);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror the video for natural feeling */
+}
+
+/* Recording Indicator */
+.recordingIndicator {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  font-size: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.recordingDot {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Countdown Overlay */
+.countdownOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdownNumber {
+  font-size: 12rem;
+  font-weight: var(--font-weight-bold);
+  color: white;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: countdownPulse 1s ease-out;
+}
+
+@keyframes countdownPulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Status Overlay */
+.statusOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusMessage {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-lg) var(--spacing-xxl);
+  border-radius: var(--radius-lg);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--spacing-lg);
+}
+
+.navigationControls {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.pauseControls {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.navButton,
+.pauseButton,
+.continueButton {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.navButton {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pauseButton {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.pauseButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.continueButton {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.continueButton:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.navButton:active,
+.pauseButton:active,
+.continueButton:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.navButton:focus,
+.pauseButton:focus,
+.continueButton:focus {
+  outline: 3px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* Instructions */
+.instructions {
+  background: var(--color-background-secondary);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border: 2px solid #e0e0e0;
+}
+
+.instructions h3 {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.instructions ul {
+  margin: 0;
+  padding-left: var(--spacing-xl);
+  list-style-type: disc;
+}
+
+.instructions li {
+  font-size: 1rem;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .videoContainer {
+    width: 600px;
+    height: 600px;
+  }
+
+  .wordText {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: var(--spacing-xl);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: stretch;
+  }
+
+  .backButton {
+    width: 100%;
+  }
+
+  .videoContainer {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .wordText {
+    font-size: 2.5rem;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .navigationControls,
+  .pauseControls {
+    width: 100%;
+  }
+
+  .navButton,
+  .pauseButton,
+  .continueButton {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .content {
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .wordText {
+    font-size: 2rem;
+  }
+
+  .countdownNumber {
+    font-size: 8rem;
+  }
+
+  .instructions h3 {
+    font-size: 1.25rem;
+  }
+
+  .instructions li {
+    font-size: 0.9rem;
+  }
+}

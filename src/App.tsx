@@ -5,6 +5,7 @@ import { StatsPage } from './pages/StatsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { CreateYourOwnPage } from './pages/CreateYourOwnPage';
 import { ManageWordsPage } from './pages/ManageWordsPage';
+import { RecordSignsPage } from './pages/RecordSignsPage';
 import { useGameState } from './hooks/useGameState';
 import { useFeedback } from './hooks/useFeedback';
 import { useWordRouting } from './hooks/useWordRouting';
@@ -19,7 +20,7 @@ import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -31,6 +32,14 @@ function App() {
   useEffect(() => {
     // Initialize settings (theme, etc.)
     initializeSettings();
+
+    // Check for direct URL routing to special pages
+    const path = window.location.pathname;
+    if (path === '/record-signs') {
+      setCurrentScreen('record-signs');
+      setIsInitialLoad(false);
+      return;
+    }
 
     if (!hasProfiles()) {
       // No profiles exist - show profile creation screen
@@ -367,6 +376,10 @@ function App() {
     setCurrentScreen('my-words');
   };
 
+  const handleRecordSigns = () => {
+    setCurrentScreen('record-signs');
+  };
+
   const handleBackToGame = () => {
     setCurrentScreen('game');
   };
@@ -590,6 +603,11 @@ function App() {
       )}
       {currentScreen === 'my-words' && (
         <ManageWordsPage
+          onBack={handleBackToGame}
+        />
+      )}
+      {currentScreen === 'record-signs' && (
+        <RecordSignsPage
           onBack={handleBackToGame}
         />
       )}
