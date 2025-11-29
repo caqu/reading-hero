@@ -22,8 +22,10 @@ function normalizeWord(word: string): string {
  */
 export async function enrichWordsWithSignVideos(words: Word[]): Promise<Word[]> {
   try {
+    console.log('[EnrichWords] Fetching signs from backend...');
     // Fetch list of recorded signs from backend
     const { signs } = await listSigns();
+    console.log(`[EnrichWords] Received ${signs.length} signs from backend`);
 
     // Create a map of normalized word -> sign metadata
     const signMap = new Map(
@@ -31,13 +33,15 @@ export async function enrichWordsWithSignVideos(words: Word[]): Promise<Word[]> 
         .filter(sign => sign.status === 'approved') // Only use approved signs
         .map(sign => [sign.word, sign])
     );
+    console.log(`[EnrichWords] ${signMap.size} approved signs available`);
 
     // Enrich each word with sign video URLs if available
-    return words.map(word => {
+    const enrichedWords = words.map(word => {
       const normalizedText = normalizeWord(word.text);
       const sign = signMap.get(normalizedText);
 
       if (sign) {
+        console.log(`[EnrichWords] ✓ Matched "${word.text}" → "${normalizedText}" → ${sign.loopPath}`);
         // Add sign video URLs to the word
         return {
           ...word,
@@ -49,8 +53,13 @@ export async function enrichWordsWithSignVideos(words: Word[]): Promise<Word[]> 
       // Return word unchanged if no sign video exists
       return word;
     });
+
+    const enrichedCount = enrichedWords.filter(w => w.signVideoUrl).length;
+    console.log(`[EnrichWords] Enriched ${enrichedCount} words with sign videos`);
+
+    return enrichedWords;
   } catch (error) {
-    console.error('Failed to enrich words with sign videos:', error);
+    console.error('[EnrichWords] Failed to enrich words with sign videos:', error);
     // Return original words if fetch fails - graceful degradation
     return words;
   }

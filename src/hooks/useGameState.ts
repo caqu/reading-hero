@@ -1,6 +1,6 @@
 // src/hooks/useGameState.ts
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import type { Word, UseGameState } from "../types";
 
 interface GameStateInternal {
@@ -58,6 +58,12 @@ export function useGameState(initialWords: Word[]): UseGameState {
     correctAttempts: 0,
     incorrectAttempts: 0,
   });
+
+  // Update words when initialWords changes (e.g., after ASL video enrichment)
+  useEffect(() => {
+    console.log('[useGameState] Updating words after enrichment');
+    setWords(shuffleArray(initialWords));
+  }, [initialWords]);
 
   // Computed state
   const currentWord = useMemo(() => {

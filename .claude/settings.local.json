@@ -58,7 +58,9 @@
       "Bash(node test-upload-sign.js:*)",
       "Bash(del nul)",
       "Bash(git remote add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(python -m json.tool:*)",
+      "Bash(tasklist:*)"
     ],
     "deny": [],
     "ask": []

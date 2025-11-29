@@ -230,5 +230,37 @@
     "loopPath": "/asl/signs/bear/sign_loop.mp4",
     "rawPath": "/asl/signs/bear/raw.webm",
     "status": "approved"
+  },
+  {
+    "word": "panda",
+    "recordedAt": "2025-11-29T06:22:56.971Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/panda/sign_loop.mp4",
+    "rawPath": "/asl/signs/panda/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "koala",
+    "recordedAt": "2025-11-29T06:23:04.328Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/koala/sign_loop.mp4",
+    "rawPath": "/asl/signs/koala/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "frog",
+    "recordedAt": "2025-11-29T06:23:10.874Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/frog/sign_loop.mp4",
+    "rawPath": "/asl/signs/frog/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "turtle",
+    "recordedAt": "2025-11-29T06:26:10.874Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/turtle/sign_loop.mp4",
+    "rawPath": "/asl/signs/turtle/raw.webm",
+    "status": "approved"
   }
 ]
