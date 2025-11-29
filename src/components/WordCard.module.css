@@ -5,6 +5,15 @@
   width: 100%;
 }
 
+/* Side-by-side layout for emoji/image + ASL sign video (Task 6) */
+.sideBySideContainer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .imageContainer {
   width: 300px;
   height: 300px;
@@ -154,6 +163,10 @@
     height: 250px;
   }
 
+  .sideBySideContainer {
+    gap: 15px;
+  }
+
   .emoji {
     font-size: 128px;
   }
@@ -164,5 +177,22 @@
 
   .wordText {
     font-size: 1.25rem;
+  }
+}
+
+/* For very small screens, stack the side-by-side layout vertically */
+@media (max-width: 600px) {
+  .sideBySideContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .imageContainer {
+    width: 200px;
+    height: 200px;
+  }
+
+  .emoji {
+    font-size: 100px;
   }
 }

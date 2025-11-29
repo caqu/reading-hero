@@ -58,46 +58,88 @@ export const WordCard = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.imageContainer}>
-        {hasVideo ? (
-          // Display ASL sign language video (highest priority for cat/dog)
-          <SignVideo
-            key={animationKey}
-            mp4Src={word.signVideoUrl}
-            webmSrc={word.signVideoWebmUrl}
-            thumbnailSrc={word.signThumbnailUrl}
-            alt={`ASL sign for ${word.text}`}
-            className={`${styles.video} ${styles.bounceIn}`}
-          />
-        ) : hasEmoji && !emojiHidden ? (
-          // Display emoji as the main visual
-          <div
-            key={animationKey}
-            className={`${styles.emoji} ${!isCelebrating ? styles.bounceIn : ''} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''} ${isCelebrating ? styles.bobblehead : ''}`}
-            aria-label={word.emojiDescription || word.text}
-          >
-            {word.emoji}
+      {/* Task 6: Side-by-side layout when both emoji/image and sign video exist */}
+      {hasVideo && (hasEmoji || hasImage) ? (
+        <div className={styles.sideBySideContainer}>
+          {/* Left: Emoji or Image */}
+          <div className={styles.imageContainer}>
+            {hasEmoji && !emojiHidden ? (
+              <div
+                key={animationKey}
+                className={`${styles.emoji} ${!isCelebrating ? styles.bounceIn : ''} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''} ${isCelebrating ? styles.bobblehead : ''}`}
+                aria-label={word.emojiDescription || word.text}
+              >
+                {word.emoji}
+              </div>
+            ) : hasEmoji && emojiHidden ? (
+              <div className={styles.emojiHidden} aria-label="Emoji hidden">
+                ?
+              </div>
+            ) : hasImage ? (
+              <img
+                key={animationKey}
+                src={word.imageUrl}
+                alt={showWord ? word.text : 'Word image'}
+                className={`${styles.image} ${styles.bounceIn}`}
+              />
+            ) : null}
           </div>
-        ) : hasEmoji && emojiHidden ? (
-          // Show placeholder when emoji is hidden
-          <div className={styles.emojiHidden} aria-label="Emoji hidden">
-            ?
+
+          {/* Right: ASL Sign Video */}
+          <div className={styles.imageContainer}>
+            <SignVideo
+              key={animationKey}
+              mp4Src={word.signVideoUrl}
+              webmSrc={word.signVideoWebmUrl}
+              thumbnailSrc={word.signThumbnailUrl}
+              alt={`ASL sign for ${word.text}`}
+              className={`${styles.video} ${styles.bounceIn}`}
+            />
           </div>
-        ) : hasImage ? (
-          // Display image if no emoji
-          <img
-            key={animationKey}
-            src={word.imageUrl}
-            alt={showWord ? word.text : 'Word image'}
-            className={`${styles.image} ${styles.bounceIn}`}
-          />
-        ) : (
-          // Fallback: show word text if no video, emoji, or image
-          <div className={styles.fallbackText}>
-            {word.text}
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        /* Single item layout (original behavior) */
+        <div className={styles.imageContainer}>
+          {hasVideo ? (
+            // Display ASL sign language video only
+            <SignVideo
+              key={animationKey}
+              mp4Src={word.signVideoUrl}
+              webmSrc={word.signVideoWebmUrl}
+              thumbnailSrc={word.signThumbnailUrl}
+              alt={`ASL sign for ${word.text}`}
+              className={`${styles.video} ${styles.bounceIn}`}
+            />
+          ) : hasEmoji && !emojiHidden ? (
+            // Display emoji as the main visual
+            <div
+              key={animationKey}
+              className={`${styles.emoji} ${!isCelebrating ? styles.bounceIn : ''} ${hideEmojiAfterDelay ? styles.emojiFlashing : ''} ${isCelebrating ? styles.bobblehead : ''}`}
+              aria-label={word.emojiDescription || word.text}
+            >
+              {word.emoji}
+            </div>
+          ) : hasEmoji && emojiHidden ? (
+            // Show placeholder when emoji is hidden
+            <div className={styles.emojiHidden} aria-label="Emoji hidden">
+              ?
+            </div>
+          ) : hasImage ? (
+            // Display image if no emoji
+            <img
+              key={animationKey}
+              src={word.imageUrl}
+              alt={showWord ? word.text : 'Word image'}
+              className={`${styles.image} ${styles.bounceIn}`}
+            />
+          ) : (
+            // Fallback: show word text if no video, emoji, or image
+            <div className={styles.fallbackText}>
+              {word.text}
+            </div>
+          )}
+        </div>
+      )}
 
       {showWord && (
         <div className={styles.wordText} aria-label={`Word: ${word.text}`}>

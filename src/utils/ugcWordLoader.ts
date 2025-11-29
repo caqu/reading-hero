@@ -1,4 +1,5 @@
 import { Word } from '../types';
+import { listSigns } from './signRecordingApi';
 
 /**
  * UGC Word Registry Entry
@@ -54,6 +55,7 @@ async function loadUGCWords(): Promise<Word[]> {
 /**
  * Load all words: built-in words + UGC words
  * Merges both lists with UGC words appended at the end
+ * Also checks for recorded ASL signs and adds signVideoUrl if available
  */
 export async function loadAllWords(builtInWords: Word[]): Promise<Word[]> {
   // Mark all built-in words with source: 'builtin'
@@ -66,7 +68,35 @@ export async function loadAllWords(builtInWords: Word[]): Promise<Word[]> {
   const ugcWords = await loadUGCWords();
 
   // Merge: built-in first, then UGC
-  return [...markedBuiltInWords, ...ugcWords];
+  const allWords = [...markedBuiltInWords, ...ugcWords];
+
+  // Check for recorded ASL signs and add signVideoUrl
+  try {
+    const { signs } = await listSigns();
+
+    // Create a map of approved signs for quick lookup
+    const approvedSigns = new Set(
+      signs
+        .filter(sign => sign.status === 'approved')
+        .map(sign => sign.word.toLowerCase())
+    );
+
+    // Enhance words with sign video URLs if they exist
+    return allWords.map(word => {
+      const wordText = word.text.toLowerCase();
+      if (approvedSigns.has(wordText)) {
+        return {
+          ...word,
+          signVideoUrl: `/asl/signs/${wordText}/sign_loop.mp4`,
+        };
+      }
+      return word;
+    });
+  } catch (error) {
+    console.log('Could not load ASL signs - continuing without sign videos:', error);
+    // Return words without sign videos if API fails
+    return allWords;
+  }
 }
 
 /**
