@@ -2,40 +2,31 @@ import { Word } from '../types';
 
 /**
  * Comprehensive emoji-based word list using Unicode CLDR short names.
- * This provides 200+ words for near-infinite replay value.
+ * This provides single-word entries for optimal spelling practice.
  * Each emoji serves as the visual representation, and the CLDR name is the spelling target.
  *
  * Source: Unicode CLDR (Common Locale Data Repository)
  * License: Unicode License (safe for commercial use)
  */
 export const EMOJI_WORDS: Word[] = [
-  // Animals & Nature (50 entries)
-  { id: 'monkey_face', text: 'monkey face', emoji: '🐵', emojiDescription: 'monkey face', syllables: 'mon-key face', segments: 'mon·key face' },
+  // Animals & Nature
   { id: 'monkey', text: 'monkey', emoji: '🐒', emojiDescription: 'monkey', syllables: 'mon-key', segments: 'mon·key' },
   { id: 'gorilla', text: 'gorilla', emoji: '🦍', emojiDescription: 'gorilla', syllables: 'go-ril-la', segments: 'go·ril·la' },
   { id: 'orangutan', text: 'orangutan', emoji: '🦧', emojiDescription: 'orangutan', syllables: 'o-ran-gu-tan', segments: 'o·ran·gu·tan' },
-  { id: 'dog_face', text: 'dog face', emoji: '🐶', emojiDescription: 'dog face', syllables: 'dog face', segments: 'dog face' },
   { id: 'poodle', text: 'poodle', emoji: '🐩', emojiDescription: 'poodle', syllables: 'poo-dle', segments: 'poo·dle' },
   { id: 'wolf', text: 'wolf', emoji: '🐺', emojiDescription: 'wolf', syllables: 'wolf', segments: 'wolf' },
   { id: 'fox', text: 'fox', emoji: '🦊', emojiDescription: 'fox', syllables: 'fox', segments: 'fox' },
   { id: 'raccoon', text: 'raccoon', emoji: '🦝', emojiDescription: 'raccoon', syllables: 'rac-coon', segments: 'rac·coon' },
-  { id: 'cat_face', text: 'cat face', emoji: '🐱', emojiDescription: 'cat face', syllables: 'cat face', segments: 'cat face' },
   { id: 'lion', text: 'lion', emoji: '🦁', emojiDescription: 'lion', syllables: 'li-on', segments: 'li·on' },
-  { id: 'tiger_face', text: 'tiger face', emoji: '🐯', emojiDescription: 'tiger face', syllables: 'ti-ger face', segments: 'ti·ger face' },
   { id: 'tiger', text: 'tiger', emoji: '🐅', emojiDescription: 'tiger', syllables: 'ti-ger', segments: 'ti·ger' },
   { id: 'leopard', text: 'leopard', emoji: '🐆', emojiDescription: 'leopard', syllables: 'lep-ard', segments: 'lep·ard' },
-  { id: 'horse_face', text: 'horse face', emoji: '🐴', emojiDescription: 'horse face', syllables: 'horse face', segments: 'horse face' },
   { id: 'horse', text: 'horse', emoji: '🐎', emojiDescription: 'horse', syllables: 'horse', segments: 'horse' },
   { id: 'unicorn', text: 'unicorn', emoji: '🦄', emojiDescription: 'unicorn', syllables: 'u-ni-corn', segments: 'u·ni·corn' },
   { id: 'zebra', text: 'zebra', emoji: '🦓', emojiDescription: 'zebra', syllables: 'ze-bra', segments: 'ze·bra' },
-  { id: 'cow_face', text: 'cow face', emoji: '🐮', emojiDescription: 'cow face', syllables: 'cow face', segments: 'cow face' },
   { id: 'cow', text: 'cow', emoji: '🐄', emojiDescription: 'cow', syllables: 'cow', segments: 'cow' },
-  { id: 'pig_face', text: 'pig face', emoji: '🐷', emojiDescription: 'pig face', syllables: 'pig face', segments: 'pig face' },
   { id: 'pig', text: 'pig', emoji: '🐖', emojiDescription: 'pig', syllables: 'pig', segments: 'pig' },
-  { id: 'mouse_face', text: 'mouse face', emoji: '🐭', emojiDescription: 'mouse face', syllables: 'mouse face', segments: 'mouse face' },
   { id: 'mouse', text: 'mouse', emoji: '🐁', emojiDescription: 'mouse', syllables: 'mouse', segments: 'mouse' },
   { id: 'rat', text: 'rat', emoji: '🐀', emojiDescription: 'rat', syllables: 'rat', segments: 'rat' },
-  { id: 'rabbit_face', text: 'rabbit face', emoji: '🐰', emojiDescription: 'rabbit face', syllables: 'rab-bit face', segments: 'rab·bit face' },
   { id: 'rabbit', text: 'rabbit', emoji: '🐇', emojiDescription: 'rabbit', syllables: 'rab-bit', segments: 'rab·bit' },
   { id: 'bear', text: 'bear', emoji: '🐻', emojiDescription: 'bear', syllables: 'bear', segments: 'bear' },
   { id: 'panda', text: 'panda', emoji: '🐼', emojiDescription: 'panda', syllables: 'pan-da', segments: 'pan·da' },
@@ -43,7 +34,6 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'frog', text: 'frog', emoji: '🐸', emojiDescription: 'frog', syllables: 'frog', segments: 'frog' },
   { id: 'turtle', text: 'turtle', emoji: '🐢', emojiDescription: 'turtle', syllables: 'tur-tle', segments: 'tur·tle' },
   { id: 'snake', text: 'snake', emoji: '🐍', emojiDescription: 'snake', syllables: 'snake', segments: 'snake' },
-  { id: 'dragon_face', text: 'dragon face', emoji: '🐲', emojiDescription: 'dragon face', syllables: 'drag-on face', segments: 'drag·on face' },
   { id: 'dragon', text: 'dragon', emoji: '🐉', emojiDescription: 'dragon', syllables: 'drag-on', segments: 'drag·on' },
   { id: 'bird', text: 'bird', emoji: '🐦', emojiDescription: 'bird', syllables: 'bird', segments: 'bird' },
   { id: 'chicken', text: 'chicken', emoji: '🐔', emojiDescription: 'chicken', syllables: 'chick-en', segments: 'chick·en' },
@@ -59,7 +49,7 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'dolphin', text: 'dolphin', emoji: '🐬', emojiDescription: 'dolphin', syllables: 'dol-phin', segments: 'dol·phin' },
   { id: 'shark', text: 'shark', emoji: '🦈', emojiDescription: 'shark', syllables: 'shark', segments: 'shark' },
 
-  // Food & Drink (50 entries)
+  // Food & Drink
   { id: 'grapes', text: 'grapes', emoji: '🍇', emojiDescription: 'grapes', syllables: 'grapes', segments: 'grapes' },
   { id: 'melon', text: 'melon', emoji: '🍈', emojiDescription: 'melon', syllables: 'mel-on', segments: 'mel·on' },
   { id: 'watermelon', text: 'watermelon', emoji: '🍉', emojiDescription: 'watermelon', syllables: 'wa-ter-mel-on', segments: 'wa·ter·mel·on' },
@@ -68,13 +58,10 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'banana', text: 'banana', emoji: '🍌', emojiDescription: 'banana', syllables: 'ba-nan-a', segments: 'ba·nan·a' },
   { id: 'pineapple', text: 'pineapple', emoji: '🍍', emojiDescription: 'pineapple', syllables: 'pine-ap-ple', segments: 'pine·ap·ple' },
   { id: 'mango', text: 'mango', emoji: '🥭', emojiDescription: 'mango', syllables: 'man-go', segments: 'man·go' },
-  { id: 'red_apple', text: 'red apple', emoji: '🍎', emojiDescription: 'red apple', syllables: 'red ap-ple', segments: 'red ap·ple' },
-  { id: 'green_apple', text: 'green apple', emoji: '🍏', emojiDescription: 'green apple', syllables: 'green ap-ple', segments: 'green ap·ple' },
   { id: 'pear', text: 'pear', emoji: '🍐', emojiDescription: 'pear', syllables: 'pear', segments: 'pear' },
   { id: 'peach', text: 'peach', emoji: '🍑', emojiDescription: 'peach', syllables: 'peach', segments: 'peach' },
   { id: 'cherries', text: 'cherries', emoji: '🍒', emojiDescription: 'cherries', syllables: 'cher-ries', segments: 'cher·ries' },
   { id: 'strawberry', text: 'strawberry', emoji: '🍓', emojiDescription: 'strawberry', syllables: 'straw-ber-ry', segments: 'straw·ber·ry' },
-  { id: 'kiwi_fruit', text: 'kiwi fruit', emoji: '🥝', emojiDescription: 'kiwi fruit', syllables: 'ki-wi fruit', segments: 'ki·wi fruit' },
   { id: 'tomato', text: 'tomato', emoji: '🍅', emojiDescription: 'tomato', syllables: 'to-ma-to', segments: 'to·ma·to' },
   { id: 'avocado', text: 'avocado', emoji: '🥑', emojiDescription: 'avocado', syllables: 'av-o-ca-do', segments: 'av·o·ca·do' },
   { id: 'carrot', text: 'carrot', emoji: '🥕', emojiDescription: 'carrot', syllables: 'car-rot', segments: 'car·rot' },
@@ -87,32 +74,25 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'egg', text: 'egg', emoji: '🥚', emojiDescription: 'egg', syllables: 'egg', segments: 'egg' },
   { id: 'pizza', text: 'pizza', emoji: '🍕', emojiDescription: 'pizza', syllables: 'piz-za', segments: 'piz·za' },
   { id: 'hamburger', text: 'hamburger', emoji: '🍔', emojiDescription: 'hamburger', syllables: 'ham-bur-ger', segments: 'ham·bur·ger' },
-  { id: 'hot_dog', text: 'hot dog', emoji: '🌭', emojiDescription: 'hot dog', syllables: 'hot dog', segments: 'hot dog' },
   { id: 'taco', text: 'taco', emoji: '🌮', emojiDescription: 'taco', syllables: 'ta-co', segments: 'ta·co' },
   { id: 'burrito', text: 'burrito', emoji: '🌯', emojiDescription: 'burrito', syllables: 'bur-ri-to', segments: 'bur·ri·to' },
   { id: 'popcorn', text: 'popcorn', emoji: '🍿', emojiDescription: 'popcorn', syllables: 'pop-corn', segments: 'pop·corn' },
   { id: 'cake', text: 'cake', emoji: '🍰', emojiDescription: 'cake', syllables: 'cake', segments: 'cake' },
-  { id: 'birthday_cake', text: 'birthday cake', emoji: '🎂', emojiDescription: 'birthday cake', syllables: 'birth-day cake', segments: 'birth·day cake' },
   { id: 'cupcake', text: 'cupcake', emoji: '🧁', emojiDescription: 'cupcake', syllables: 'cup-cake', segments: 'cup·cake' },
   { id: 'pie', text: 'pie', emoji: '🥧', emojiDescription: 'pie', syllables: 'pie', segments: 'pie' },
   { id: 'cookie', text: 'cookie', emoji: '🍪', emojiDescription: 'cookie', syllables: 'cook-ie', segments: 'cook·ie' },
   { id: 'doughnut', text: 'doughnut', emoji: '🍩', emojiDescription: 'doughnut', syllables: 'dough-nut', segments: 'dough·nut' },
-  { id: 'ice_cream', text: 'ice cream', emoji: '🍨', emojiDescription: 'ice cream', syllables: 'ice cream', segments: 'ice cream' },
   { id: 'candy', text: 'candy', emoji: '🍬', emojiDescription: 'candy', syllables: 'can-dy', segments: 'can·dy' },
   { id: 'lollipop', text: 'lollipop', emoji: '🍭', emojiDescription: 'lollipop', syllables: 'lol-li-pop', segments: 'lol·li·pop' },
-  { id: 'chocolate_bar', text: 'chocolate bar', emoji: '🍫', emojiDescription: 'chocolate bar', syllables: 'choc-o-late bar', segments: 'choc·o·late bar' },
   { id: 'honey', text: 'honey', emoji: '🍯', emojiDescription: 'honey', syllables: 'hon-ey', segments: 'hon·ey' },
   { id: 'coffee', text: 'coffee', emoji: '☕', emojiDescription: 'coffee', syllables: 'cof-fee', segments: 'cof·fee' },
   { id: 'milk', text: 'milk', emoji: '🥛', emojiDescription: 'milk', syllables: 'milk', segments: 'milk' },
-  { id: 'baby_bottle', text: 'baby bottle', emoji: '🍼', emojiDescription: 'baby bottle', syllables: 'ba-by bot-tle', segments: 'ba·by bot·tle' },
   { id: 'tea', text: 'tea', emoji: '🍵', emojiDescription: 'tea', syllables: 'tea', segments: 'tea' },
   { id: 'bottle', text: 'bottle', emoji: '🍾', emojiDescription: 'bottle', syllables: 'bot-tle', segments: 'bot·tle' },
-  { id: 'fork_and_knife', text: 'fork and knife', emoji: '🍴', emojiDescription: 'fork and knife', syllables: 'fork and knife', segments: 'fork and knife' },
   { id: 'spoon', text: 'spoon', emoji: '🥄', emojiDescription: 'spoon', syllables: 'spoon', segments: 'spoon' },
   { id: 'bowl', text: 'bowl', emoji: '🥣', emojiDescription: 'bowl', syllables: 'bowl', segments: 'bowl' },
 
-  // Sports & Activities (30 entries)
-  { id: 'soccer_ball', text: 'soccer ball', emoji: '⚽', emojiDescription: 'soccer ball', syllables: 'soc-cer ball', segments: 'soc·cer ball' },
+  // Sports & Activities
   { id: 'baseball', text: 'baseball', emoji: '⚾', emojiDescription: 'baseball', syllables: 'base-ball', segments: 'base·ball' },
   { id: 'basketball', text: 'basketball', emoji: '🏀', emojiDescription: 'basketball', syllables: 'bas-ket-ball', segments: 'bas·ket·ball' },
   { id: 'volleyball', text: 'volleyball', emoji: '🏐', emojiDescription: 'volleyball', syllables: 'vol-ley-ball', segments: 'vol·ley·ball' },
@@ -129,26 +109,18 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'headphones', text: 'headphones', emoji: '🎧', emojiDescription: 'headphones', syllables: 'head-phones', segments: 'head·phones' },
   { id: 'trumpet', text: 'trumpet', emoji: '🎺', emojiDescription: 'trumpet', syllables: 'trum-pet', segments: 'trum·pet' },
   { id: 'violin', text: 'violin', emoji: '🎻', emojiDescription: 'violin', syllables: 'vi-o-lin', segments: 'vi·o·lin' },
-  { id: 'game_die', text: 'game die', emoji: '🎲', emojiDescription: 'game die', syllables: 'game die', segments: 'game die' },
   { id: 'chess', text: 'chess', emoji: '♟️', emojiDescription: 'chess', syllables: 'chess', segments: 'chess' },
-  { id: 'puzzle_piece', text: 'puzzle piece', emoji: '🧩', emojiDescription: 'puzzle piece', syllables: 'puz-zle piece', segments: 'puz·zle piece' },
-  { id: 'teddy_bear', text: 'teddy bear', emoji: '🧸', emojiDescription: 'teddy bear', syllables: 'ted-dy bear', segments: 'ted·dy bear' },
   { id: 'kite', text: 'kite', emoji: '🪁', emojiDescription: 'kite', syllables: 'kite', segments: 'kite' },
   { id: 'balloon', text: 'balloon', emoji: '🎈', emojiDescription: 'balloon', syllables: 'bal-loon', segments: 'bal·loon' },
   { id: 'gift', text: 'gift', emoji: '🎁', emojiDescription: 'gift', syllables: 'gift', segments: 'gift' },
-  { id: 'party_popper', text: 'party popper', emoji: '🎉', emojiDescription: 'party popper', syllables: 'par-ty pop-per', segments: 'par·ty pop·per' },
   { id: 'fireworks', text: 'fireworks', emoji: '🎆', emojiDescription: 'fireworks', syllables: 'fire-works', segments: 'fire·works' },
   { id: 'sparkler', text: 'sparkler', emoji: '🎇', emojiDescription: 'sparkler', syllables: 'spark-ler', segments: 'spark·ler' },
   { id: 'camera', text: 'camera', emoji: '📷', emojiDescription: 'camera', syllables: 'cam-er-a', segments: 'cam·er·a' },
-  { id: 'movie_camera', text: 'movie camera', emoji: '🎥', emojiDescription: 'movie camera', syllables: 'mov-ie cam-er-a', segments: 'mov·ie cam·er·a' },
-  { id: 'artist_palette', text: 'artist palette', emoji: '🎨', emojiDescription: 'artist palette', syllables: 'art-ist pal-ette', segments: 'art·ist pal·ette' },
 
-  // Travel & Places (30 entries)
+  // Travel & Places
   { id: 'car', text: 'car', emoji: '🚗', emojiDescription: 'car', syllables: 'car', segments: 'car' },
   { id: 'taxi', text: 'taxi', emoji: '🚕', emojiDescription: 'taxi', syllables: 'tax-i', segments: 'tax·i' },
   { id: 'bus', text: 'bus', emoji: '🚌', emojiDescription: 'bus', syllables: 'bus', segments: 'bus' },
-  { id: 'fire_engine', text: 'fire engine', emoji: '🚒', emojiDescription: 'fire engine', syllables: 'fire en-gine', segments: 'fire en·gine' },
-  { id: 'police_car', text: 'police car', emoji: '🚓', emojiDescription: 'police car', syllables: 'po-lice car', segments: 'po·lice car' },
   { id: 'ambulance', text: 'ambulance', emoji: '🚑', emojiDescription: 'ambulance', syllables: 'am-bu-lance', segments: 'am·bu·lance' },
   { id: 'tractor', text: 'tractor', emoji: '🚜', emojiDescription: 'tractor', syllables: 'trac-tor', segments: 'trac·tor' },
   { id: 'bicycle', text: 'bicycle', emoji: '🚲', emojiDescription: 'bicycle', syllables: 'bi-cy-cle', segments: 'bi·cy·cle' },
@@ -175,9 +147,8 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'bridge', text: 'bridge', emoji: '🌉', emojiDescription: 'bridge', syllables: 'bridge', segments: 'bridge' },
   { id: 'fountain', text: 'fountain', emoji: '⛲', emojiDescription: 'fountain', syllables: 'foun-tain', segments: 'foun·tain' },
 
-  // Objects & Tools (40 entries)
+  // Objects & Tools
   { id: 'watch', text: 'watch', emoji: '⌚', emojiDescription: 'watch', syllables: 'watch', segments: 'watch' },
-  { id: 'alarm_clock', text: 'alarm clock', emoji: '⏰', emojiDescription: 'alarm clock', syllables: 'a-larm clock', segments: 'a·larm clock' },
   { id: 'hourglass', text: 'hourglass', emoji: '⏳', emojiDescription: 'hourglass', syllables: 'hour-glass', segments: 'hour·glass' },
   { id: 'key', text: 'key', emoji: '🔑', emojiDescription: 'key', syllables: 'key', segments: 'key' },
   { id: 'lock', text: 'lock', emoji: '🔒', emojiDescription: 'lock', syllables: 'lock', segments: 'lock' },
@@ -186,11 +157,9 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'scissors', text: 'scissors', emoji: '✂️', emojiDescription: 'scissors', syllables: 'scis-sors', segments: 'scis·sors' },
   { id: 'flashlight', text: 'flashlight', emoji: '🔦', emojiDescription: 'flashlight', syllables: 'flash-light', segments: 'flash·light' },
   { id: 'candle', text: 'candle', emoji: '🕯️', emojiDescription: 'candle', syllables: 'can-dle', segments: 'can·dle' },
-  { id: 'light_bulb', text: 'light bulb', emoji: '💡', emojiDescription: 'light bulb', syllables: 'light bulb', segments: 'light bulb' },
   { id: 'laptop', text: 'laptop', emoji: '💻', emojiDescription: 'laptop', syllables: 'lap-top', segments: 'lap·top' },
   { id: 'phone', text: 'phone', emoji: '📱', emojiDescription: 'phone', syllables: 'phone', segments: 'phone' },
   { id: 'keyboard', text: 'keyboard', emoji: '⌨️', emojiDescription: 'keyboard', syllables: 'key-board', segments: 'key·board' },
-  { id: 'mouse', text: 'computer mouse', emoji: '🖱️', emojiDescription: 'computer mouse', syllables: 'com-pu-ter mouse', segments: 'com·pu·ter mouse' },
   { id: 'printer', text: 'printer', emoji: '🖨️', emojiDescription: 'printer', syllables: 'print-er', segments: 'print·er' },
   { id: 'book', text: 'book', emoji: '📖', emojiDescription: 'book', syllables: 'book', segments: 'book' },
   { id: 'notebook', text: 'notebook', emoji: '📓', emojiDescription: 'notebook', syllables: 'note-book', segments: 'note·book' },
@@ -198,7 +167,6 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'pen', text: 'pen', emoji: '🖊️', emojiDescription: 'pen', syllables: 'pen', segments: 'pen' },
   { id: 'crayon', text: 'crayon', emoji: '🖍️', emojiDescription: 'crayon', syllables: 'cray-on', segments: 'cray·on' },
   { id: 'paintbrush', text: 'paintbrush', emoji: '🖌️', emojiDescription: 'paintbrush', syllables: 'paint-brush', segments: 'paint·brush' },
-  { id: 'magnifying_glass', text: 'magnifying glass', emoji: '🔍', emojiDescription: 'magnifying glass', syllables: 'mag-ni-fy-ing glass', segments: 'mag·ni·fy·ing glass' },
   { id: 'backpack', text: 'backpack', emoji: '🎒', emojiDescription: 'backpack', syllables: 'back-pack', segments: 'back·pack' },
   { id: 'umbrella', text: 'umbrella', emoji: '☂️', emojiDescription: 'umbrella', syllables: 'um-brel-la', segments: 'um·brel·la' },
   { id: 'glasses', text: 'glasses', emoji: '👓', emojiDescription: 'glasses', syllables: 'glass-es', segments: 'glass·es' },
@@ -207,17 +175,15 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'hat', text: 'hat', emoji: '🎩', emojiDescription: 'hat', syllables: 'hat', segments: 'hat' },
   { id: 'ring', text: 'ring', emoji: '💍', emojiDescription: 'ring', syllables: 'ring', segments: 'ring' },
   { id: 'lipstick', text: 'lipstick', emoji: '💄', emojiDescription: 'lipstick', syllables: 'lip-stick', segments: 'lip·stick' },
-  { id: 'money_bag', text: 'money bag', emoji: '💰', emojiDescription: 'money bag', syllables: 'mon-ey bag', segments: 'mon·ey bag' },
   { id: 'gem', text: 'gem', emoji: '💎', emojiDescription: 'gem', syllables: 'gem', segments: 'gem' },
   { id: 'mailbox', text: 'mailbox', emoji: '📫', emojiDescription: 'mailbox', syllables: 'mail-box', segments: 'mail·box' },
   { id: 'envelope', text: 'envelope', emoji: '✉️', emojiDescription: 'envelope', syllables: 'en-ve-lope', segments: 'en·ve·lope' },
   { id: 'package', text: 'package', emoji: '📦', emojiDescription: 'package', syllables: 'pack-age', segments: 'pack·age' },
   { id: 'trash', text: 'trash', emoji: '🗑️', emojiDescription: 'trash', syllables: 'trash', segments: 'trash' },
-  { id: 'shopping_cart', text: 'shopping cart', emoji: '🛒', emojiDescription: 'shopping cart', syllables: 'shop-ping cart', segments: 'shop·ping cart' },
   { id: 'basket', text: 'basket', emoji: '🧺', emojiDescription: 'basket', syllables: 'bas-ket', segments: 'bas·ket' },
   { id: 'bathtub', text: 'bathtub', emoji: '🛁', emojiDescription: 'bathtub', syllables: 'bath-tub', segments: 'bath·tub' },
 
-  // Nature & Weather (20 entries)
+  // Nature & Weather
   { id: 'sun', text: 'sun', emoji: '☀️', emojiDescription: 'sun', syllables: 'sun', segments: 'sun' },
   { id: 'moon', text: 'moon', emoji: '🌙', emojiDescription: 'moon', syllables: 'moon', segments: 'moon' },
   { id: 'star', text: 'star', emoji: '⭐', emojiDescription: 'star', syllables: 'star', segments: 'star' },
@@ -229,7 +195,6 @@ export const EMOJI_WORDS: Word[] = [
   { id: 'droplet', text: 'droplet', emoji: '💧', emojiDescription: 'droplet', syllables: 'drop-let', segments: 'drop·let' },
   { id: 'ocean', text: 'ocean', emoji: '🌊', emojiDescription: 'ocean', syllables: 'o-cean', segments: 'o·cean' },
   { id: 'tree', text: 'tree', emoji: '🌳', emojiDescription: 'tree', syllables: 'tree', segments: 'tree' },
-  { id: 'palm_tree', text: 'palm tree', emoji: '🌴', emojiDescription: 'palm tree', syllables: 'palm tree', segments: 'palm tree' },
   { id: 'cactus', text: 'cactus', emoji: '🌵', emojiDescription: 'cactus', syllables: 'cac-tus', segments: 'cac·tus' },
   { id: 'flower', text: 'flower', emoji: '🌸', emojiDescription: 'flower', syllables: 'flow-er', segments: 'flow·er' },
   { id: 'sunflower', text: 'sunflower', emoji: '🌻', emojiDescription: 'sunflower', syllables: 'sun-flow-er', segments: 'sun·flow·er' },

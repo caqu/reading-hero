@@ -272,10 +272,12 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
       <div className={styles.wordPrompt}>
         {inventory && inventory.missing.length === 0 ? (
           <div className={styles.wordText}>All words recorded!</div>
-        ) : (
+        ) : currentWord ? (
           <div className={styles.wordText}>
             {getEmojiForWord(currentWord)} {currentWord}
           </div>
+        ) : (
+          <div className={styles.wordText}>Loading...</div>
         )}
       </div>
 
