@@ -336,7 +336,7 @@ export function RecordSignsPage({ onBack }: RecordSignsPageProps) {
       <div className={styles.controls}>
         <button
           onClick={handlePauseToggle}
-          disabled={isUploading || isLoadingInventory || (inventory && inventory.missing.length === 0)}
+          disabled={isUploading || isLoadingInventory || (inventory?.missing.length === 0)}
           className={isPaused ? styles.continueButton : styles.pauseButton}
         >
           {isPaused ? 'Continue' : 'Pause'}

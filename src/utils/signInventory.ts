@@ -80,7 +80,7 @@ export async function buildInventory(): Promise<SignInventory> {
  * @returns {string | null} The next word to record, or null if all done
  */
 export function getNextWord(inventory: SignInventory): string | null {
-  return inventory.missing.length > 0 ? inventory.missing[0] : null;
+  return inventory.missing.length > 0 ? inventory.missing[0] ?? null : null;
 }
 
 /**

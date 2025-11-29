@@ -22,7 +22,7 @@ export function useTTS() {
       // Normalize to single lowercase letter
       const normalizedLetter = letter.toLowerCase().trim()[0];
 
-      if (!/^[a-z]$/.test(normalizedLetter)) {
+      if (!normalizedLetter || !/^[a-z]$/.test(normalizedLetter)) {
         console.warn(`[TTS] Invalid letter: ${letter}`);
         return;
       }
