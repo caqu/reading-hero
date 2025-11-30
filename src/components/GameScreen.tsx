@@ -3,7 +3,8 @@ import { Word, Profile } from '../types';
 import { WordCard } from './WordCard';
 import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
-import { ProfileSelector } from './ProfileSelector';
+import { HamburgerButton } from './HamburgerButton';
+import { NavigationDrawer } from './NavigationDrawer';
 import { LevelFeatures, Level } from '../engine/LevelingEngine';
 import { useSettings } from '../hooks/useSettings';
 import styles from './GameScreen.module.css';
@@ -128,80 +129,64 @@ export const GameScreen = ({
 
   return (
     <div className={styles.container}>
+      {/* Hamburger Button */}
+      <HamburgerButton />
+
+      {/* Stats Display - Top Right */}
+      <div className={styles.statsDisplay}>
+        <div className={styles.stat}>
+          <div className={styles.statValue}>{currentWordIndex + 1}</div>
+          <div className={styles.statLabel}>of {words.length}</div>
+        </div>
+        <div className={styles.stat}>
+          <div className={styles.statValue}>{correctWords}</div>
+          <div className={styles.statLabel}>correct</div>
+        </div>
+        <div className={styles.stat}>
+          <div className={styles.statValue}>{accuracy}%</div>
+          <div className={styles.statLabel}>accuracy</div>
+        </div>
+      </div>
+
+      {/* Level Control - Bottom Left */}
+      {onLevelChange && (
+        <div className={styles.levelControl}>
+          <label htmlFor="level-slider" className={styles.levelLabel}>
+            Level {currentLevel}
+          </label>
+          <input
+            id="level-slider"
+            type="range"
+            min="1"
+            max="5"
+            value={currentLevel}
+            onChange={(e) => onLevelChange(parseInt(e.target.value) as Level)}
+            className={styles.levelSlider}
+            aria-label="Adjust difficulty level"
+          />
+        </div>
+      )}
+
+      {/* Navigation Drawer */}
+      <NavigationDrawer
+        currentWordIndex={currentWordIndex}
+        totalWords={words.length}
+        correctWords={correctWords}
+        accuracy={accuracy}
+        onViewStats={onViewStats}
+        onViewSettings={onViewSettings}
+        onCreateYourOwn={onCreateYourOwn}
+        onManageWords={onManageWords}
+        onRecordSigns={import.meta.env.DEV ? () => window.location.href = '/record-signs' : undefined}
+        onProfileSwitch={onProfileSwitch}
+        onAddProfile={onAddProfile}
+      />
+
       {showInstruction && (
         <div className={styles.floatingInstruction}>
           Type the letters to spell the word
         </div>
       )}
-
-      <aside className={styles.sidebar}>
-        <ProfileSelector onProfileSwitch={onProfileSwitch} onAddProfile={onAddProfile} />
-        <div className={styles.progressInfo}>
-          <div className={styles.stat}>
-            <div className={styles.statValue}>{currentWordIndex + 1}</div>
-            <div className={styles.statLabel}>of {words.length}</div>
-          </div>
-          <div className={styles.stat}>
-            <div className={styles.statValue}>{correctWords}</div>
-            <div className={styles.statLabel}>correct</div>
-          </div>
-          <div className={styles.stat}>
-            <div className={styles.statValue}>{accuracy}%</div>
-            <div className={styles.statLabel}>accuracy</div>
-          </div>
-          <div className={styles.stat}>
-            <div className={styles.statValue}>{currentLevel}</div>
-            <div className={styles.statLabel}>level</div>
-            {onLevelChange && (
-              <input
-                type="range"
-                min="1"
-                max="5"
-                value={currentLevel}
-                onChange={(e) => onLevelChange(parseInt(e.target.value) as Level)}
-                className={styles.levelSlider}
-                aria-label="Set level"
-              />
-            )}
-          </div>
-          {onViewStats && (
-            <button
-              className={styles.statsButton}
-              onClick={onViewStats}
-              aria-label="View detailed statistics"
-            >
-              View Stats
-            </button>
-          )}
-          {onViewSettings && (
-            <button
-              className={styles.statsButton}
-              onClick={onViewSettings}
-              aria-label="Open settings"
-            >
-              Settings
-            </button>
-          )}
-          {onCreateYourOwn && (
-            <button
-              className={styles.statsButton}
-              onClick={onCreateYourOwn}
-              aria-label="Create your own word"
-            >
-              Create Your Own
-            </button>
-          )}
-          {onManageWords && (
-            <button
-              className={styles.statsButton}
-              onClick={onManageWords}
-              aria-label="Manage my words"
-            >
-              Manage My Words
-            </button>
-          )}
-        </div>
-      </aside>
 
       <main className={styles.main}>
         {/* UGC Word Remove Button - Top Right Corner */}

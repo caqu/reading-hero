@@ -22,6 +22,7 @@ import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
 import { enrichWordsWithSignVideos } from './utils/enrichWordsWithSignVideos';
 import { DevGameModePage } from './pages/DevGameModePage';
+import { DrawerProvider } from './contexts/DrawerContext';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs' | 'dev-game-modes';
@@ -481,8 +482,9 @@ function App() {
   }, [game.isComplete, currentScreen]);
 
   return (
-    <div className="app">
-      {currentScreen === 'create-profile' && (
+    <DrawerProvider>
+      <div className="app">
+        {currentScreen === 'create-profile' && (
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -747,7 +749,8 @@ function App() {
           </form>
         </div>
       )}
-    </div>
+      </div>
+    </DrawerProvider>
   );
 }
 

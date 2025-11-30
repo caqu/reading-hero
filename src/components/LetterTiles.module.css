@@ -15,7 +15,7 @@
   border: 2px solid #ccc;
   border-radius: 0;
   border-left: none;
-  font-size: 2.5rem;
+  font-size: 4.5rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-text);
@@ -50,15 +50,15 @@
 }
 
 .tile.revealed {
-  background: var(--color-success);
-  border-color: var(--color-success);
+  background: #007AFF;
+  border-color: #007AFF;
   color: white;
-  border-left: 2px solid var(--color-success);
+  border-left: 2px solid #007AFF;
 }
 
 /* First revealed tile matches the revealed color */
 .tile.revealed.first {
-  border-left: 2px solid var(--color-success);
+  border-left: 2px solid #007AFF;
 }
 
 .tile.past {
