@@ -761,7 +761,7 @@ export const highInterestWords: ContentItem[] = [
   },
 
   // (NOTE: For space, I’m not showing all 200 inline here.  
-  // Find them at C:\Users\carlos.quesada\imaginelearning\reading-hero\tasks\hi-words.md
+  // Find them at C:\Users\carlos.quesada\imaginelearning\reading-hero\src\content\highInterestWords.ts or fall back to C:\Users\carlos.quesada\imaginelearning\reading-hero\tasks\hi-words.md
 ];
 ```
 

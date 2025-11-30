@@ -305,7 +305,7 @@ $spanishVoices = $voice.GetInstalledVoices() | Where-Object {
 }
 
 if ($spanishVoices.Count -eq 0) {
-    Write-Host "⚠ No Spanish voice installed. Skipping Spanish TTS."
+    Write-Host 'WARNING: No Spanish voice installed. Skipping Spanish TTS.'
     exit 1
 }
 
@@ -322,16 +322,16 @@ $voiceName = $selectedVoice.VoiceInfo.Name
 $voiceCulture = $selectedVoice.VoiceInfo.Culture.Name
 $voiceGender = $selectedVoice.VoiceInfo.Gender
 
-Write-Host "✓ Using Spanish voice: $voiceName ($voiceCulture, $voiceGender)"
+Write-Host "Using Spanish voice: $voiceName - $voiceCulture - $voiceGender"
 
 $voice.SelectVoice($voiceName)
 $voice.Rate = 0
 $voice.Volume = 100
-$voice.SetOutputToWaveFile("${absolutePath}")
-$voice.Speak("${text}")
+$voice.SetOutputToWaveFile('${absolutePath}')
+$voice.Speak('${text}')
 $voice.Dispose()
 
-Write-Host "✓ Spanish audio generated successfully"`;
+Write-Host 'SUCCESS: Spanish audio generated'`;
 
   try {
     // Write script to temporary file
@@ -346,12 +346,9 @@ Write-Host "✓ Spanish audio generated successfully"`;
 
     return true;
   } catch (error) {
-    // Clean up temporary script even on error
-    try {
-      unlinkSync(tempScriptPath);
-    } catch (cleanupError) {
-      // Ignore cleanup errors
-    }
+    // Keep temp script on error for debugging
+    console.error('[TTS Spanish] Script saved for debugging:', tempScriptPath);
+    console.error('[TTS Spanish] Error details:', error.message);
 
     // Check if error is due to no Spanish voice
     if (error.code === 1 || error.message.includes('No Spanish voice')) {
