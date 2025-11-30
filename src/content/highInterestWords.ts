@@ -1,4 +1,4 @@
-import { ContentItem } from "../types/ContentItem";
+import { ContentItem } from "../types";
 
 export const highInterestWords: ContentItem[] = [
   {

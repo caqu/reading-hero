@@ -166,3 +166,32 @@ export interface ProfilesData {
   /** ID of the currently active profile */
   activeProfileId: string | null;
 }
+
+/**
+ * Generic content item used for curated word lists and assets
+ */
+export interface ContentItem {
+  id: string;
+  text: string;
+  type?: "word" | string;
+  stage?: number;
+  category?: string;
+  emoji?: string;
+  syllables?: number;
+  letterCount?: number;
+  orthographicComplexity?: number;
+  noveltyScore?: number;
+  concretenessScore?: number;
+  spanish?: {
+    text?: string;
+    voiceGender?: "female" | "male" | string;
+  };
+  asl?: {
+    placeholderId?: string;
+    hasVideo?: boolean;
+  };
+  hasImage?: boolean;
+  hasASL?: boolean;
+  hasSpanish?: boolean;
+  srBin?: string;
+}
