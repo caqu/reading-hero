@@ -66,7 +66,12 @@
       "Bash(find:*)",
       "Bash(mkdir:*)",
       "Bash(node verify-wordbank.js:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(q)",
+      "Bash(node test-motor-metrics.js:*)",
+      "Bash(node test-motor-integration.js:*)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "ask": []
