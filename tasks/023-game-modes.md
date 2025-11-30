@@ -1,5 +1,3 @@
-
-```md
 # Reading Hero – Core Game Modes (Single, Pair, Sentence)
 **Task ID:** RH_T_GAME_MODES  
 **Goal:** Refactor and extend the current gameplay into three explicit modes: Single Word, Word Pair, and Mini-Sentence, built on top of WordBank & Clusters.
@@ -154,5 +152,3 @@ Add a **temporary dev menu** to choose the mode and path (e.g., `/dev/play?mode=
 * `src/game/modes/MiniSentenceGame.tsx`
 * `src/game/GameRunner.tsx`
 * Dev entry route/page to run different modes
-
-````
