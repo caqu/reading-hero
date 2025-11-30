@@ -26,6 +26,41 @@
 
 /* Sidebar removed - now using hamburger + drawer navigation */
 
+/* Stats Display - Top Right Corner */
+.statsDisplay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 20px;
+  border-radius: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
 /* Level Control - Bottom Left Corner */
 .levelControl {
   position: fixed;
@@ -39,7 +74,6 @@
   background: rgba(255, 255, 255, 0.95);
   padding: 12px 16px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .levelLabel {
@@ -299,6 +333,21 @@
 @media (max-width: 768px) {
   .floatingInstruction {
     left: 50%; /* Center on full screen on mobile too */
+  }
+
+  .statsDisplay {
+    top: 10px;
+    right: 10px;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+
+  .statValue {
+    font-size: 1.25rem;
+  }
+
+  .statLabel {
+    font-size: 0.625rem;
   }
 
   .levelControl {

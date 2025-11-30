@@ -138,14 +138,6 @@ export const GameScreen = ({
           <div className={styles.statValue}>{currentWordIndex + 1}</div>
           <div className={styles.statLabel}>of {words.length}</div>
         </div>
-        <div className={styles.stat}>
-          <div className={styles.statValue}>{correctWords}</div>
-          <div className={styles.statLabel}>correct</div>
-        </div>
-        <div className={styles.stat}>
-          <div className={styles.statValue}>{accuracy}%</div>
-          <div className={styles.statLabel}>accuracy</div>
-        </div>
       </div>
 
       {/* Level Control - Bottom Left */}
