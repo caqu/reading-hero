@@ -31,3 +31,5 @@ coverage
 
 # User-generated content
 /ugc/
+
+src\data\fry.csv

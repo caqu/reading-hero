@@ -63,7 +63,10 @@
       "Bash(tasklist:*)",
       "Bash(paste:*)",
       "Bash(cat:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(node verify-wordbank.js:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []
