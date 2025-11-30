@@ -28,6 +28,8 @@ export const LetterTiles = ({
         const isCurrent = index === currentIndex;
         const isPast = index < currentIndex;
         const isCorrectAnimating = index === correctTileIndex;
+        const isFirst = index === 0;
+        const isLast = index === letters.length - 1;
 
         // In blank tile mode, tiles appear empty until revealed
         const showLetter = isRevealed;
@@ -43,6 +45,8 @@ export const LetterTiles = ({
               ${isPast ? styles.past : ''}
               ${isCorrectAnimating && enableAnimations ? styles.correctAnimate : ''}
               ${showBlank ? styles.blank : ''}
+              ${isFirst ? styles.first : ''}
+              ${isLast ? styles.last : ''}
             `}
             aria-label={showLetter ? `Letter ${letter}` : 'Empty tile'}
             aria-current={isCurrent ? 'true' : 'false'}
