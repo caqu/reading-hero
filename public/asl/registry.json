@@ -17,7 +17,7 @@
   },
   {
     "word": "gorilla",
-    "recordedAt": "2025-11-29T05:08:17.797Z",
+    "recordedAt": "2025-11-30T13:45:51.710Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/gorilla/sign_loop.mp4",
     "rawPath": "/asl/signs/gorilla/raw.webm",
@@ -25,7 +25,7 @@
   },
   {
     "word": "monkey",
-    "recordedAt": "2025-11-29T13:23:32.033Z",
+    "recordedAt": "2025-11-30T13:45:45.492Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/monkey/sign_loop.mp4",
     "rawPath": "/asl/signs/monkey/raw.webm",
@@ -33,11 +33,11 @@
   },
   {
     "word": "orangutan",
-    "recordedAt": "2025-11-29T05:35:28.441Z",
+    "recordedAt": "2025-11-30T13:45:35.599Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/orangutan/sign_loop.mp4",
     "rawPath": "/asl/signs/orangutan/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "dogface",
@@ -49,31 +49,31 @@
   },
   {
     "word": "poodle",
-    "recordedAt": "2025-11-29T05:35:46.447Z",
+    "recordedAt": "2025-11-30T13:46:00.652Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/poodle/sign_loop.mp4",
     "rawPath": "/asl/signs/poodle/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "wolf",
-    "recordedAt": "2025-11-29T05:35:52.947Z",
+    "recordedAt": "2025-11-30T13:46:51.942Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/wolf/sign_loop.mp4",
     "rawPath": "/asl/signs/wolf/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "fox",
-    "recordedAt": "2025-11-29T05:35:59.583Z",
+    "recordedAt": "2025-11-30T13:47:55.404Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/fox/sign_loop.mp4",
     "rawPath": "/asl/signs/fox/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "raccoon",
-    "recordedAt": "2025-11-29T05:36:06.436Z",
+    "recordedAt": "2025-11-30T13:48:01.955Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/raccoon/sign_loop.mp4",
     "rawPath": "/asl/signs/raccoon/raw.webm",
@@ -89,7 +89,7 @@
   },
   {
     "word": "lion",
-    "recordedAt": "2025-11-29T05:36:20.458Z",
+    "recordedAt": "2025-11-30T13:48:08.422Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/lion/sign_loop.mp4",
     "rawPath": "/asl/signs/lion/raw.webm",
@@ -105,7 +105,7 @@
   },
   {
     "word": "tiger",
-    "recordedAt": "2025-11-29T05:36:34.927Z",
+    "recordedAt": "2025-11-30T13:48:15.092Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/tiger/sign_loop.mp4",
     "rawPath": "/asl/signs/tiger/raw.webm",
@@ -113,7 +113,7 @@
   },
   {
     "word": "leopard",
-    "recordedAt": "2025-11-29T05:36:42.104Z",
+    "recordedAt": "2025-11-30T13:48:21.687Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/leopard/sign_loop.mp4",
     "rawPath": "/asl/signs/leopard/raw.webm",
@@ -129,7 +129,7 @@
   },
   {
     "word": "horse",
-    "recordedAt": "2025-11-29T05:36:55.354Z",
+    "recordedAt": "2025-11-30T13:48:28.265Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/horse/sign_loop.mp4",
     "rawPath": "/asl/signs/horse/raw.webm",
@@ -137,7 +137,7 @@
   },
   {
     "word": "unicorn",
-    "recordedAt": "2025-11-29T05:37:02.040Z",
+    "recordedAt": "2025-11-30T13:48:34.789Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/unicorn/sign_loop.mp4",
     "rawPath": "/asl/signs/unicorn/raw.webm",
@@ -145,11 +145,11 @@
   },
   {
     "word": "zebra",
-    "recordedAt": "2025-11-29T05:37:08.707Z",
+    "recordedAt": "2025-11-30T13:48:41.161Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/zebra/sign_loop.mp4",
     "rawPath": "/asl/signs/zebra/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "cowface",
@@ -161,7 +161,7 @@
   },
   {
     "word": "cow",
-    "recordedAt": "2025-11-29T05:37:22.142Z",
+    "recordedAt": "2025-11-30T13:48:47.705Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/cow/sign_loop.mp4",
     "rawPath": "/asl/signs/cow/raw.webm",
@@ -177,7 +177,7 @@
   },
   {
     "word": "pig",
-    "recordedAt": "2025-11-29T05:37:35.586Z",
+    "recordedAt": "2025-11-30T13:48:54.348Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/pig/sign_loop.mp4",
     "rawPath": "/asl/signs/pig/raw.webm",
@@ -193,7 +193,7 @@
   },
   {
     "word": "mouse",
-    "recordedAt": "2025-11-29T05:37:48.810Z",
+    "recordedAt": "2025-11-30T13:49:01.390Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/mouse/sign_loop.mp4",
     "rawPath": "/asl/signs/mouse/raw.webm",
@@ -201,7 +201,7 @@
   },
   {
     "word": "rat",
-    "recordedAt": "2025-11-29T05:37:55.397Z",
+    "recordedAt": "2025-11-30T13:49:08.589Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/rat/sign_loop.mp4",
     "rawPath": "/asl/signs/rat/raw.webm",
@@ -217,55 +217,55 @@
   },
   {
     "word": "rabbit",
-    "recordedAt": "2025-11-29T05:38:08.705Z",
+    "recordedAt": "2025-11-30T13:49:15.702Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/rabbit/sign_loop.mp4",
     "rawPath": "/asl/signs/rabbit/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "bear",
-    "recordedAt": "2025-11-29T05:38:15.333Z",
+    "recordedAt": "2025-11-30T13:49:22.878Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/bear/sign_loop.mp4",
     "rawPath": "/asl/signs/bear/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "panda",
-    "recordedAt": "2025-11-29T06:22:56.971Z",
+    "recordedAt": "2025-11-30T13:49:30.219Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/panda/sign_loop.mp4",
     "rawPath": "/asl/signs/panda/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "koala",
-    "recordedAt": "2025-11-29T06:23:04.328Z",
+    "recordedAt": "2025-11-30T13:49:37.401Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/koala/sign_loop.mp4",
     "rawPath": "/asl/signs/koala/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "frog",
-    "recordedAt": "2025-11-29T06:23:10.874Z",
+    "recordedAt": "2025-11-30T13:49:44.491Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/frog/sign_loop.mp4",
     "rawPath": "/asl/signs/frog/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "turtle",
-    "recordedAt": "2025-11-29T06:26:10.874Z",
+    "recordedAt": "2025-11-30T13:49:51.472Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/turtle/sign_loop.mp4",
     "rawPath": "/asl/signs/turtle/raw.webm",
-    "status": "deleted"
+    "status": "approved"
   },
   {
     "word": "snake",
-    "recordedAt": "2025-11-29T13:23:22.821Z",
+    "recordedAt": "2025-11-30T13:49:58.630Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/snake/sign_loop.mp4",
     "rawPath": "/asl/signs/snake/raw.webm",
@@ -281,7 +281,7 @@
   },
   {
     "word": "dragon",
-    "recordedAt": "2025-11-29T13:24:26.252Z",
+    "recordedAt": "2025-11-30T13:50:05.848Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/dragon/sign_loop.mp4",
     "rawPath": "/asl/signs/dragon/raw.webm",
@@ -289,7 +289,7 @@
   },
   {
     "word": "bird",
-    "recordedAt": "2025-11-29T13:24:33.150Z",
+    "recordedAt": "2025-11-30T13:50:12.691Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/bird/sign_loop.mp4",
     "rawPath": "/asl/signs/bird/raw.webm",
@@ -297,7 +297,7 @@
   },
   {
     "word": "chicken",
-    "recordedAt": "2025-11-29T13:24:39.877Z",
+    "recordedAt": "2025-11-30T13:50:19.182Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/chicken/sign_loop.mp4",
     "rawPath": "/asl/signs/chicken/raw.webm",
@@ -305,7 +305,7 @@
   },
   {
     "word": "penguin",
-    "recordedAt": "2025-11-29T13:24:46.942Z",
+    "recordedAt": "2025-11-30T13:50:25.610Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/penguin/sign_loop.mp4",
     "rawPath": "/asl/signs/penguin/raw.webm",
@@ -313,7 +313,7 @@
   },
   {
     "word": "eagle",
-    "recordedAt": "2025-11-29T13:24:53.566Z",
+    "recordedAt": "2025-11-30T13:50:32.042Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/eagle/sign_loop.mp4",
     "rawPath": "/asl/signs/eagle/raw.webm",
@@ -321,7 +321,7 @@
   },
   {
     "word": "duck",
-    "recordedAt": "2025-11-29T13:25:00.206Z",
+    "recordedAt": "2025-11-30T13:50:38.423Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/duck/sign_loop.mp4",
     "rawPath": "/asl/signs/duck/raw.webm",
@@ -329,7 +329,7 @@
   },
   {
     "word": "swan",
-    "recordedAt": "2025-11-29T13:25:06.985Z",
+    "recordedAt": "2025-11-30T13:50:44.741Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/swan/sign_loop.mp4",
     "rawPath": "/asl/signs/swan/raw.webm",
@@ -337,7 +337,7 @@
   },
   {
     "word": "owl",
-    "recordedAt": "2025-11-29T13:25:13.678Z",
+    "recordedAt": "2025-11-30T13:50:51.146Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/owl/sign_loop.mp4",
     "rawPath": "/asl/signs/owl/raw.webm",
@@ -345,7 +345,7 @@
   },
   {
     "word": "peacock",
-    "recordedAt": "2025-11-29T13:25:20.301Z",
+    "recordedAt": "2025-11-30T13:50:57.580Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/peacock/sign_loop.mp4",
     "rawPath": "/asl/signs/peacock/raw.webm",
@@ -353,7 +353,7 @@
   },
   {
     "word": "parrot",
-    "recordedAt": "2025-11-29T13:25:28.213Z",
+    "recordedAt": "2025-11-30T13:51:04.010Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/parrot/sign_loop.mp4",
     "rawPath": "/asl/signs/parrot/raw.webm",
@@ -361,7 +361,7 @@
   },
   {
     "word": "fish",
-    "recordedAt": "2025-11-29T13:25:35.037Z",
+    "recordedAt": "2025-11-30T13:51:10.374Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/fish/sign_loop.mp4",
     "rawPath": "/asl/signs/fish/raw.webm",
@@ -369,7 +369,7 @@
   },
   {
     "word": "whale",
-    "recordedAt": "2025-11-29T13:25:41.613Z",
+    "recordedAt": "2025-11-30T13:51:16.785Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/whale/sign_loop.mp4",
     "rawPath": "/asl/signs/whale/raw.webm",
@@ -377,7 +377,7 @@
   },
   {
     "word": "dolphin",
-    "recordedAt": "2025-11-29T13:25:48.285Z",
+    "recordedAt": "2025-11-30T13:51:23.210Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/dolphin/sign_loop.mp4",
     "rawPath": "/asl/signs/dolphin/raw.webm",
@@ -385,7 +385,7 @@
   },
   {
     "word": "shark",
-    "recordedAt": "2025-11-29T13:25:54.840Z",
+    "recordedAt": "2025-11-30T13:51:29.767Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/shark/sign_loop.mp4",
     "rawPath": "/asl/signs/shark/raw.webm",
@@ -393,7 +393,7 @@
   },
   {
     "word": "grapes",
-    "recordedAt": "2025-11-29T13:26:01.325Z",
+    "recordedAt": "2025-11-30T13:51:36.344Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/grapes/sign_loop.mp4",
     "rawPath": "/asl/signs/grapes/raw.webm",
@@ -401,7 +401,7 @@
   },
   {
     "word": "melon",
-    "recordedAt": "2025-11-29T13:26:07.815Z",
+    "recordedAt": "2025-11-30T13:51:42.864Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/melon/sign_loop.mp4",
     "rawPath": "/asl/signs/melon/raw.webm",
@@ -409,7 +409,7 @@
   },
   {
     "word": "watermelon",
-    "recordedAt": "2025-11-29T13:26:14.436Z",
+    "recordedAt": "2025-11-30T13:51:49.360Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/watermelon/sign_loop.mp4",
     "rawPath": "/asl/signs/watermelon/raw.webm",
@@ -417,10 +417,770 @@
   },
   {
     "word": "orange",
-    "recordedAt": "2025-11-29T13:26:21.053Z",
+    "recordedAt": "2025-11-30T13:51:55.921Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/orange/sign_loop.mp4",
     "rawPath": "/asl/signs/orange/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "lemon",
+    "recordedAt": "2025-11-30T13:52:03.718Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/lemon/sign_loop.mp4",
+    "rawPath": "/asl/signs/lemon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "banana",
+    "recordedAt": "2025-11-30T13:52:10.836Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/banana/sign_loop.mp4",
+    "rawPath": "/asl/signs/banana/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "pineapple",
+    "recordedAt": "2025-11-30T13:52:18.144Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/pineapple/sign_loop.mp4",
+    "rawPath": "/asl/signs/pineapple/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "mango",
+    "recordedAt": "2025-11-30T13:52:25.511Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/mango/sign_loop.mp4",
+    "rawPath": "/asl/signs/mango/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "pear",
+    "recordedAt": "2025-11-30T13:52:32.865Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/pear/sign_loop.mp4",
+    "rawPath": "/asl/signs/pear/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "peach",
+    "recordedAt": "2025-11-30T13:52:39.934Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/peach/sign_loop.mp4",
+    "rawPath": "/asl/signs/peach/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "cherries",
+    "recordedAt": "2025-11-30T13:52:46.964Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/cherries/sign_loop.mp4",
+    "rawPath": "/asl/signs/cherries/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "strawberry",
+    "recordedAt": "2025-11-30T13:52:54.032Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/strawberry/sign_loop.mp4",
+    "rawPath": "/asl/signs/strawberry/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "tomato",
+    "recordedAt": "2025-11-30T13:53:01.140Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/tomato/sign_loop.mp4",
+    "rawPath": "/asl/signs/tomato/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "avocado",
+    "recordedAt": "2025-11-30T13:53:08.409Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/avocado/sign_loop.mp4",
+    "rawPath": "/asl/signs/avocado/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "carrot",
+    "recordedAt": "2025-11-30T13:53:15.349Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/carrot/sign_loop.mp4",
+    "rawPath": "/asl/signs/carrot/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "corn",
+    "recordedAt": "2025-11-30T13:53:22.094Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/corn/sign_loop.mp4",
+    "rawPath": "/asl/signs/corn/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "broccoli",
+    "recordedAt": "2025-11-30T13:53:28.973Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/broccoli/sign_loop.mp4",
+    "rawPath": "/asl/signs/broccoli/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "potato",
+    "recordedAt": "2025-11-30T13:53:35.967Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/potato/sign_loop.mp4",
+    "rawPath": "/asl/signs/potato/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bread",
+    "recordedAt": "2025-11-30T13:53:42.521Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bread/sign_loop.mp4",
+    "rawPath": "/asl/signs/bread/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "croissant",
+    "recordedAt": "2025-11-30T13:53:49.039Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/croissant/sign_loop.mp4",
+    "rawPath": "/asl/signs/croissant/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "cheese",
+    "recordedAt": "2025-11-30T13:53:55.580Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/cheese/sign_loop.mp4",
+    "rawPath": "/asl/signs/cheese/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "egg",
+    "recordedAt": "2025-11-30T13:54:02.211Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/egg/sign_loop.mp4",
+    "rawPath": "/asl/signs/egg/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "pizza",
+    "recordedAt": "2025-11-30T13:54:09.038Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/pizza/sign_loop.mp4",
+    "rawPath": "/asl/signs/pizza/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "hamburger",
+    "recordedAt": "2025-11-30T13:54:15.594Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/hamburger/sign_loop.mp4",
+    "rawPath": "/asl/signs/hamburger/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "taco",
+    "recordedAt": "2025-11-30T13:54:22.167Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/taco/sign_loop.mp4",
+    "rawPath": "/asl/signs/taco/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "burrito",
+    "recordedAt": "2025-11-30T13:54:28.762Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/burrito/sign_loop.mp4",
+    "rawPath": "/asl/signs/burrito/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "popcorn",
+    "recordedAt": "2025-11-30T13:54:35.343Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/popcorn/sign_loop.mp4",
+    "rawPath": "/asl/signs/popcorn/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "cake",
+    "recordedAt": "2025-11-30T13:54:41.958Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/cake/sign_loop.mp4",
+    "rawPath": "/asl/signs/cake/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "cupcake",
+    "recordedAt": "2025-11-30T13:54:48.514Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/cupcake/sign_loop.mp4",
+    "rawPath": "/asl/signs/cupcake/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "pie",
+    "recordedAt": "2025-11-30T13:54:55.140Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/pie/sign_loop.mp4",
+    "rawPath": "/asl/signs/pie/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "cookie",
+    "recordedAt": "2025-11-30T13:55:01.766Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/cookie/sign_loop.mp4",
+    "rawPath": "/asl/signs/cookie/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "doughnut",
+    "recordedAt": "2025-11-30T13:55:08.320Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/doughnut/sign_loop.mp4",
+    "rawPath": "/asl/signs/doughnut/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "candy",
+    "recordedAt": "2025-11-30T13:55:14.897Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/candy/sign_loop.mp4",
+    "rawPath": "/asl/signs/candy/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "lollipop",
+    "recordedAt": "2025-11-30T13:55:21.415Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/lollipop/sign_loop.mp4",
+    "rawPath": "/asl/signs/lollipop/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "honey",
+    "recordedAt": "2025-11-30T13:55:27.969Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/honey/sign_loop.mp4",
+    "rawPath": "/asl/signs/honey/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "coffee",
+    "recordedAt": "2025-11-30T13:55:35.048Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/coffee/sign_loop.mp4",
+    "rawPath": "/asl/signs/coffee/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "milk",
+    "recordedAt": "2025-11-30T13:55:42.206Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/milk/sign_loop.mp4",
+    "rawPath": "/asl/signs/milk/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "tea",
+    "recordedAt": "2025-11-30T13:55:49.318Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/tea/sign_loop.mp4",
+    "rawPath": "/asl/signs/tea/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bottle",
+    "recordedAt": "2025-11-30T13:55:56.549Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bottle/sign_loop.mp4",
+    "rawPath": "/asl/signs/bottle/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "spoon",
+    "recordedAt": "2025-11-30T13:56:03.776Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/spoon/sign_loop.mp4",
+    "rawPath": "/asl/signs/spoon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bowl",
+    "recordedAt": "2025-11-30T13:56:11.036Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bowl/sign_loop.mp4",
+    "rawPath": "/asl/signs/bowl/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "baseball",
+    "recordedAt": "2025-11-30T13:56:18.177Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/baseball/sign_loop.mp4",
+    "rawPath": "/asl/signs/baseball/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "basketball",
+    "recordedAt": "2025-11-30T13:56:25.435Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/basketball/sign_loop.mp4",
+    "rawPath": "/asl/signs/basketball/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "volleyball",
+    "recordedAt": "2025-11-30T13:56:32.706Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/volleyball/sign_loop.mp4",
+    "rawPath": "/asl/signs/volleyball/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "football",
+    "recordedAt": "2025-11-30T13:56:39.734Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/football/sign_loop.mp4",
+    "rawPath": "/asl/signs/football/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "tennis",
+    "recordedAt": "2025-11-30T13:56:46.969Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/tennis/sign_loop.mp4",
+    "rawPath": "/asl/signs/tennis/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bowling",
+    "recordedAt": "2025-11-30T13:56:54.426Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bowling/sign_loop.mp4",
+    "rawPath": "/asl/signs/bowling/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "golf",
+    "recordedAt": "2025-11-30T13:57:01.648Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/golf/sign_loop.mp4",
+    "rawPath": "/asl/signs/golf/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "trophy",
+    "recordedAt": "2025-11-30T13:57:08.916Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/trophy/sign_loop.mp4",
+    "rawPath": "/asl/signs/trophy/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "medal",
+    "recordedAt": "2025-11-30T13:57:16.008Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/medal/sign_loop.mp4",
+    "rawPath": "/asl/signs/medal/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "guitar",
+    "recordedAt": "2025-11-30T13:57:22.921Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/guitar/sign_loop.mp4",
+    "rawPath": "/asl/signs/guitar/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "piano",
+    "recordedAt": "2025-11-30T13:57:30.017Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/piano/sign_loop.mp4",
+    "rawPath": "/asl/signs/piano/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "drum",
+    "recordedAt": "2025-11-30T13:57:37.529Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/drum/sign_loop.mp4",
+    "rawPath": "/asl/signs/drum/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "microphone",
+    "recordedAt": "2025-11-30T13:57:44.571Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/microphone/sign_loop.mp4",
+    "rawPath": "/asl/signs/microphone/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "headphones",
+    "recordedAt": "2025-11-30T13:57:51.159Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/headphones/sign_loop.mp4",
+    "rawPath": "/asl/signs/headphones/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "trumpet",
+    "recordedAt": "2025-11-30T13:57:57.726Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/trumpet/sign_loop.mp4",
+    "rawPath": "/asl/signs/trumpet/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "violin",
+    "recordedAt": "2025-11-30T13:58:04.259Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/violin/sign_loop.mp4",
+    "rawPath": "/asl/signs/violin/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "chess",
+    "recordedAt": "2025-11-30T13:58:10.904Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/chess/sign_loop.mp4",
+    "rawPath": "/asl/signs/chess/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "kite",
+    "recordedAt": "2025-11-30T13:58:17.519Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/kite/sign_loop.mp4",
+    "rawPath": "/asl/signs/kite/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "balloon",
+    "recordedAt": "2025-11-30T13:58:24.161Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/balloon/sign_loop.mp4",
+    "rawPath": "/asl/signs/balloon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "gift",
+    "recordedAt": "2025-11-30T13:58:30.911Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/gift/sign_loop.mp4",
+    "rawPath": "/asl/signs/gift/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "fireworks",
+    "recordedAt": "2025-11-30T13:58:37.548Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/fireworks/sign_loop.mp4",
+    "rawPath": "/asl/signs/fireworks/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "sparkler",
+    "recordedAt": "2025-11-30T13:58:44.183Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/sparkler/sign_loop.mp4",
+    "rawPath": "/asl/signs/sparkler/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "camera",
+    "recordedAt": "2025-11-30T13:58:50.847Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/camera/sign_loop.mp4",
+    "rawPath": "/asl/signs/camera/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "car",
+    "recordedAt": "2025-11-30T13:58:57.446Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/car/sign_loop.mp4",
+    "rawPath": "/asl/signs/car/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "taxi",
+    "recordedAt": "2025-11-30T13:59:04.077Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/taxi/sign_loop.mp4",
+    "rawPath": "/asl/signs/taxi/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bus",
+    "recordedAt": "2025-11-30T13:59:10.708Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bus/sign_loop.mp4",
+    "rawPath": "/asl/signs/bus/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "ambulance",
+    "recordedAt": "2025-11-30T13:59:17.314Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/ambulance/sign_loop.mp4",
+    "rawPath": "/asl/signs/ambulance/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "tractor",
+    "recordedAt": "2025-11-30T13:59:24.365Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/tractor/sign_loop.mp4",
+    "rawPath": "/asl/signs/tractor/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bicycle",
+    "recordedAt": "2025-11-30T13:59:31.505Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bicycle/sign_loop.mp4",
+    "rawPath": "/asl/signs/bicycle/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "scooter",
+    "recordedAt": "2025-11-30T13:59:38.654Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/scooter/sign_loop.mp4",
+    "rawPath": "/asl/signs/scooter/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "skateboard",
+    "recordedAt": "2025-11-30T13:59:45.910Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/skateboard/sign_loop.mp4",
+    "rawPath": "/asl/signs/skateboard/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "train",
+    "recordedAt": "2025-11-30T13:59:53.300Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/train/sign_loop.mp4",
+    "rawPath": "/asl/signs/train/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "airplane",
+    "recordedAt": "2025-11-30T14:00:00.618Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/airplane/sign_loop.mp4",
+    "rawPath": "/asl/signs/airplane/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "rocket",
+    "recordedAt": "2025-11-30T14:00:07.838Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/rocket/sign_loop.mp4",
+    "rawPath": "/asl/signs/rocket/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "helicopter",
+    "recordedAt": "2025-11-30T14:00:15.053Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/helicopter/sign_loop.mp4",
+    "rawPath": "/asl/signs/helicopter/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "ship",
+    "recordedAt": "2025-11-30T14:00:22.160Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/ship/sign_loop.mp4",
+    "rawPath": "/asl/signs/ship/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "sailboat",
+    "recordedAt": "2025-11-30T14:00:29.357Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/sailboat/sign_loop.mp4",
+    "rawPath": "/asl/signs/sailboat/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "anchor",
+    "recordedAt": "2025-11-30T14:00:36.379Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/anchor/sign_loop.mp4",
+    "rawPath": "/asl/signs/anchor/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "house",
+    "recordedAt": "2025-11-30T14:00:43.338Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/house/sign_loop.mp4",
+    "rawPath": "/asl/signs/house/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "school",
+    "recordedAt": "2025-11-30T14:00:50.214Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/school/sign_loop.mp4",
+    "rawPath": "/asl/signs/school/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "hospital",
+    "recordedAt": "2025-11-30T14:00:56.985Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/hospital/sign_loop.mp4",
+    "rawPath": "/asl/signs/hospital/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "castle",
+    "recordedAt": "2025-11-30T14:01:03.710Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/castle/sign_loop.mp4",
+    "rawPath": "/asl/signs/castle/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "tent",
+    "recordedAt": "2025-11-30T14:01:10.484Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/tent/sign_loop.mp4",
+    "rawPath": "/asl/signs/tent/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "camping",
+    "recordedAt": "2025-11-30T14:01:17.226Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/camping/sign_loop.mp4",
+    "rawPath": "/asl/signs/camping/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "mountain",
+    "recordedAt": "2025-11-30T14:01:23.880Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/mountain/sign_loop.mp4",
+    "rawPath": "/asl/signs/mountain/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "beach",
+    "recordedAt": "2025-11-30T14:01:30.635Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/beach/sign_loop.mp4",
+    "rawPath": "/asl/signs/beach/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "desert",
+    "recordedAt": "2025-11-30T14:01:37.099Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/desert/sign_loop.mp4",
+    "rawPath": "/asl/signs/desert/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "island",
+    "recordedAt": "2025-11-30T14:01:43.566Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/island/sign_loop.mp4",
+    "rawPath": "/asl/signs/island/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "volcano",
+    "recordedAt": "2025-11-30T14:01:49.987Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/volcano/sign_loop.mp4",
+    "rawPath": "/asl/signs/volcano/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bridge",
+    "recordedAt": "2025-11-30T14:01:56.530Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bridge/sign_loop.mp4",
+    "rawPath": "/asl/signs/bridge/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "fountain",
+    "recordedAt": "2025-11-30T14:02:03.065Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/fountain/sign_loop.mp4",
+    "rawPath": "/asl/signs/fountain/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "watch",
+    "recordedAt": "2025-11-30T14:02:09.549Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/watch/sign_loop.mp4",
+    "rawPath": "/asl/signs/watch/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "hourglass",
+    "recordedAt": "2025-11-30T14:02:15.433Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/hourglass/sign_loop.mp4",
+    "rawPath": "/asl/signs/hourglass/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "key",
+    "recordedAt": "2025-11-30T14:04:00.845Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/key/sign_loop.mp4",
+    "rawPath": "/asl/signs/key/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "lock",
+    "recordedAt": "2025-11-30T19:36:41.433Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/lock/sign_loop.mp4",
+    "rawPath": "/asl/signs/lock/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "hammer",
+    "recordedAt": "2025-11-30T19:36:50.735Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/hammer/sign_loop.mp4",
+    "rawPath": "/asl/signs/hammer/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "wrench",
+    "recordedAt": "2025-11-30T19:36:59.141Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/wrench/sign_loop.mp4",
+    "rawPath": "/asl/signs/wrench/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "scissors",
+    "recordedAt": "2025-11-30T19:37:07.497Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/scissors/sign_loop.mp4",
+    "rawPath": "/asl/signs/scissors/raw.webm",
     "status": "approved"
   }
 ]
