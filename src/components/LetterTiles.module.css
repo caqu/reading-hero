@@ -3,6 +3,9 @@
   gap: 0;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 95%;
+  margin: 0 auto;
 }
 
 .tile {
@@ -18,6 +21,23 @@
   font-size: 4.5rem;
   font-weight: 700;
   color: var(--color-text);
+}
+
+/* Space tile styling - visually distinct */
+.tile.spaceTile {
+  width: 40px;
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  border-style: dashed;
+  position: relative;
+}
+
+/* Add a small spacebar icon indicator when space is revealed */
+.tile.spaceTile.revealed::after {
+  content: '⎵';
+  font-size: 2rem;
+  color: white;
+  opacity: 0.7;
 }
 
 /* First tile: rounded left corners + restore left border */
@@ -95,11 +115,37 @@
   }
 }
 
+/* Dynamic sizing for long content (phrases/sentences) */
+/* Apply smaller tiles when there are many characters */
+.container:has(.tile:nth-child(16)) .tile {
+  width: 50px;
+  height: 85px;
+  font-size: 2.5rem;
+}
+
+.container:has(.tile:nth-child(16)).spaceTile {
+  width: 35px;
+}
+
+.container:has(.tile:nth-child(26)) .tile {
+  width: 45px;
+  height: 75px;
+  font-size: 2rem;
+}
+
+.container:has(.tile:nth-child(26)) .tile.spaceTile {
+  width: 30px;
+}
+
 @media (max-width: 768px) {
   .tile {
-    width: 60px;
-    height: 80px;
+    width: 50px;
+    height: 75px;
     font-size: 2rem;
+  }
+
+  .tile.spaceTile {
+    width: 35px;
   }
 
   .container {
@@ -117,5 +163,59 @@
 
   .tile.first.last {
     border-radius: 6px;
+  }
+
+  /* Further reduce size for long content on mobile */
+  .container:has(.tile:nth-child(16)) .tile {
+    width: 40px;
+    height: 65px;
+    font-size: 1.75rem;
+  }
+
+  .container:has(.tile:nth-child(16)) .tile.spaceTile {
+    width: 28px;
+  }
+
+  .container:has(.tile:nth-child(26)) .tile {
+    width: 35px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .container:has(.tile:nth-child(26)) .tile.spaceTile {
+    width: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tile {
+    width: 45px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+
+  .tile.spaceTile {
+    width: 30px;
+  }
+
+  /* Even smaller for long content on small screens */
+  .container:has(.tile:nth-child(16)) .tile {
+    width: 35px;
+    height: 55px;
+    font-size: 1.5rem;
+  }
+
+  .container:has(.tile:nth-child(16)) .tile.spaceTile {
+    width: 25px;
+  }
+
+  .container:has(.tile:nth-child(26)) .tile {
+    width: 30px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .container:has(.tile:nth-child(26)) .tile.spaceTile {
+    width: 20px;
   }
 }

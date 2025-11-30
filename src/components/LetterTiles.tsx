@@ -30,6 +30,7 @@ export const LetterTiles = ({
         const isCorrectAnimating = index === correctTileIndex;
         const isFirst = index === 0;
         const isLast = index === letters.length - 1;
+        const isSpace = letter === ' ';
 
         // In blank tile mode, tiles appear empty until revealed
         const showLetter = isRevealed;
@@ -47,11 +48,12 @@ export const LetterTiles = ({
               ${showBlank ? styles.blank : ''}
               ${isFirst ? styles.first : ''}
               ${isLast ? styles.last : ''}
+              ${isSpace ? styles.spaceTile : ''}
             `}
-            aria-label={showLetter ? `Letter ${letter}` : 'Empty tile'}
+            aria-label={showLetter ? (isSpace ? 'Space' : `Letter ${letter}`) : 'Empty tile'}
             aria-current={isCurrent ? 'true' : 'false'}
           >
-            {showLetter ? letter : ''}
+            {showLetter ? (isSpace ? '' : letter) : ''}
           </div>
         );
       })}

@@ -17,6 +17,19 @@ interface WordCardProps {
   isCelebrating?: boolean;
 }
 
+/**
+ * Calculate dynamic font size based on content length
+ * Ensures long phrases and sentences fit on screen without truncation
+ */
+const getDynamicFontSize = (text: string): string => {
+  const length = text.length;
+  if (length <= 8) return '3rem';      // Large for short words
+  if (length <= 15) return '2.5rem';   // Medium for words/short phrases
+  if (length <= 25) return '2rem';     // Smaller for longer phrases
+  if (length <= 40) return '1.5rem';   // Even smaller for sentences
+  return '1.25rem';                    // Very small for long content
+};
+
 export const WordCard = ({
   word,
   showWord = false,
@@ -134,7 +147,10 @@ export const WordCard = ({
             />
           ) : (
             // Fallback: show word text if no video, emoji, or image
-            <div className={styles.fallbackText}>
+            <div
+              className={styles.fallbackText}
+              style={{ fontSize: getDynamicFontSize(word.text) }}
+            >
               {word.text}
             </div>
           )}
@@ -142,7 +158,11 @@ export const WordCard = ({
       )}
 
       {showWord && (
-        <div className={styles.wordText} aria-label={`Word: ${word.text}`}>
+        <div
+          className={styles.wordText}
+          style={{ fontSize: getDynamicFontSize(word.text) }}
+          aria-label={`Word: ${word.text}`}
+        >
           {word.text}
         </div>
       )}
