@@ -1,0 +1,11 @@
+export * from "./types";
+export { animals } from "./animals";
+export { foods } from "./foods";
+export { places } from "./places";
+export { activities } from "./activities";
+export { feelings } from "./feelings";
+export { tech } from "./tech";
+export { fantasy } from "./fantasy";
+export { nature } from "./nature";
+export { actions } from "./actions";
+export { nowWords } from "./nowWords";

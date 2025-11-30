@@ -23,6 +23,8 @@ import { loadAllWords } from './utils/ugcWordLoader';
 import { enrichWordsWithSignVideos } from './utils/enrichWordsWithSignVideos';
 import { DevGameModePage } from './pages/DevGameModePage';
 import { DrawerProvider } from './contexts/DrawerContext';
+import { USE_SENTENCES } from './config/gameConfig';
+import { generateRandomSentence } from './utils/sentenceGenerator';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs' | 'dev-game-modes';
@@ -69,21 +71,36 @@ function App() {
     }
   }, [])
 
-  // Load words (built-in + UGC + ASL sign videos) on mount
+  // Load words (built-in + UGC + ASL sign videos + sentences) on mount
   useEffect(() => {
     async function loadWords() {
       setIsLoadingWords(true);
       try {
-        // Step 1: Load UGC words
-        const wordsWithUGC = await loadAllWords(WORD_LIST);
-        console.log(`Loaded ${wordsWithUGC.length} total words (${WORD_LIST.length} built-in + ${wordsWithUGC.length - WORD_LIST.length} UGC)`);
+        let finalWords: Word[];
 
-        // Step 2: Enrich with ASL sign videos
-        const wordsWithSigns = await enrichWordsWithSignVideos(wordsWithUGC);
-        const signCount = wordsWithSigns.filter(w => w.signVideoUrl).length;
-        console.log(`Enriched ${signCount} words with ASL sign videos`);
+        if (USE_SENTENCES) {
+          // Sentence mode: Generate 100 random sentences from high-interest words
+          console.log('[Sentence Mode] Generating sentences from high-interest words');
+          const sentences: Word[] = [];
+          for (let i = 0; i < 100; i++) {
+            sentences.push(generateRandomSentence());
+          }
+          finalWords = sentences;
+          console.log(`[Sentence Mode] Generated ${sentences.length} sentences`);
+        } else {
+          // Single-word mode: Load UGC words and enrich with ASL signs
+          const wordsWithUGC = await loadAllWords(WORD_LIST);
+          console.log(`Loaded ${wordsWithUGC.length} total words (${WORD_LIST.length} built-in + ${wordsWithUGC.length - WORD_LIST.length} UGC)`);
 
-        setAllWords(wordsWithSigns);
+          // Enrich with ASL sign videos
+          const wordsWithSigns = await enrichWordsWithSignVideos(wordsWithUGC);
+          const signCount = wordsWithSigns.filter(w => w.signVideoUrl).length;
+          console.log(`Enriched ${signCount} words with ASL sign videos`);
+
+          finalWords = wordsWithSigns;
+        }
+
+        setAllWords(finalWords);
       } catch (error) {
         console.error('Error loading words:', error);
         // Fallback to built-in words only

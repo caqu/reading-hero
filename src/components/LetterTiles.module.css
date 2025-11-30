@@ -6,7 +6,7 @@
 }
 
 .tile {
-  width: 80px;
+  width: 65px;
   height: 100px;
   display: flex;
   align-items: center;
@@ -17,7 +17,6 @@
   border-left: none;
   font-size: 4.5rem;
   font-weight: 700;
-  text-transform: uppercase;
   color: var(--color-text);
 }
 

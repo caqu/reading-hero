@@ -1,7 +1,6 @@
 .container {
   min-height: 100vh;
   display: flex;
-  background: var(--color-background);
 }
 
 .floatingInstruction {
