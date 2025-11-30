@@ -10,6 +10,13 @@ import { getApiBaseUrl, areBackendAPIsAvailable } from './apiConfig';
  */
 export const WORD_COMPLETION_DELAY_MS = 400;
 
+/**
+ * Enable Spanish TTS after English word completion
+ * When true: plays English audio, then Spanish audio (female voice)
+ * When false: plays only English audio
+ */
+export const ENABLE_SPANISH_TTS = true;
+
 export interface TTSConfig {
   /** API endpoint base URL */
   apiBaseUrl: string;

@@ -1,9 +1,10 @@
 import { useCallback, useRef } from 'react';
-import { getLetterSoundUrl, getWordSoundUrl, getTTSConfig } from '../config/ttsConfig';
+import { getLetterSoundUrl, getWordSoundUrl, getTTSConfig, ENABLE_SPANISH_TTS } from '../config/ttsConfig';
 
 /**
  * Custom hook for Text-to-Speech functionality
  * Handles audio playback for letters and words
+ * Supports bilingual playback (English + Spanish)
  */
 export function useTTS() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -63,6 +64,7 @@ export function useTTS() {
   /**
    * Play word sound
    * Fetches the audio from the API and plays it
+   * If Spanish TTS is enabled and available, plays Spanish after English
    */
   const playWordSound = useCallback(async (word: string): Promise<void> => {
     if (!config.enabled || !word) {
@@ -78,7 +80,7 @@ export function useTTS() {
         return;
       }
 
-      // Fetch the audio URL from the API
+      // Fetch the audio URLs from the API (now returns both English and Spanish)
       const apiUrl = getWordSoundUrl(normalizedWord);
       const response = await fetch(apiUrl);
 
@@ -89,8 +91,8 @@ export function useTTS() {
 
       const data = await response.json();
 
-      if (!data.url) {
-        console.error('[TTS] No URL returned from API');
+      if (!data.englishUrl) {
+        console.error('[TTS] No English URL returned from API');
         return;
       }
 
@@ -100,11 +102,50 @@ export function useTTS() {
         audioRef.current.currentTime = 0;
       }
 
-      // Create and play new audio
-      audioRef.current = new Audio(data.url);
+      // Play English audio first
+      console.log(`[TTS] Playing English: ${normalizedWord}`);
+      audioRef.current = new Audio(data.englishUrl);
       audioRef.current.volume = config.volume / 100;
 
       await audioRef.current.play();
+
+      // Wait for English audio to finish
+      await new Promise<void>((resolve) => {
+        if (audioRef.current) {
+          audioRef.current.onended = () => resolve();
+          audioRef.current.onerror = () => resolve();
+        } else {
+          resolve();
+        }
+      });
+
+      // Play Spanish audio if enabled and available
+      if (ENABLE_SPANISH_TTS && data.spanishUrl) {
+        console.log(`[TTS] Playing Spanish: ${data.spanishTranslation}`);
+
+        // Stop any currently playing audio
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        }
+
+        audioRef.current = new Audio(data.spanishUrl);
+        audioRef.current.volume = config.volume / 100;
+
+        await audioRef.current.play();
+
+        // Wait for Spanish audio to finish
+        await new Promise<void>((resolve) => {
+          if (audioRef.current) {
+            audioRef.current.onended = () => resolve();
+            audioRef.current.onerror = () => resolve();
+          } else {
+            resolve();
+          }
+        });
+      } else if (ENABLE_SPANISH_TTS && !data.spanishUrl) {
+        console.log(`[TTS] No Spanish translation available for: ${normalizedWord}`);
+      }
 
     } catch (error) {
       console.error('[TTS] Error playing word sound:', error);

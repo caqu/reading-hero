@@ -67,6 +67,125 @@ const LETTER_PHONEMES = {
   z: { text: "z", ipa: "z" },
 };
 
+// Spanish translations dictionary
+const SPANISH_TRANSLATIONS = {
+  // Animals
+  shark: "tiburón",
+  bird: "pájaro",
+  chicken: "pollo",
+  dolphin: "delfín",
+  dragon: "dragón",
+  duck: "pato",
+  eagle: "águila",
+  fish: "pez",
+  owl: "búho",
+  parrot: "loro",
+  peacock: "pavo real",
+  penguin: "pingüino",
+  snake: "serpiente",
+  swan: "cisne",
+  whale: "ballena",
+  bear: "oso",
+  fox: "zorro",
+  frog: "rana",
+  koala: "koala",
+  monkey: "mono",
+  orangutan: "orangután",
+  panda: "panda",
+  poodle: "caniche",
+  rabbit: "conejo",
+  turtle: "tortuga",
+  wolf: "lobo",
+  zebra: "cebra",
+  // Fruits
+  grapes: "uvas",
+  melon: "melón",
+  orange: "naranja",
+  watermelon: "sandía",
+  // Food
+  pizza: "pizza",
+  // Fantasy
+  wizard: "mago",
+  // Test words
+  test: "prueba",
+};
+
+/**
+ * Generate a WAV file using Windows PowerShell TTS with Spanish female voice
+ * @param {string} text - Spanish text to speak
+ * @param {string} outputPath - Output file path
+ */
+async function generateSpanishTTS(text, outputPath) {
+  const absolutePath = join(__dirname, '..', outputPath);
+
+  // Ensure directory exists
+  const dir = dirname(absolutePath);
+  if (!existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+  }
+
+  // Create a temporary PowerShell script file
+  const tempScriptPath = join(__dirname, `temp-tts-spanish-${Date.now()}.ps1`);
+
+  // PowerShell script to detect and use Spanish female voice
+  const psScript = `Add-Type -AssemblyName System.Speech
+$voice = New-Object System.Speech.Synthesis.SpeechSynthesizer
+
+# Try to find a Spanish female voice
+$spanishFemaleVoices = $voice.GetInstalledVoices() |
+    Where-Object { $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'es' -and $_.VoiceInfo.Gender -eq 'Female' }
+
+if ($spanishFemaleVoices) {
+    $selectedVoice = $spanishFemaleVoices[0].VoiceInfo.Name
+    Write-Host "Using Spanish female voice: $selectedVoice"
+    $voice.SelectVoice($selectedVoice)
+} else {
+    # Fallback: try any Spanish voice
+    $spanishVoices = $voice.GetInstalledVoices() |
+        Where-Object { $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'es' }
+
+    if ($spanishVoices) {
+        $selectedVoice = $spanishVoices[0].VoiceInfo.Name
+        Write-Host "Using Spanish voice: $selectedVoice"
+        $voice.SelectVoice($selectedVoice)
+    } else {
+        # Last resort: use default voice but set culture
+        Write-Host "No Spanish voice found, using default voice with Spanish culture"
+        $voice.SelectVoice($voice.GetInstalledVoices()[0].VoiceInfo.Name)
+    }
+}
+
+$voice.Rate = 0
+$voice.Volume = 100
+$voice.SetOutputToWaveFile("${absolutePath}")
+$voice.Speak("${text}")
+$voice.Dispose()`;
+
+  try {
+    // Write script to temporary file
+    writeFileSync(tempScriptPath, psScript, 'utf8');
+
+    // Execute the PowerShell script
+    const { stdout } = await execAsync(`powershell -ExecutionPolicy Bypass -File "${tempScriptPath}"`);
+    console.log('[TTS Spanish]', stdout.trim());
+
+    // Clean up temporary script
+    unlinkSync(tempScriptPath);
+
+    return true;
+  } catch (error) {
+    // Clean up temporary script even on error
+    try {
+      unlinkSync(tempScriptPath);
+    } catch (cleanupError) {
+      // Ignore cleanup errors
+    }
+
+    console.error('Spanish TTS generation error:', error);
+    throw error;
+  }
+}
+
 /**
  * Generate a WAV file using Windows PowerShell TTS with plain text
  * @param {string} text - Plain text to speak
@@ -257,7 +376,7 @@ app.get('/api/tts/letter', async (req, res) => {
 
 /**
  * GET /api/tts/word?text=<word>
- * Generate or retrieve a word sound (future feature)
+ * Generate or retrieve a word sound (English + Spanish if available)
  */
 app.get('/api/tts/word', async (req, res) => {
   try {
@@ -278,31 +397,118 @@ app.get('/api/tts/word', async (req, res) => {
     const absolutePath = join(__dirname, '..', audioFilePath);
     const publicUrl = `/audio/words/${audioFileName}`;
 
-    // Check if file already exists
-    if (existsSync(absolutePath)) {
+    // Check if English file already exists
+    const englishCached = existsSync(absolutePath);
+
+    if (!englishCached) {
+      // Generate the English audio file using plain text
+      console.log(`[TTS] Generating sound for word: ${word}`);
+      await generateTTSPlainText(word, audioFilePath);
+      console.log(`[TTS] Successfully generated: ${audioFileName}`);
+    } else {
       console.log(`[TTS] Cache hit for word: ${word}`);
-      return res.json({
-        word,
-        url: publicUrl,
-        cached: true
-      });
     }
 
-    // Generate the audio file using plain text
-    console.log(`[TTS] Generating sound for word: ${word}`);
-    await generateTTSPlainText(word, audioFilePath);
+    // Check if Spanish translation exists
+    const spanishTranslation = SPANISH_TRANSLATIONS[word];
+    let spanishUrl = null;
+    let spanishCached = false;
 
-    console.log(`[TTS] Successfully generated: ${audioFileName}`);
+    if (spanishTranslation) {
+      const spanishFileName = `${safeFileName}-es.wav`;
+      const spanishFilePath = `public/audio/spanish/${spanishFileName}`;
+      const spanishAbsolutePath = join(__dirname, '..', spanishFilePath);
+      spanishUrl = `/audio/spanish/${spanishFileName}`;
+
+      // Check if Spanish file already exists
+      if (existsSync(spanishAbsolutePath)) {
+        console.log(`[TTS] Spanish cache hit for word: ${word} (${spanishTranslation})`);
+        spanishCached = true;
+      } else {
+        // Generate Spanish audio file
+        console.log(`[TTS] Generating Spanish sound for word: ${word} -> ${spanishTranslation}`);
+        await generateSpanishTTS(spanishTranslation, spanishFilePath);
+        console.log(`[TTS] Successfully generated Spanish: ${spanishFileName}`);
+      }
+    }
+
     return res.json({
       word,
-      url: publicUrl,
-      cached: false
+      englishUrl: publicUrl,
+      spanishUrl,
+      spanishTranslation,
+      cached: {
+        english: englishCached,
+        spanish: spanishCached
+      }
     });
 
   } catch (error) {
     console.error('[TTS] Error:', error);
     return res.status(500).json({
       error: 'Failed to generate audio',
+      details: error.message
+    });
+  }
+});
+
+/**
+ * POST /api/tts/spanish
+ * Generate or retrieve Spanish audio for a word
+ */
+app.post('/api/tts/spanish', async (req, res) => {
+  try {
+    const { word, translation } = req.body;
+
+    if (!word || typeof word !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid word. Provide a word to translate.'
+      });
+    }
+
+    if (!translation || typeof translation !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid translation. Provide a Spanish translation.'
+      });
+    }
+
+    const normalizedWord = word.toLowerCase().trim();
+    const normalizedTranslation = translation.toLowerCase().trim();
+
+    // Sanitize filename
+    const safeFileName = normalizedWord.replace(/[^a-z0-9]/g, '_');
+    const audioFileName = `${safeFileName}-es.wav`;
+    const audioFilePath = `public/audio/spanish/${audioFileName}`;
+    const absolutePath = join(__dirname, '..', audioFilePath);
+    const publicUrl = `/audio/spanish/${audioFileName}`;
+
+    // Check if file already exists
+    if (existsSync(absolutePath)) {
+      console.log(`[TTS Spanish] Cache hit for word: ${normalizedWord} (${normalizedTranslation})`);
+      return res.json({
+        word: normalizedWord,
+        translation: normalizedTranslation,
+        url: publicUrl,
+        cached: true
+      });
+    }
+
+    // Generate the Spanish audio file
+    console.log(`[TTS Spanish] Generating sound for: ${normalizedWord} -> ${normalizedTranslation}`);
+    await generateSpanishTTS(normalizedTranslation, audioFilePath);
+
+    console.log(`[TTS Spanish] Successfully generated: ${audioFileName}`);
+    return res.json({
+      word: normalizedWord,
+      translation: normalizedTranslation,
+      url: publicUrl,
+      cached: false
+    });
+
+  } catch (error) {
+    console.error('[TTS Spanish] Error:', error);
+    return res.status(500).json({
+      error: 'Failed to generate Spanish audio',
       details: error.message
     });
   }
@@ -973,10 +1179,13 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`\n🎤 TTS API Server running on http://localhost:${PORT}`);
   console.log(`📁 Audio cache: public/audio/letters/\n`);
+  console.log(`📁 Audio cache: public/audio/words/\n`);
+  console.log(`📁 Spanish audio cache: public/audio/spanish/\n`);
   console.log('Available endpoints:');
   console.log('  TTS:');
-  console.log(`    GET http://localhost:${PORT}/api/tts/letter?char=<a-z>`);
-  console.log(`    GET http://localhost:${PORT}/api/tts/word?text=<word>`);
+  console.log(`    GET  http://localhost:${PORT}/api/tts/letter?char=<a-z>`);
+  console.log(`    GET  http://localhost:${PORT}/api/tts/word?text=<word>`);
+  console.log(`    POST http://localhost:${PORT}/api/tts/spanish (word, translation)`);
   console.log('  UGC:');
   console.log(`    POST   http://localhost:${PORT}/api/ugc/word`);
   console.log(`    PATCH  http://localhost:${PORT}/api/ugc/word/<word>`);
