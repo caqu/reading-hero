@@ -195,3 +195,21 @@ export interface ContentItem {
   hasSpanish?: boolean;
   srBin?: string;
 }
+
+// ============================================================================
+// Adaptive Sequencing System Types
+// ============================================================================
+
+/**
+ * Export all types from the new adaptive sequencing system
+ */
+export * from "./ContentItem";
+export * from "./LearnerProfile";
+export * from "./HistoryEntry";
+export * from "./Sequencer";
+export * from "./GenerationTemplates";
+export * from "./Enums";
+export * from "./ContentLibrary";
+
+// Note: The old ContentItem interface above is kept for backward compatibility.
+// The new adaptive sequencing system uses the ContentItem interface from ContentItem.ts

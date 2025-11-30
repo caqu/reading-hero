@@ -764,6 +764,4 @@ export const highInterestWords: ContentItem[] = [
   // Find them at C:\Users\carlos.quesada\imaginelearning\reading-hero\src\content\highInterestWords.ts or fall back to C:\Users\carlos.quesada\imaginelearning\reading-hero\tasks\hi-words.md
 ];
 ```
-
----
-
+ 
