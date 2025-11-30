@@ -21,9 +21,10 @@ import { initializeSettings } from './engine/SettingsManager';
 import { Profile, Word } from './types';
 import { loadAllWords } from './utils/ugcWordLoader';
 import { enrichWordsWithSignVideos } from './utils/enrichWordsWithSignVideos';
+import { DevGameModePage } from './pages/DevGameModePage';
 import './App.css';
 
-type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs';
+type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs' | 'dev-game-modes';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('finish'); // Start at finish screen
@@ -45,6 +46,11 @@ function App() {
     }
     if (path === '/review-signs') {
       setCurrentScreen('review-signs');
+      setIsInitialLoad(false);
+      return;
+    }
+    if (path === '/dev-game-modes' || path === '/dev') {
+      setCurrentScreen('dev-game-modes');
       setIsInitialLoad(false);
       return;
     }
@@ -628,6 +634,11 @@ function App() {
       )}
       {currentScreen === 'review-signs' && (
         <ReviewSignsPage
+          onBack={handleBackToGame}
+        />
+      )}
+      {currentScreen === 'dev-game-modes' && (
+        <DevGameModePage
           onBack={handleBackToGame}
         />
       )}

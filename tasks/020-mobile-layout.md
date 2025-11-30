@@ -1,185 +1,201 @@
-task_mobile_layout_hamburger_sidebar.md
+# task_layout_always_hamburger_sidebar.md
 
-Task ID: T_MOBILE_LAYOUT_HAMBURGER_SIDEBAR
-Goal:
-Implement a responsive “mobile mode” where the left sidebar collapses into a hamburger menu when the viewport height is below a certain threshold. Replace the persistent sidebar with a slide-in drawer to save space on tablets, iPads, laptops in portrait mode, and smaller displays.
+### **Task ID:** `T_LAYOUT_ALWAYS_HAMBURGER_SIDEBAR`
 
-⸻
+### **Goal:**
 
-📝 Task Summary
+Remove the persistent left sidebar entirely and replace it with a universal hamburger-menu slide-in drawer that works on **all devices**, **all screen sizes**, and **all orientations**. The hamburger button is *always visible*, and navigation is *always inside a drawer only*. Gameplay and all pages must adapt to the absence of a fixed sidebar.
 
-When the viewport height is too small (e.g., < 600–700px), the UI becomes cramped.
-In this state:
-	•	The left sidebar should disappear
-	•	A hamburger icon should appear in the top-left corner
-	•	Clicking it opens a slide-in drawer containing the same navigation
+---
 
-Gameplay layout should automatically adapt to the missing sidebar.
+# 📝 Task Summary
 
-⸻
+The app currently uses a persistent sidebar. This task removes that pattern entirely.
 
-🎯 Detailed Requirements
+**New behavior:**
 
-⸻
+* There is **no persistent sidebar at any size**
+* A **hamburger button is always shown** in the top-left
+* Clicking it opens a **slide-in drawer** that contains all navigation items that used to appear in the sidebar
+* Every route must function with a full-width layout, since there is no sidebar taking space
 
-1. Add a Responsive Breakpoint (Height-Based)
+This applies universally: desktop, tablets, laptops, ultrawide monitors, mobile — everything uses hamburger navigation only.
 
-Define in:
+---
 
-src/config/layoutConfig.ts
+# 🎯 Detailed Requirements
 
-Add:
+---
 
-export const MOBILE_HEIGHT_BREAKPOINT = 650; // px
+## **1. Remove Persistent Sidebar From All Layouts**
 
-Behavior:
-	•	If window.innerHeight < MOBILE_HEIGHT_BREAKPOINT → activate mobile mode
-	•	Else → desktop mode
+The left sidebar component should no longer appear anywhere.
 
-Important:
-This is height-based, not width-based, as requested.
+* Delete or disable the sidebar’s render path in the main layout container
+* Remove its CSS footprint (margins, padding, grid columns, etc.)
+* All pages should assume full-width content at all times
 
-Add a hook:
+---
 
-useViewportMode()
+## **2. Add a Global Hamburger Menu Button**
 
-Returning:
-
-{
-  isMobile: boolean,
-  height: number,
-  width: number
-}
-
-Update on resize & orientation change.
-
-⸻
-
-2. Hide Sidebar in Mobile Mode
-
-When isMobile === true:
-	•	Hide sidebar entirely (CSS: display:none or remove from layout)
-	•	Replace with a top-left hamburger icon
-
-⸻
-
-3. Add a Hamburger Menu Button
-
-Create component:
-
-src/components/HamburgerButton.tsx
+**File:** `src/components/HamburgerButton.tsx`
 
 Requirements:
-	•	Simple 3-line icon
-	•	Top-left corner
-	•	Always visible in mobile mode
-	•	Can use emoji (☰) or CSS lines
 
-On click:
-	•	Toggles “drawer open” boolean state in a global UI store or local state.
+* Minimal 3-line icon (CSS lines or unicode ☰)
+* Always centered vertically in the top navigation row (top-left corner)
+* Always visible on all pages and screen sizes
+* Clicking toggles a boolean in UI state: `isDrawerOpen`
 
-⸻
+Must integrate with:
 
-4. Create Slide-In Drawer for Navigation
+* Global UI store (Zustand, Jotai, Redux, or context depending on app)
+* Layout container that renders the drawer
 
-Component:
+---
 
-src/components/MobileDrawer.tsx
+## **3. Implement the Universal Slide-In Navigation Drawer**
+
+**File:** `src/components/NavigationDrawer.tsx`
+
+Drawer requirements:
+
+* Slides in from the **left**
+* Width: **70–80%** of the screen
+* Pushes no content; overlays on top
+* Semi-transparent backdrop behind the drawer (clicking closes drawer)
+* Uses CSS transitions: **200–300ms**
+* Contains all former sidebar navigation items:
+
+  * Profiles
+  * Stats
+  * Settings
+  * Create Your Own
+  * Any future/conditional nav items
+* Items must preserve routing and highlight states
+
+Drawer closes when:
+
+* User taps outside drawer
+* User selects a nav item
+* Route changes
+* Recording modes activate
+* Escape key pressed
+
+---
+
+## **4. Update Main Layout to Work Without a Sidebar**
+
+**File:** `src/layout/LayoutContainer.tsx` (or equivalent)
 
 Requirements:
-	•	Covers 70–80% of screen width (left side)
-	•	Semi-transparent backdrop behind drawer
-	•	Drawer contains all items from the current sidebar:
-	•	Profiles
-	•	Stats
-	•	Settings
-	•	Create Your Own (if applicable)
-	•	(Any future nav items)
-	•	Drawer items must preserve existing route behaviors
-	•	Click outside drawer closes it
-	•	Opening/closing animated (CSS transitions)
 
-⸻
+* Page content should always occupy full width
+* Top bar should contain:
 
-5. Adjust Main Layout in Mobile Mode
+  * Hamburger button (far left)
+  * Optional page title or status elements
+* Everything previously offset by sidebar padding must be realigned
 
-Gameplay and pages must reflow without the left sidebar.
+Make sure:
 
-Specific adjustments:
-	•	GameScreen should center content horizontally
-	•	Word strip, image, and sign video should shift right to fill space
-	•	Keyboard should expand to available width
-	•	Profile icon (top-left normally) moves into drawer
-	•	Settings/Stats accessible only from drawer
+* No leftover grid columns from old sidebar layout
+* No horizontal shift occurs when drawer opens (drawer overlays, does not reflow layout)
 
-Everything should still feel like the desktop layout, just without sidebar.
+---
 
-⸻
+## **5. Update All Major Screens for Full-Width Layout**
 
-6. Prevent Layout Jumps While Recording (Important for /record-signs)
+Pages to check:
 
-Recording mode (/record-signs and /review-signs):
-	•	Must still obey mobile mode
-	•	Countdown + camera preview must not be pushed off screen
-	•	Hamburger button must stay accessible
-	•	Drawer cannot interfere with recording UI
+* GameScreen
+* CreateYourOwnPage
+* SettingsPage
+* Profile management
+* Stats page
+* Recording screens (`/record-signs`, `/review-signs`)
 
-If drawer is open during recording, close it automatically.
+Required adjustments:
 
-⸻
+* GameScreen centers content using full available width
+* Word strip, image container, sign video, and similar UI elements stretch appropriately
+* Keyboard expands to full width
+* Any top-left profile/settings icons must be removed or moved into the drawer
+* Avoid left-side ghost spacing from previous sidebar CSS
 
-7. Smooth Animation & Transitions
+---
 
-Add transitions for:
-	•	Drawer slide (200–300ms)
-	•	Sidebar hide/show (optional)
-	•	Hamburger icon fade-in
+## **6. Special Behavior for Recording Modes**
 
-Consistency with existing CSS or Tailwind if used.
+Routes:
+`/record-signs`, `/review-signs`
 
-⸻
+Requirements:
 
-8. Testing Scenarios
+* Drawer cannot overlap interactive camera UI
+* If the drawer is open when recording starts, auto-close it
+* Hamburger must remain accessible at all times
+* Layout must not shift or compress the countdown, camera preview, or controls
 
-Test the following:
-	1.	On laptop with browser height < threshold
-	2.	On iPad Safari portrait + landscape
-	3.	On Windows machine resizing window
-	4.	On /record-signs route
-	5.	On /review-signs
-	6.	On gameplay screen with and without sign video
-	7.	On Create-Your-Own page
+---
 
-Drawer must work correctly in all routes.
+## **7. Animation & Interaction Requirements**
 
-⸻
+Implement smooth transitions:
 
-🧪 ACCEPTANCE CRITERIA
+* Drawer slide-in/out: **200–300ms**
+* Backdrop fade-in/out: matched to drawer timing
+* Hamburger icon fade-in on mount (optional)
 
-✔ Sidebar disappears when innerHeight < MOBILE_HEIGHT_BREAKPOINT
+Interaction requirements:
 
-✔ Hamburger button appears in top-left
+* Touch-friendly on mobile/tablets
+* Keyboard navigation supported
+* ESC closes drawer on desktop
 
-✔ Drawer slides in/out smoothly
+---
 
-✔ All navigation items work correctly inside drawer
+## **8. Testing Scenarios**
 
-✔ Gameplay layout reflows to full width
+Verify behavior on:
 
-✔ Recording & review screens remain functional
+1. Desktop monitors (large + ultrawide)
+2. Laptops (macOS, Windows)
+3. iPad Safari (portrait + landscape)
+4. Modern phones (iOS/Android)
+5. `/record-signs` and `/review-signs`
+6. Gameplay screen (with/without sign video)
+7. Create-Your-Own flow
+8. Route changes (drawer must auto-close)
 
-✔ Drawer closes on route change
+---
 
-✔ Works in all modern browsers, including iPad Safari
+# 🧪 ACCEPTANCE CRITERIA
 
-⸻
+✔ No persistent sidebar exists anywhere
+✔ Hamburger button appears on all screen sizes
+✔ Drawer animates smoothly and overlays content
+✔ All navigation available in the drawer with working routes
+✔ All screens layout correctly at full width
+✔ Recording pages stay functional and unobstructed
+✔ Drawer closes on:
 
-📦 DELIVERABLES
-	•	layoutConfig.ts
-	•	useViewportMode.ts (or integrated into existing viewport logic)
-	•	HamburgerButton.tsx
-	•	MobileDrawer.tsx
-	•	Updated layout container
-	•	Updated styling for GameScreen, CreateYourOwnPage, SettingsPage, etc.
-	•	Mobile-compatible navigation experience
+* Backdrop click
+* Nav item click
+* Route change
+* ESC key
+* Recording start
+  ✔ Works consistently across all modern browsers including iPad Safari
 
+---
+
+# 📦 DELIVERABLES
+
+* `NavigationDrawer.tsx`
+* `HamburgerButton.tsx`
+* Updated layout container without a sidebar
+* Updated routing/navigation structure
+* Updated page layouts (GameScreen, recording pages, settings, profiles, stats, etc.)
+* Revised global UI state for drawer control
+* Clean, full-width layout across the entire application

@@ -53,11 +53,12 @@
   background: var(--color-success);
   border-color: var(--color-success);
   color: white;
+  border-left: 2px solid var(--color-success);
 }
 
-/* Restore right border for last revealed tile */
-.tile.revealed.last {
-  border-right: 2px solid var(--color-success);
+/* First revealed tile matches the revealed color */
+.tile.revealed.first {
+  border-left: 2px solid var(--color-success);
 }
 
 .tile.past {
