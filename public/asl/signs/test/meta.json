@@ -4,5 +4,5 @@
   "durationMs": 2000,
   "loopPath": "/asl/signs/test/sign_loop.mp4",
   "rawPath": "/asl/signs/test/raw.webm",
-  "status": "pending"
+  "status": "deleted"
 }

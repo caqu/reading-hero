@@ -5,7 +5,7 @@
     "durationMs": 2000,
     "loopPath": "/asl/signs/test/sign_loop.mp4",
     "rawPath": "/asl/signs/test/raw.webm",
-    "status": "pending"
+    "status": "deleted"
   },
   {
     "word": "monkeyface",
@@ -13,7 +13,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/monkeyface/sign_loop.mp4",
     "rawPath": "/asl/signs/monkeyface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "gorilla",
@@ -25,7 +25,7 @@
   },
   {
     "word": "monkey",
-    "recordedAt": "2025-11-29T05:35:21.449Z",
+    "recordedAt": "2025-11-29T13:23:32.033Z",
     "durationMs": 2500,
     "loopPath": "/asl/signs/monkey/sign_loop.mp4",
     "rawPath": "/asl/signs/monkey/raw.webm",
@@ -37,7 +37,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/orangutan/sign_loop.mp4",
     "rawPath": "/asl/signs/orangutan/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "dogface",
@@ -45,7 +45,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/dogface/sign_loop.mp4",
     "rawPath": "/asl/signs/dogface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "poodle",
@@ -53,7 +53,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/poodle/sign_loop.mp4",
     "rawPath": "/asl/signs/poodle/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "wolf",
@@ -61,7 +61,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/wolf/sign_loop.mp4",
     "rawPath": "/asl/signs/wolf/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "fox",
@@ -69,7 +69,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/fox/sign_loop.mp4",
     "rawPath": "/asl/signs/fox/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "raccoon",
@@ -85,7 +85,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/catface/sign_loop.mp4",
     "rawPath": "/asl/signs/catface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "lion",
@@ -101,7 +101,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/tigerface/sign_loop.mp4",
     "rawPath": "/asl/signs/tigerface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "tiger",
@@ -125,7 +125,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/horseface/sign_loop.mp4",
     "rawPath": "/asl/signs/horseface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "horse",
@@ -149,7 +149,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/zebra/sign_loop.mp4",
     "rawPath": "/asl/signs/zebra/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "cowface",
@@ -157,7 +157,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/cowface/sign_loop.mp4",
     "rawPath": "/asl/signs/cowface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "cow",
@@ -173,7 +173,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/pigface/sign_loop.mp4",
     "rawPath": "/asl/signs/pigface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "pig",
@@ -189,7 +189,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/mouseface/sign_loop.mp4",
     "rawPath": "/asl/signs/mouseface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "mouse",
@@ -213,7 +213,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/rabbitface/sign_loop.mp4",
     "rawPath": "/asl/signs/rabbitface/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "rabbit",
@@ -221,7 +221,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/rabbit/sign_loop.mp4",
     "rawPath": "/asl/signs/rabbit/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "bear",
@@ -229,7 +229,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/bear/sign_loop.mp4",
     "rawPath": "/asl/signs/bear/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "panda",
@@ -237,7 +237,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/panda/sign_loop.mp4",
     "rawPath": "/asl/signs/panda/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "koala",
@@ -245,7 +245,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/koala/sign_loop.mp4",
     "rawPath": "/asl/signs/koala/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "frog",
@@ -253,7 +253,7 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/frog/sign_loop.mp4",
     "rawPath": "/asl/signs/frog/raw.webm",
-    "status": "approved"
+    "status": "deleted"
   },
   {
     "word": "turtle",
@@ -261,6 +261,166 @@
     "durationMs": 2500,
     "loopPath": "/asl/signs/turtle/sign_loop.mp4",
     "rawPath": "/asl/signs/turtle/raw.webm",
+    "status": "deleted"
+  },
+  {
+    "word": "snake",
+    "recordedAt": "2025-11-29T13:23:22.821Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/snake/sign_loop.mp4",
+    "rawPath": "/asl/signs/snake/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "dragonface",
+    "recordedAt": "2025-11-29T13:24:19.513Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/dragonface/sign_loop.mp4",
+    "rawPath": "/asl/signs/dragonface/raw.webm",
+    "status": "deleted"
+  },
+  {
+    "word": "dragon",
+    "recordedAt": "2025-11-29T13:24:26.252Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/dragon/sign_loop.mp4",
+    "rawPath": "/asl/signs/dragon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "bird",
+    "recordedAt": "2025-11-29T13:24:33.150Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/bird/sign_loop.mp4",
+    "rawPath": "/asl/signs/bird/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "chicken",
+    "recordedAt": "2025-11-29T13:24:39.877Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/chicken/sign_loop.mp4",
+    "rawPath": "/asl/signs/chicken/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "penguin",
+    "recordedAt": "2025-11-29T13:24:46.942Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/penguin/sign_loop.mp4",
+    "rawPath": "/asl/signs/penguin/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "eagle",
+    "recordedAt": "2025-11-29T13:24:53.566Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/eagle/sign_loop.mp4",
+    "rawPath": "/asl/signs/eagle/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "duck",
+    "recordedAt": "2025-11-29T13:25:00.206Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/duck/sign_loop.mp4",
+    "rawPath": "/asl/signs/duck/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "swan",
+    "recordedAt": "2025-11-29T13:25:06.985Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/swan/sign_loop.mp4",
+    "rawPath": "/asl/signs/swan/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "owl",
+    "recordedAt": "2025-11-29T13:25:13.678Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/owl/sign_loop.mp4",
+    "rawPath": "/asl/signs/owl/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "peacock",
+    "recordedAt": "2025-11-29T13:25:20.301Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/peacock/sign_loop.mp4",
+    "rawPath": "/asl/signs/peacock/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "parrot",
+    "recordedAt": "2025-11-29T13:25:28.213Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/parrot/sign_loop.mp4",
+    "rawPath": "/asl/signs/parrot/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "fish",
+    "recordedAt": "2025-11-29T13:25:35.037Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/fish/sign_loop.mp4",
+    "rawPath": "/asl/signs/fish/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "whale",
+    "recordedAt": "2025-11-29T13:25:41.613Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/whale/sign_loop.mp4",
+    "rawPath": "/asl/signs/whale/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "dolphin",
+    "recordedAt": "2025-11-29T13:25:48.285Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/dolphin/sign_loop.mp4",
+    "rawPath": "/asl/signs/dolphin/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "shark",
+    "recordedAt": "2025-11-29T13:25:54.840Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/shark/sign_loop.mp4",
+    "rawPath": "/asl/signs/shark/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "grapes",
+    "recordedAt": "2025-11-29T13:26:01.325Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/grapes/sign_loop.mp4",
+    "rawPath": "/asl/signs/grapes/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "melon",
+    "recordedAt": "2025-11-29T13:26:07.815Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/melon/sign_loop.mp4",
+    "rawPath": "/asl/signs/melon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "watermelon",
+    "recordedAt": "2025-11-29T13:26:14.436Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/watermelon/sign_loop.mp4",
+    "rawPath": "/asl/signs/watermelon/raw.webm",
+    "status": "approved"
+  },
+  {
+    "word": "orange",
+    "recordedAt": "2025-11-29T13:26:21.053Z",
+    "durationMs": 2500,
+    "loopPath": "/asl/signs/orange/sign_loop.mp4",
+    "rawPath": "/asl/signs/orange/raw.webm",
     "status": "approved"
   }
 ]
