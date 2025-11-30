@@ -67,46 +67,213 @@ const LETTER_PHONEMES = {
   z: { text: "z", ipa: "z" },
 };
 
-// Spanish translations dictionary
+// Spanish translations dictionary - Complete translations for all words
 const SPANISH_TRANSLATIONS = {
-  // Animals
-  shark: "tiburón",
+  // Basic words
+  cat: "gato",
+  dad: "papá",
+  dog: "perro",
+  sun: "sol",
+  bed: "cama",
+  mom: "mamá",
+  car: "carro",
+  ball: "pelota",
+  tree: "árbol",
+
+  // Animals & Nature
+  monkey: "mono",
+  gorilla: "gorila",
+  orangutan: "orangután",
+  poodle: "caniche",
+  wolf: "lobo",
+  fox: "zorro",
+  raccoon: "mapache",
+  lion: "león",
+  tiger: "tigre",
+  leopard: "leopardo",
+  horse: "caballo",
+  unicorn: "unicornio",
+  zebra: "cebra",
+  cow: "vaca",
+  pig: "cerdo",
+  mouse: "ratón",
+  rat: "rata",
+  rabbit: "conejo",
+  bear: "oso",
+  panda: "panda",
+  koala: "koala",
+  frog: "rana",
+  turtle: "tortuga",
+  snake: "serpiente",
+  dragon: "dragón",
   bird: "pájaro",
   chicken: "pollo",
-  dolphin: "delfín",
-  dragon: "dragón",
-  duck: "pato",
-  eagle: "águila",
-  fish: "pez",
-  owl: "búho",
-  parrot: "loro",
-  peacock: "pavo real",
   penguin: "pingüino",
-  snake: "serpiente",
+  eagle: "águila",
+  duck: "pato",
   swan: "cisne",
+  owl: "búho",
+  peacock: "pavo real",
+  parrot: "loro",
+  fish: "pez",
   whale: "ballena",
-  bear: "oso",
-  fox: "zorro",
-  frog: "rana",
-  koala: "koala",
-  monkey: "mono",
-  orangutan: "orangután",
-  panda: "panda",
-  poodle: "caniche",
-  rabbit: "conejo",
-  turtle: "tortuga",
-  wolf: "lobo",
-  zebra: "cebra",
-  // Fruits
+  dolphin: "delfín",
+  shark: "tiburón",
+
+  // Food & Drink
   grapes: "uvas",
   melon: "melón",
-  orange: "naranja",
   watermelon: "sandía",
-  // Food
+  orange: "naranja",
+  lemon: "limón",
+  banana: "plátano",
+  pineapple: "piña",
+  mango: "mango",
+  pear: "pera",
+  peach: "durazno",
+  cherries: "cerezas",
+  strawberry: "fresa",
+  tomato: "tomate",
+  avocado: "aguacate",
+  carrot: "zanahoria",
+  corn: "maíz",
+  broccoli: "brócoli",
+  potato: "papa",
+  bread: "pan",
+  croissant: "croissant",
+  cheese: "queso",
+  egg: "huevo",
   pizza: "pizza",
-  // Fantasy
+  hamburger: "hamburguesa",
+  taco: "taco",
+  burrito: "burrito",
+  popcorn: "palomitas",
+  cake: "pastel",
+  cupcake: "magdalena",
+  pie: "pay",
+  cookie: "galleta",
+  doughnut: "dona",
+  candy: "dulce",
+  lollipop: "paleta",
+  honey: "miel",
+  coffee: "café",
+  milk: "leche",
+  tea: "té",
+  bottle: "botella",
+  spoon: "cuchara",
+  bowl: "tazón",
+
+  // Sports & Activities
+  baseball: "béisbol",
+  basketball: "baloncesto",
+  volleyball: "voleibol",
+  football: "fútbol americano",
+  tennis: "tenis",
+  bowling: "boliche",
+  golf: "golf",
+  trophy: "trofeo",
+  medal: "medalla",
+  guitar: "guitarra",
+  piano: "piano",
+  drum: "tambor",
+  microphone: "micrófono",
+  headphones: "audífonos",
+  trumpet: "trompeta",
+  violin: "violín",
+  chess: "ajedrez",
+  kite: "cometa",
+  balloon: "globo",
+  gift: "regalo",
+  fireworks: "fuegos artificiales",
+  sparkler: "bengala",
+  camera: "cámara",
+
+  // Travel & Places
+  taxi: "taxi",
+  bus: "autobús",
+  ambulance: "ambulancia",
+  tractor: "tractor",
+  bicycle: "bicicleta",
+  scooter: "patineta",
+  skateboard: "monopatín",
+  train: "tren",
+  airplane: "avión",
+  rocket: "cohete",
+  helicopter: "helicóptero",
+  ship: "barco",
+  sailboat: "velero",
+  anchor: "ancla",
+  house: "casa",
+  school: "escuela",
+  hospital: "hospital",
+  castle: "castillo",
+  tent: "tienda",
+  camping: "campamento",
+  mountain: "montaña",
+  beach: "playa",
+  desert: "desierto",
+  island: "isla",
+  volcano: "volcán",
+  bridge: "puente",
+  fountain: "fuente",
+
+  // Objects & Tools
+  watch: "reloj",
+  hourglass: "reloj de arena",
+  key: "llave",
+  lock: "candado",
+  hammer: "martillo",
+  wrench: "llave inglesa",
+  scissors: "tijeras",
+  flashlight: "linterna",
+  candle: "vela",
+  laptop: "computadora portátil",
+  phone: "teléfono",
+  keyboard: "teclado",
+  printer: "impresora",
+  book: "libro",
+  notebook: "cuaderno",
+  pencil: "lápiz",
+  pen: "pluma",
+  crayon: "crayón",
+  paintbrush: "pincel",
+  backpack: "mochila",
+  umbrella: "paraguas",
+  glasses: "gafas",
+  sunglasses: "gafas de sol",
+  crown: "corona",
+  hat: "sombrero",
+  ring: "anillo",
+  lipstick: "lápiz labial",
+  gem: "gema",
+  mailbox: "buzón",
+  envelope: "sobre",
+  package: "paquete",
+  trash: "basura",
+  basket: "cesta",
+  bathtub: "bañera",
+
+  // Nature & Weather
+  moon: "luna",
+  star: "estrella",
+  cloud: "nube",
+  rainbow: "arcoíris",
+  snowflake: "copo de nieve",
+  snowman: "muñeco de nieve",
+  fire: "fuego",
+  droplet: "gota",
+  ocean: "océano",
+  cactus: "cactus",
+  flower: "flor",
+  sunflower: "girasol",
+  rose: "rosa",
+  tulip: "tulipán",
+  mushroom: "hongo",
+  leaf: "hoja",
+  clover: "trébol",
+
+  // Fantasy & Misc
   wizard: "mago",
-  // Test words
   test: "prueba",
 };
 
@@ -114,6 +281,7 @@ const SPANISH_TRANSLATIONS = {
  * Generate a WAV file using Windows PowerShell TTS with Spanish female voice
  * @param {string} text - Spanish text to speak
  * @param {string} outputPath - Output file path
+ * @returns {Promise<boolean>} true if successful, false if no Spanish voice available
  */
 async function generateSpanishTTS(text, outputPath) {
   const absolutePath = join(__dirname, '..', outputPath);
@@ -127,46 +295,50 @@ async function generateSpanishTTS(text, outputPath) {
   // Create a temporary PowerShell script file
   const tempScriptPath = join(__dirname, `temp-tts-spanish-${Date.now()}.ps1`);
 
-  // PowerShell script to detect and use Spanish female voice
+  // PowerShell script to detect and use Spanish voice (with proper error handling)
   const psScript = `Add-Type -AssemblyName System.Speech
 $voice = New-Object System.Speech.Synthesis.SpeechSynthesizer
 
-# Try to find a Spanish female voice
-$spanishFemaleVoices = $voice.GetInstalledVoices() |
-    Where-Object { $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'es' -and $_.VoiceInfo.Gender -eq 'Female' }
-
-if ($spanishFemaleVoices) {
-    $selectedVoice = $spanishFemaleVoices[0].VoiceInfo.Name
-    Write-Host "Using Spanish female voice: $selectedVoice"
-    $voice.SelectVoice($selectedVoice)
-} else {
-    # Fallback: try any Spanish voice
-    $spanishVoices = $voice.GetInstalledVoices() |
-        Where-Object { $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'es' }
-
-    if ($spanishVoices) {
-        $selectedVoice = $spanishVoices[0].VoiceInfo.Name
-        Write-Host "Using Spanish voice: $selectedVoice"
-        $voice.SelectVoice($selectedVoice)
-    } else {
-        # Last resort: use default voice but set culture
-        Write-Host "No Spanish voice found, using default voice with Spanish culture"
-        $voice.SelectVoice($voice.GetInstalledVoices()[0].VoiceInfo.Name)
-    }
+# Get all Spanish voices
+$spanishVoices = $voice.GetInstalledVoices() | Where-Object {
+    $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'es'
 }
 
+if ($spanishVoices.Count -eq 0) {
+    Write-Host "⚠ No Spanish voice installed. Skipping Spanish TTS."
+    exit 1
+}
+
+# Prefer female voice, otherwise use first Spanish voice
+$selectedVoice = ($spanishVoices | Where-Object {
+    $_.VoiceInfo.Gender -eq 'Female'
+} | Select-Object -First 1)
+
+if ($null -eq $selectedVoice) {
+    $selectedVoice = $spanishVoices[0]
+}
+
+$voiceName = $selectedVoice.VoiceInfo.Name
+$voiceCulture = $selectedVoice.VoiceInfo.Culture.Name
+$voiceGender = $selectedVoice.VoiceInfo.Gender
+
+Write-Host "✓ Using Spanish voice: $voiceName ($voiceCulture, $voiceGender)"
+
+$voice.SelectVoice($voiceName)
 $voice.Rate = 0
 $voice.Volume = 100
 $voice.SetOutputToWaveFile("${absolutePath}")
 $voice.Speak("${text}")
-$voice.Dispose()`;
+$voice.Dispose()
+
+Write-Host "✓ Spanish audio generated successfully"`;
 
   try {
     // Write script to temporary file
     writeFileSync(tempScriptPath, psScript, 'utf8');
 
     // Execute the PowerShell script
-    const { stdout } = await execAsync(`powershell -ExecutionPolicy Bypass -File "${tempScriptPath}"`);
+    const { stdout, stderr } = await execAsync(`powershell -ExecutionPolicy Bypass -File "${tempScriptPath}"`);
     console.log('[TTS Spanish]', stdout.trim());
 
     // Clean up temporary script
@@ -181,7 +353,13 @@ $voice.Dispose()`;
       // Ignore cleanup errors
     }
 
-    console.error('Spanish TTS generation error:', error);
+    // Check if error is due to no Spanish voice
+    if (error.code === 1 || error.message.includes('No Spanish voice')) {
+      console.warn('[TTS Spanish] No Spanish voice installed - skipping Spanish audio');
+      return false;
+    }
+
+    console.error('[TTS Spanish] Generation error:', error);
     throw error;
   }
 }
@@ -427,8 +605,15 @@ app.get('/api/tts/word', async (req, res) => {
       } else {
         // Generate Spanish audio file
         console.log(`[TTS] Generating Spanish sound for word: ${word} -> ${spanishTranslation}`);
-        await generateSpanishTTS(spanishTranslation, spanishFilePath);
-        console.log(`[TTS] Successfully generated Spanish: ${spanishFileName}`);
+        const success = await generateSpanishTTS(spanishTranslation, spanishFilePath);
+
+        if (success) {
+          console.log(`[TTS] Successfully generated Spanish: ${spanishFileName}`);
+        } else {
+          // No Spanish voice available - clear Spanish URL
+          console.log(`[TTS] Spanish voice not available - skipping Spanish audio`);
+          spanishUrl = null;
+        }
       }
     }
 
@@ -495,7 +680,14 @@ app.post('/api/tts/spanish', async (req, res) => {
 
     // Generate the Spanish audio file
     console.log(`[TTS Spanish] Generating sound for: ${normalizedWord} -> ${normalizedTranslation}`);
-    await generateSpanishTTS(normalizedTranslation, audioFilePath);
+    const success = await generateSpanishTTS(normalizedTranslation, audioFilePath);
+
+    if (!success) {
+      return res.status(503).json({
+        error: 'Spanish voice not available',
+        message: 'No Spanish TTS voice is installed on this system'
+      });
+    }
 
     console.log(`[TTS Spanish] Successfully generated: ${audioFileName}`);
     return res.json({

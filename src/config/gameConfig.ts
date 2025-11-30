@@ -7,4 +7,4 @@
  * When true: Use sentence generation from high-interest words
  * When false: Use existing single-word lists
  */
-export const USE_SENTENCES = true;
+export const USE_SENTENCES = false;
