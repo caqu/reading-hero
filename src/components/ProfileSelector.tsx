@@ -14,6 +14,8 @@ interface ProfileSelectorProps {
   onProfileSwitch?: (profile: Profile) => void;
   /** Callback to navigate to add profile screen */
   onAddProfile?: () => void;
+  /** Minimal mode - renders as a simple button in top right */
+  minimal?: boolean;
 }
 
 const EMOJI_OPTIONS = [
@@ -22,7 +24,7 @@ const EMOJI_OPTIONS = [
   '🦁', '🐯', '🐮', '🦄', '🌈', '⚡',
 ];
 
-export const ProfileSelector = ({ onProfileSwitch, onAddProfile }: ProfileSelectorProps) => {
+export const ProfileSelector = ({ onProfileSwitch, onAddProfile, minimal = false }: ProfileSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [profiles, setProfiles] = useState<Profile[]>(getProfiles());
@@ -88,13 +90,13 @@ export const ProfileSelector = ({ onProfileSwitch, onAddProfile }: ProfileSelect
     <>
       {/* Profile Button - Shows current profile */}
       <button
-        className={styles.profileButton}
+        className={minimal ? styles.profileButtonMinimal : styles.profileButton}
         onClick={handleOpenSelector}
         aria-label="Open profile selector"
       >
         <div className={styles.profileAvatar}>{activeProfile?.avatar || '👤'}</div>
         <div className={styles.profileName}>{activeProfile?.name || 'No Profile'}</div>
-        <div className={styles.caret}>▼</div>
+        {!minimal && <div className={styles.caret}>▼</div>}
       </button>
 
       {/* Profile Selection Modal */}

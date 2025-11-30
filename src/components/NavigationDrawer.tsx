@@ -7,8 +7,8 @@
 
 import { useEffect } from 'react';
 import { useDrawer } from '../contexts/DrawerContext';
-import { ProfileSelector } from './ProfileSelector';
 import { Profile } from '../types';
+import { Level } from '../engine/LevelingEngine';
 import styles from './NavigationDrawer.module.css';
 
 interface NavigationDrawerProps {
@@ -20,6 +20,10 @@ interface NavigationDrawerProps {
   correctWords: number;
   /** Accuracy percentage */
   accuracy: number;
+  /** Current level for display */
+  currentLevel?: number;
+  /** Callback to manually change level */
+  onLevelChange?: (level: Level) => void;
   /** Navigation callbacks */
   onViewStats?: () => void;
   onViewSettings?: () => void;
@@ -35,6 +39,8 @@ export const NavigationDrawer = ({
   totalWords,
   correctWords,
   accuracy,
+  currentLevel = 1,
+  onLevelChange,
   onViewStats,
   onViewSettings,
   onCreateYourOwn,
@@ -88,19 +94,24 @@ export const NavigationDrawer = ({
       {/* Drawer */}
       <nav className={styles.drawer} aria-label="Main navigation">
         <div className={styles.drawerContent}>
-          {/* Profile Selector */}
-          <div className={styles.profileSection}>
-            <ProfileSelector
-              onProfileSwitch={(profile) => {
-                closeDrawer();
-                onProfileSwitch?.(profile);
-              }}
-              onAddProfile={() => {
-                closeDrawer();
-                onAddProfile?.();
-              }}
-            />
-          </div>
+          {/* Level Control - Horizontal */}
+          {onLevelChange && (
+            <div className={styles.levelControl}>
+              <label htmlFor="level-slider" className={styles.levelLabel}>
+                Level {currentLevel}
+              </label>
+              <input
+                id="level-slider"
+                type="range"
+                min="1"
+                max="5"
+                value={currentLevel}
+                onChange={(e) => onLevelChange(parseInt(e.target.value) as Level)}
+                className={styles.levelSlider}
+                aria-label="Adjust difficulty level"
+              />
+            </div>
+          )}
 
           {/* Progress Info */}
           <div className={styles.progressSection}>

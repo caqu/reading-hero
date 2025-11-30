@@ -469,10 +469,11 @@ function App() {
   const handleCreateProfile = (name: string, avatar: string) => {
     const newProfile = createProfile({ name, avatar });
 
+    // Always switch to the new profile to load its state
+    handleProfileSwitch(newProfile);
+
     // If this is adding a profile (not initial creation), go back to game
     if (currentScreen === 'add-profile') {
-      // Auto-switch to the new profile
-      handleProfileSwitch(newProfile);
       setCurrentScreen('game');
     } else {
       // Initial profile creation - go to finish screen

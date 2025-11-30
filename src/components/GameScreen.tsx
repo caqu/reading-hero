@@ -5,6 +5,7 @@ import { LetterTiles } from './LetterTiles';
 import { OnScreenKeyboard } from './OnScreenKeyboard';
 import { HamburgerButton } from './HamburgerButton';
 import { NavigationDrawer } from './NavigationDrawer';
+import { ProfileSelector } from './ProfileSelector';
 import { LevelFeatures, Level } from '../engine/LevelingEngine';
 import { useSettings } from '../hooks/useSettings';
 import styles from './GameScreen.module.css';
@@ -132,31 +133,13 @@ export const GameScreen = ({
       {/* Hamburger Button */}
       <HamburgerButton />
 
-      {/* Stats Display - Top Right */}
-      <div className={styles.statsDisplay}>
-        <div className={styles.stat}>
-          <div className={styles.statValue}>{currentWordIndex + 1}</div>
-          <div className={styles.statLabel}>of {words.length}</div>
-        </div>
-      </div>
-
-      {/* Level Control - Bottom Left */}
-      {onLevelChange && (
-        <div className={styles.levelControl}>
-          <label htmlFor="level-slider" className={styles.levelLabel}>
-            Level {currentLevel}
-          </label>
-          <input
-            id="level-slider"
-            type="range"
-            min="1"
-            max="5"
-            value={currentLevel}
-            onChange={(e) => onLevelChange(parseInt(e.target.value) as Level)}
-            className={styles.levelSlider}
-            aria-label="Adjust difficulty level"
-          />
-        </div>
+      {/* Profile Button - Top Right */}
+      {onProfileSwitch && (
+        <ProfileSelector
+          onProfileSwitch={onProfileSwitch}
+          onAddProfile={onAddProfile}
+          minimal={true}
+        />
       )}
 
       {/* Navigation Drawer */}
@@ -165,6 +148,8 @@ export const GameScreen = ({
         totalWords={words.length}
         correctWords={correctWords}
         accuracy={accuracy}
+        currentLevel={currentLevel}
+        onLevelChange={onLevelChange}
         onViewStats={onViewStats}
         onViewSettings={onViewSettings}
         onCreateYourOwn={onCreateYourOwn}

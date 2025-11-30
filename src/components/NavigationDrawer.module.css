@@ -45,12 +45,72 @@
   flex-direction: column;
   padding: 20px;
   gap: 1.5rem;
-  padding-top: 80px; /* Space for hamburger button */
+  padding-top: 20px;
 }
 
-.profileSection {
+/* Level Control - Horizontal */
+.levelControl {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--color-border, #e0e0e0);
+}
+
+.levelLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.levelSlider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  background: linear-gradient(to right,
+    var(--color-primary) 0%,
+    var(--color-primary) calc((100% / 4) * (var(--level-value, 1) - 1)),
+    #e0e0e0 calc((100% / 4) * (var(--level-value, 1) - 1)),
+    #e0e0e0 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.levelSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary, #2196F3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.levelSlider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--color-primary-dark, #1976D2);
+}
+
+.levelSlider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primary, #2196F3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.levelSlider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  background: var(--color-primary-dark, #1976D2);
 }
 
 .progressSection {
@@ -120,7 +180,7 @@
   }
 
   .drawerContent {
-    padding-top: 70px;
+    padding-top: 20px;
   }
 
   .statValue {
@@ -130,6 +190,20 @@
   .navButton {
     padding: 0.875rem;
     font-size: 0.9375rem;
+  }
+
+  .levelSlider {
+    height: 6px;
+  }
+
+  .levelSlider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .levelSlider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
   }
 }
 
