@@ -18,13 +18,16 @@ import { useLevelingEngine, WordResult } from './engine/LevelingEngine';
 import { WORD_LIST } from './data/words';
 import { hasProfiles, getActiveProfile, createProfile, updateActiveProfile, getActiveProfileId } from './engine/ProfileManager';
 import { initializeSettings } from './engine/SettingsManager';
-import { Profile, Word } from './types';
+import { Profile, Word, HistoryEntry } from './types';
+import { ContentItem } from './types/ContentItem';
 import { loadAllWords } from './utils/ugcWordLoader';
 import { enrichWordsWithSignVideos } from './utils/enrichWordsWithSignVideos';
 import { DevGameModePage } from './pages/DevGameModePage';
 import { DrawerProvider } from './contexts/DrawerContext';
-import { USE_SENTENCES } from './config/gameConfig';
-import { generateRandomSentence } from './utils/sentenceGenerator';
+import { KeystrokeData, updateMotorMetrics, updateTypingSpeedBaseline, updateErrorBaseline } from './utils/motorMetrics';
+import { updateEngagementScore } from './engine/EngagementTracker';
+import { updateBinAfterCompletion, getBinForItem } from './engine/SpacedRepetitionLite';
+import { createHistoryEntry, buildContentLibrary } from './utils/sequencerHelpers';
 import './App.css';
 
 type Screen = 'finish' | 'game' | 'stats' | 'settings' | 'create' | 'create-profile' | 'add-profile' | 'my-words' | 'record-signs' | 'review-signs' | 'dev-game-modes';
@@ -34,6 +37,8 @@ function App() {
   const [isInitialLoad, setIsInitialLoad] = useState(true); // Track if this is the first load
   const [allWords, setAllWords] = useState<Word[]>(WORD_LIST); // Start with built-in words
   const [isLoadingWords, setIsLoadingWords] = useState(true); // Track word loading state
+  const [contentLibrary, setContentLibrary] = useState<ContentItem[]>([]); // Content library for sequencer
+  const [historyWindow, setHistoryWindow] = useState<HistoryEntry[]>([]); // History window for sequencer (last 20)
 
   // Initialize settings and check for profiles on initial load
   useEffect(() => {
@@ -71,40 +76,33 @@ function App() {
     }
   }, [])
 
-  // Load words (built-in + UGC + ASL sign videos + sentences) on mount
+  // Load words (built-in + UGC + ASL sign videos) on mount
   useEffect(() => {
     async function loadWords() {
       setIsLoadingWords(true);
       try {
-        let finalWords: Word[];
+        // Load UGC words and enrich with ASL signs
+        const wordsWithUGC = await loadAllWords(WORD_LIST);
+        console.log(`Loaded ${wordsWithUGC.length} total words (${WORD_LIST.length} built-in + ${wordsWithUGC.length - WORD_LIST.length} UGC)`);
 
-        if (USE_SENTENCES) {
-          // Sentence mode: Generate 100 random sentences from high-interest words
-          console.log('[Sentence Mode] Generating sentences from high-interest words');
-          const sentences: Word[] = [];
-          for (let i = 0; i < 100; i++) {
-            sentences.push(generateRandomSentence());
-          }
-          finalWords = sentences;
-          console.log(`[Sentence Mode] Generated ${sentences.length} sentences`);
-        } else {
-          // Single-word mode: Load UGC words and enrich with ASL signs
-          const wordsWithUGC = await loadAllWords(WORD_LIST);
-          console.log(`Loaded ${wordsWithUGC.length} total words (${WORD_LIST.length} built-in + ${wordsWithUGC.length - WORD_LIST.length} UGC)`);
+        // Enrich with ASL sign videos
+        const wordsWithSigns = await enrichWordsWithSignVideos(wordsWithUGC);
+        const signCount = wordsWithSigns.filter(w => w.signVideoUrl).length;
+        console.log(`Enriched ${signCount} words with ASL sign videos`);
 
-          // Enrich with ASL sign videos
-          const wordsWithSigns = await enrichWordsWithSignVideos(wordsWithUGC);
-          const signCount = wordsWithSigns.filter(w => w.signVideoUrl).length;
-          console.log(`Enriched ${signCount} words with ASL sign videos`);
+        setAllWords(wordsWithSigns);
 
-          finalWords = wordsWithSigns;
-        }
-
-        setAllWords(finalWords);
+        // Build content library for sequencer
+        console.log('[App] Building content library for sequencer');
+        const library = buildContentLibrary(wordsWithSigns);
+        setContentLibrary(library);
+        console.log(`[App] Content library ready with ${library.length} items`);
       } catch (error) {
         console.error('Error loading words:', error);
         // Fallback to built-in words only
         setAllWords(WORD_LIST);
+        const fallbackLibrary = buildContentLibrary(WORD_LIST);
+        setContentLibrary(fallbackLibrary);
       } finally {
         setIsLoadingWords(false);
       }
@@ -198,11 +196,15 @@ function App() {
   const [wordWrongKeyPresses, setWordWrongKeyPresses] = useState<number>(0);
   const [wordFirstTryCorrect, setWordFirstTryCorrect] = useState<boolean>(true);
 
+  // Track keystrokes for motor-learning metrics
+  const [wordKeystrokes, setWordKeystrokes] = useState<KeystrokeData[]>([]);
+
   // Reset word tracking when word changes
   useEffect(() => {
     setWordStartTime(Date.now());
     setWordWrongKeyPresses(0);
     setWordFirstTryCorrect(true);
+    setWordKeystrokes([]); // Reset keystroke tracking
     setIsCelebrating(false); // Reset celebration state for new word
   }, [game.currentWordIndex]);
 
@@ -253,7 +255,19 @@ function App() {
 
     if (!currentWord) return;
 
+    // Get expected letter for keystroke tracking
+    const expectedLetter = currentWord.text[currentLetterIndexBefore] || '';
+
     const isCorrect = game.handleKeyPress(key);
+
+    // Record keystroke for motor metrics tracking
+    const keystroke: KeystrokeData = {
+      key: key.toLowerCase(),
+      timestamp: Date.now(),
+      isCorrect,
+      expectedKey: expectedLetter,
+    };
+    setWordKeystrokes(prev => [...prev, keystroke]);
 
     if (isCorrect) {
       // Trigger correct letter animation
@@ -275,7 +289,7 @@ function App() {
         };
         leveling.recordResult(result);
 
-        // Update active profile with word completion
+        // Update active profile with word completion and motor metrics
         const activeProfile = getActiveProfile();
         if (activeProfile) {
           const newStats = {
@@ -291,10 +305,85 @@ function App() {
             ),
           };
 
+          // Update motor metrics
+          const updatedMotor = updateMotorMetrics(
+            activeProfile,
+            wordKeystrokes,
+            timeToComplete,
+            currentWord.text.length
+          );
+
+          // Update typing speed baseline
+          const updatedTypingSpeedBaseline = updateTypingSpeedBaseline(
+            activeProfile,
+            timeToComplete,
+            currentWord.text.length
+          );
+
+          // Update error baseline
+          const updatedErrorBaseline = updateErrorBaseline(
+            activeProfile,
+            wordWrongKeyPresses
+          );
+
+          // Update engagement score
+          const newEngagementScore = updateEngagementScore(activeProfile, result);
+          console.log('[App] Engagement score updated:', activeProfile.engagementScore, '->', newEngagementScore);
+
+          // Update SR bin
+          const success = wordWrongKeyPresses <= 1 && wordFirstTryCorrect;
+          updateBinAfterCompletion(currentWord.id, success, activeProfile);
+          const newSrBin = getBinForItem(currentWord.id, activeProfile);
+          console.log('[App] SR bin updated for', currentWord.id, '-> Bin', newSrBin);
+
+          // Update lastTenItems
+          const newLastTenItems = [
+            ...activeProfile.lastTenItems.slice(-9),
+            currentWord.id,
+          ];
+
+          // Update totalCompleted
+          const newTotalCompleted = activeProfile.totalCompleted + 1;
+
+          // Find content item for stage
+          const contentItem = contentLibrary.find(item => item.id === currentWord.id);
+          const stage = contentItem?.stage || 1;
+
+          // Create history entry
+          const historyEntry = createHistoryEntry(
+            currentWord.id,
+            stage,
+            timeToComplete,
+            wordWrongKeyPresses,
+            wordFirstTryCorrect,
+            activeProfile
+          );
+
+          // Update engagement after calculation
+          historyEntry.engagementAfter = newEngagementScore;
+
+          // Update SR bin info in history
+          historyEntry.srBefore = getBinForItem(currentWord.id, { ...activeProfile, spacedRepetition: activeProfile.spacedRepetition });
+          historyEntry.srAfter = newSrBin;
+
+          // Add to history window (keep last 20)
+          const newHistoryWindow = [...historyWindow.slice(-19), historyEntry];
+          setHistoryWindow(newHistoryWindow);
+          console.log('[App] History window size:', newHistoryWindow.length);
+
           updateActiveProfile({
             stats: newStats,
             lastWordId: currentWord.id,
+            motor: updatedMotor,
+            typingSpeedBaseline: updatedTypingSpeedBaseline,
+            errorBaseline: updatedErrorBaseline,
+            engagementScore: newEngagementScore,
+            spacedRepetition: activeProfile.spacedRepetition,
+            lastTenItems: newLastTenItems,
+            totalCompleted: newTotalCompleted,
           });
+
+          console.log('[App] Profile updated successfully');
         }
 
         // Word completed - show confetti and advance after delay
@@ -325,7 +414,7 @@ function App() {
         triggerWrongKey(key, correctLetter);
       }
     }
-  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect, playLetterSound, settings, playWordSound]);
+  }, [game, triggerWrongKey, triggerCorrectLetter, triggerWordComplete, leveling, wordStartTime, wordWrongKeyPresses, wordFirstTryCorrect, wordKeystrokes, playLetterSound, settings, playWordSound]);
 
   // Physical keyboard event handler
   useEffect(() => {

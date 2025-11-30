@@ -3,9 +3,10 @@
  *
  * Manages multiple user profiles with localStorage persistence.
  * Each profile maintains separate stats, level, and progress.
+ * Extended to support adaptive sequencing with new LearnerProfile fields.
  */
 
-import { Profile, ProfilesData, ProfileStats, ProfileLevelingState } from '../types';
+import { Profile, ProfilesData, ProfileStats, ProfileLevelingState, Category, ProgressionStage } from '../types';
 
 // ============================================================================
 // CONSTANTS
@@ -50,7 +51,97 @@ function createInitialLevelingState(): ProfileLevelingState {
 }
 
 /**
+ * Create default category affinity map (all categories at 50)
+ */
+function createDefaultCategoryAffinity(): Record<Category, number> {
+  return {
+    animals: 50,
+    food: 50,
+    fantasy: 50,
+    tech: 50,
+    nature: 50,
+    actions: 50,
+    feelings: 50,
+    places: 50,
+    activities: 50,
+    nowWords: 50,
+  };
+}
+
+/**
+ * Create default motor metrics
+ */
+function createDefaultMotorMetrics() {
+  return {
+    leftHandErrors: 0,
+    rightHandErrors: 0,
+    rowTransitionSpeed: 0,
+    commonLetterErrors: {},
+  };
+}
+
+/**
+ * Create default spaced repetition bins
+ */
+function createDefaultSpacedRepetition() {
+  return {
+    A: [],
+    B: [],
+    C: [],
+  };
+}
+
+/**
+ * Migrate an old profile to include new adaptive sequencing fields.
+ * This ensures backward compatibility with existing profiles.
+ */
+function migrateProfile(oldProfile: any): Profile {
+  // Start with the old profile data
+  const migratedProfile: any = { ...oldProfile };
+
+  // Add new fields if they don't exist
+  if (migratedProfile.progressionState === undefined) {
+    migratedProfile.progressionState = 1 as ProgressionStage;
+  }
+
+  if (migratedProfile.engagementScore === undefined) {
+    migratedProfile.engagementScore = 50;
+  }
+
+  if (migratedProfile.typingSpeedBaseline === undefined) {
+    migratedProfile.typingSpeedBaseline = 1000; // 1 second per letter
+  }
+
+  if (migratedProfile.errorBaseline === undefined) {
+    migratedProfile.errorBaseline = 2;
+  }
+
+  if (migratedProfile.categoryAffinity === undefined) {
+    migratedProfile.categoryAffinity = createDefaultCategoryAffinity();
+  }
+
+  if (migratedProfile.motor === undefined) {
+    migratedProfile.motor = createDefaultMotorMetrics();
+  }
+
+  if (migratedProfile.spacedRepetition === undefined) {
+    migratedProfile.spacedRepetition = createDefaultSpacedRepetition();
+  }
+
+  if (migratedProfile.lastTenItems === undefined) {
+    migratedProfile.lastTenItems = [];
+  }
+
+  if (migratedProfile.totalCompleted === undefined) {
+    migratedProfile.totalCompleted = 0;
+  }
+
+  return migratedProfile as Profile;
+}
+
+/**
  * Load profiles data from localStorage
+ * Automatically migrates old profiles to include new adaptive sequencing fields
  */
 function loadProfilesData(): ProfilesData {
   try {
@@ -63,10 +154,35 @@ function loadProfilesData(): ProfilesData {
     }
 
     const parsed = JSON.parse(stored) as ProfilesData;
-    return {
-      profiles: parsed.profiles || [],
+
+    // Migrate all profiles to ensure they have the new fields
+    const migratedProfiles = (parsed.profiles || []).map(profile => migrateProfile(profile));
+
+    // Check if any profiles were migrated (have new fields added)
+    const needsSave = migratedProfiles.some((migrated, index) => {
+      const original = parsed.profiles[index];
+      return original && (
+        original.progressionState === undefined ||
+        original.engagementScore === undefined ||
+        original.categoryAffinity === undefined ||
+        original.motor === undefined ||
+        original.spacedRepetition === undefined ||
+        original.lastTenItems === undefined ||
+        original.totalCompleted === undefined
+      );
+    });
+
+    const result = {
+      profiles: migratedProfiles,
       activeProfileId: parsed.activeProfileId || null,
     };
+
+    // Save back if migration occurred
+    if (needsSave && migratedProfiles.length > 0) {
+      saveProfilesData(result);
+    }
+
+    return result;
   } catch (error) {
     console.error('Failed to load profiles data:', error);
     return {
@@ -120,6 +236,17 @@ export function createProfile({ name, avatar }: { name: string; avatar: string }
     levelingState: createInitialLevelingState(),
     createdAt: Date.now(),
     updatedAt: Date.now(),
+
+    // Adaptive sequencing fields
+    progressionState: 1 as ProgressionStage,
+    engagementScore: 50,
+    typingSpeedBaseline: 1000, // 1 second per letter
+    errorBaseline: 2,
+    categoryAffinity: createDefaultCategoryAffinity(),
+    motor: createDefaultMotorMetrics(),
+    spacedRepetition: createDefaultSpacedRepetition(),
+    lastTenItems: [],
+    totalCompleted: 0,
   };
 
   data.profiles.push(newProfile);
@@ -230,6 +357,17 @@ export function updateActiveProfile(updates: Partial<Omit<Profile, 'id' | 'creat
     levelingState: updates.levelingState ?? currentProfile.levelingState,
     createdAt: currentProfile.createdAt,
     updatedAt: Date.now(),
+
+    // Adaptive sequencing fields
+    progressionState: updates.progressionState ?? currentProfile.progressionState,
+    engagementScore: updates.engagementScore ?? currentProfile.engagementScore,
+    typingSpeedBaseline: updates.typingSpeedBaseline ?? currentProfile.typingSpeedBaseline,
+    errorBaseline: updates.errorBaseline ?? currentProfile.errorBaseline,
+    categoryAffinity: updates.categoryAffinity ?? currentProfile.categoryAffinity,
+    motor: updates.motor ?? currentProfile.motor,
+    spacedRepetition: updates.spacedRepetition ?? currentProfile.spacedRepetition,
+    lastTenItems: updates.lastTenItems ?? currentProfile.lastTenItems,
+    totalCompleted: updates.totalCompleted ?? currentProfile.totalCompleted,
   };
 
   data.profiles[profileIndex] = updatedProfile;
