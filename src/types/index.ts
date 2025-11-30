@@ -119,6 +119,7 @@ export interface ProfileLevelingState {
 
 /**
  * Represents a user profile in the multi-profile system
+ * Extended to support adaptive sequencing fields
  */
 export interface Profile {
   /** Unique identifier for the profile (UUID or timestamp) */
@@ -139,6 +140,35 @@ export interface Profile {
   createdAt: number;
   /** Timestamp when the profile was last updated */
   updatedAt: number;
+
+  // --- Adaptive sequencing fields ---
+  /** Current progression stage (1-5) */
+  progressionState: 1 | 2 | 3 | 4 | 5;
+  /** Engagement score (0-100) */
+  engagementScore: number;
+  /** Typing speed baseline in ms per letter */
+  typingSpeedBaseline: number;
+  /** Average errors per word */
+  errorBaseline: number;
+  /** Category affinity scores (0-100) */
+  categoryAffinity: Record<string, number>;
+  /** Motor-learning metrics */
+  motor: {
+    leftHandErrors: number;
+    rightHandErrors: number;
+    rowTransitionSpeed: number;
+    commonLetterErrors: Record<string, number>;
+  };
+  /** Spaced repetition bins */
+  spacedRepetition: {
+    A: string[];
+    B: string[];
+    C: string[];
+  };
+  /** Last 10 item IDs */
+  lastTenItems: string[];
+  /** Total completed items count */
+  totalCompleted: number;
 }
 
 /**
